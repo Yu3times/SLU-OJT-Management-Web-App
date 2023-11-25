@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="styles.css">
+  <title>Login Page</title>
+</head>
+<body>
+
+  <div class="login-container">
+    <h2>Login</h2>
+    <form id="loginForm">
+      <label for="studentID">Student ID:</label>
+      <input type="text" id="studentID" name="studentID" required>
+
+      <label for="password">Password:</label>
+      <input type="password" id="password" name="password" required>
+
+      <button type="button" onclick="login()">Login</button>
+    </form>
+
+    <div class="google-login">
+      <button onclick="loginWithGoogle()">Login with Google</button>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
