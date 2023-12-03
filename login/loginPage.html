@@ -10,21 +10,15 @@
 
   <div class="login-container">
     <h2>Login</h2>
-    <form id="loginForm">
-      <label for="studentID">Student ID:</label>
-      <input type="text" id="studentID" name="studentID" required>
+    <form id="loginForm" action="test.php" method="POST">
+
+      <label for="userID">User ID:</label>
+      <input type="text" id="userID" name="userID" required>
 
       <label for="password">Password:</label>
       <input type="password" id="password" name="password" required>
 
-      <button type="button" onclick="login()">Login</button>
+      <input type="submit" value="Log In">
     </form>
-
-    <div class="google-login">
-      <button onclick="loginWithGoogle()">Login with Google</button>
-    </div>
-  </div>
-
-  <script src="script.js"></script>
 </body>
 </html>

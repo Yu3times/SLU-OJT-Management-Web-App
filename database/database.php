@@ -1,4 +1,6 @@
 <?php
+$db = new mysqli("p:localhost", "root", "", "ojt_monitoring");
+/*
 class DB {
     private $dbHost = "localhost";
     private $dbUsername = "root";
@@ -17,4 +19,5 @@ class DB {
         }
     }
 }
+*/
 ?>
