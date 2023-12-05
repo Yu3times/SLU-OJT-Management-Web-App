@@ -14,6 +14,10 @@
 
     if ($result -> num_rows != 0){
       $_SESSION['userID'] = $userId;
+      $data = $result -> fetch_assoc();
+      if ($data['type'] = 1){
+        $_SESSION['isStudent'] = true;
+      }
     }
 
     $statement -> close();
