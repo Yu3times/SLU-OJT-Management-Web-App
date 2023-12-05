@@ -1,6 +1,6 @@
 <?php
-  require("database/database.php");
-  include "database/constructors/user.php";
+  require("../database/database.php");
+  include "../database/constructors/user.php";
   session_start();
 
   if (isset($_POST['userID'])){
@@ -16,13 +16,23 @@
       $user = $result->fetch_assoc();
       $_SESSION['userID'] = $user['userId'];
 
-      if ($result['type'] == 1){
+      if ($user['type'] == 1){
         $_SESSION['isStudent'] = true;
       }
     }
 
     $statement->close();
-  }
+    if ($_SESSION['isStudent']) {
+      header("Location: ../student/index.html");
+      exit();
+    } else {
+      header("Location: ../admin/index.html");
+      exit();
+    }
+
+  } else {
+    echo "Invalid login credentials";
+}
   
   header("Location: index.php");
   exit();
