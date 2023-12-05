@@ -16,14 +16,15 @@
       $user = $result->fetch_assoc();
       $_SESSION['userID'] = $user['userId'];
 
-      if ($result['type'] == 1){
+      if ($user['type'] == 1){
         $_SESSION['isStudent'] = true;
       }
+
     }
+
 
     $statement->close();
   }
   
   header("Location: index.php");
-  exit();
 ?>
