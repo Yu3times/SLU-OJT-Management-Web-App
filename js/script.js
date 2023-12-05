@@ -62,3 +62,10 @@ window.onscroll = () =>{
       body.classList.remove('active');
    }
 }
+
+function closePopup() {
+   var popup = document.querySelector('.popup');
+   if (popup) {
+      popup.style.display = "none";
+   }
+}
