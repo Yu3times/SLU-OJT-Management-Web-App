@@ -7,7 +7,7 @@
     $userId = $_POST['userID'];
     $password = $_POST['password'];
 
-    $statement = $db->prepare("SELECT * FROM USER WHERE userId = ? AND password = ?");
+    $statement = $db->prepare("SELECT * FROM user WHERE userId = ? AND password = ?");
     $statement->bind_param('ss', $userId, $password);
     $statement->execute();
     $result = $statement->get_result();
@@ -19,7 +19,9 @@
       if ($user['type'] == 1){
         $_SESSION['isStudent'] = true;
       }
+
     }
+
 
     $statement->close();
     if ($_SESSION['isStudent']) {
