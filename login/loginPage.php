@@ -29,6 +29,12 @@
       <p>Your Password <span>*</span></p>
       <input type="password" name="password" placeholder="Enter Your Password" required maxlength="20" class="box">
       <input type="submit" value="login" name="submit" class="btn">
+      <?php
+      session_start();
+      if (isset($_SESSION['userID']) and isset($_SESSION['noUserFound'])) {
+         echo "<h1>Invalid login credentials</h1>";
+      }
+      ?>
    </form>
 </section>
 

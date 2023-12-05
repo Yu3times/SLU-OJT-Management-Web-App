@@ -1,3 +1,7 @@
+<?php
+   include "../login/requireSession.php";
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -31,7 +35,6 @@
          <div id="search-btn" class="fas fa-search"></div>
          <div id="user-btn" class="fas fa-user"></div>
          <div id="toggle-btn" class="fas fa-sun"></div>
-         <div id="exit-btn" class="fa-solid fa-door-open"></div>
       </div>
 
       <div class="profile">

@@ -6,6 +6,7 @@
   if (isset($_POST['userID'])){
     $userId = $_POST['userID'];
     $password = $_POST['password'];
+    $_SESSION['noUserFound'] = false;
 
     $statement = $db->prepare("SELECT * FROM user WHERE userId = ? AND password = ?");
     $statement->bind_param('ss', $userId, $password);
@@ -20,22 +21,24 @@
         $_SESSION['isStudent'] = true;
       }
 
+    } else {
+      $_SESSION['noUserFound'] = true;
     }
 
 
     $statement->close();
-    if ($_SESSION['isStudent']) {
-      header("Location: ../student/index.html");
+    if ($_SESSION['noUserFound'] == true) {
+      $_SESSION['userID'] = "foo";
+      header("Location: ./loginPage.php");
+    }
+    else if ($_SESSION['isStudent']) {
+      header("Location: ../student/index.php");
       exit();
     } else {
       header("Location: ../admin/index.html");
       exit();
     }
 
-  } else {
-    echo "Invalid login credentials";
-}
-  
-  header("Location: index.php");
+  }   
   exit();
 ?>

@@ -3,5 +3,5 @@
     session_unset();
     session_destroy();
 
-    header("Location: ../login/index.php");
+    header("Location: ../login/loginPage.php");
 ?>
