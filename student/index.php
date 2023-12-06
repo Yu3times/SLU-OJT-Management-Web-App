@@ -13,6 +13,7 @@
    } else {
       $fullName = "No data found";
    }
+   $_SESSION['fullName'] = $fullName;
 
    $statement->close();
 ?>
@@ -23,7 +24,7 @@
    <meta charset="UTF-8">
    <meta http-equiv="X-UA-Compatible" content="IE=edge">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <title>home</title>
+   <title>Home - OJT Portal</title>
 
    <!-- font awesome cdn link  -->
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css">
@@ -47,17 +48,6 @@
          <div id="toggle-btn" class="fas fa-sun"></div>
       </div>
 
-      <div class="profile">
-         <img src="../images/pic-1.jpg" class="image" alt="">
-         <h3 class="name"><?php echo $fullName ?></h3>
-         <p class="role">Intern</p>
-         <a href="profile.php" class="btn">view profile</a>
-         <div class="flex-btn">
-            <a href="logout.php" class="option-btn">logout</a>
-            <a href="register.html" class="option-btn">register</a>
-         </div>
-      </div>
-
    </section>
 
 </header>   
@@ -71,7 +61,7 @@
    <div class="profile">
       <img src="../images/pic-1.jpg" class="image" alt="">
       <h3 class="name"><?php echo $fullName ?></h3>
-      <p class="role">Intern</p>
+      <p class="role">Student</p>
       <a href="profile.php" class="btn">view profile</a>
    </div>
 
@@ -89,6 +79,16 @@
    <h1 class="heading">Requirements</h1>
 
    <div class="box-container">
+
+      <div class="box">
+         <h3 class="title">Requirements List:</h3>
+         <p class="requirements">Job Resume: <span></span></p>
+         <p class="requirements">Curriculum Vitae: <span></span></p>
+         <p class="requirements">Cover Letter: <span></span></p>
+         <p class="requirements">MOA: <span></span></p>
+         <p class="requirements">Medical Certificate: <span></span></p>
+         <p class="requirements">Waiver: <span></span></p>
+      </div>
 
       <div class="box">
          <h3 class="title">Announcement</h3>
@@ -124,12 +124,6 @@
             <a href="#"><i class="fab fa-php"></i><span>PHP</span></a>
             <a href="#"><i class="fab fa-bootstrap"></i><span>bootstrap</span></a>
          </div>
-      </div>
-
-      <div class="box">
-         <h3 class="title">Requirements List</h3>
-         <p class="tutor">Connect with people in your field!</p>
-         <a href="user.html" class="inline-btn">get started</a>
       </div>
 
    </div>

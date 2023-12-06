@@ -43,9 +43,9 @@
 
    <div class="profile">
       <img src="../images/pic-1.jpg" class="image" alt="">
-      <h3 class="name">Hev Abi</h3>
-      <p class="role">student</p>
-      <a href="profile.html" class="btn">view profile</a>
+      <h3 class="name"><?php echo $_SESSION['fullName'] ?></h3>
+      <p class="role">Student</p>
+      <a href="profile.php" class="btn">view profile</a>
    </div>
 
    <nav class="navbar">
@@ -65,7 +65,7 @@
 
       <div class="user">
          <img src="../images/pic-1.jpg" alt="">
-         <h3>Hev Abi</h3>
+         <h3><?php echo $_SESSION['fullName'] ?></h3>
          <p>Student</p>
          <a href="update.html" class="inline-btn">update profile</a>
       </div>

@@ -1,5 +1,5 @@
 <?php
-$db = new mysqli("localhost", "root", "", "ojt_monitoring");
+$db = new mysqli("localhost", "yuyuyu", "Hindikoalamang1", "ojt_monitoring");
 /*
 class DB {
     private $dbHost = "localhost";

@@ -27,7 +27,8 @@
 
 
       <div class="icons">
-         <div id="menu-btn" class="fas fa-bars"></div>
+         <div id="menu-btn" class="fas fa-bars"></div> 
+         <div id="search-btn" class="fas fa-search"></div>
          <div id="toggle-btn" class="fas fa-sun"></div>
       </div>
 
@@ -44,9 +45,9 @@
 
    <div class="profile">
       <img src="../images/pic-1.jpg" class="image" alt="">
-      <h3 class="name">Hev Abi</h3>
+      <h3 class="name"><?php echo $_SESSION['fullName'] ?></h3>
       <p class="role">Student</p>
-      <a href="profile.html" class="btn">view profile</a>
+      <a href="profile.php" class="btn">view profile</a>
    </div>
 
    <nav class="navbar">

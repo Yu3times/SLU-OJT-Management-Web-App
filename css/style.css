@@ -398,6 +398,12 @@ section{
    margin-top: 1.5rem;
 }
 
+.home-grid .box-container .requirements{
+   color:var(--light-color);
+   font-size: 1.7rem;
+   margin-top: 1.5rem;
+}
+
 .home-grid .box-container .likes span{
    color:var(--main-color);
 }
