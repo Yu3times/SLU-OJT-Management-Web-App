@@ -1,3 +1,7 @@
+<?php
+   include "../login/requireSession.php";
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -21,27 +25,10 @@
 
       <a href="index.html" class="logo">OJT Portal</a>
 
-      <form action="search.html" method="post" class="search-form">
-         <input type="text" name="search_box" required placeholder="search..." maxlength="100">
-         <button type="submit" class="fas fa-search"></button>
-      </form>
 
       <div class="icons">
          <div id="menu-btn" class="fas fa-bars"></div>
-         <div id="search-btn" class="fas fa-search"></div>
-         <div id="user-btn" class="fas fa-user"></div>
          <div id="toggle-btn" class="fas fa-sun"></div>
-      </div>
-
-      <div class="profile">
-         <img src="images/pic-1.jpg" class="image" alt="">
-         <h3 class="name">Hev Abi</h3>
-         <p class="role">OJT Portal</p>
-         <a href="profile.html" class="btn">view profile</a>
-         <div class="flex-btn">
-            <a href="login.html" class="option-btn">login</a>
-            <a href="register.html" class="option-btn">register</a>
-         </div>
       </div>
 
    </section>
@@ -55,18 +42,17 @@
    </div>
 
    <div class="profile">
-      <img src="images/pic-1.jpg" class="image" alt="">
+      <img src="../images/pic-1.jpg" class="image" alt="">
       <h3 class="name">Hey Abi</h3>
       <p class="role">student</p>
       <a href="profile.html" class="btn">view profile</a>
    </div>
 
    <nav class="navbar">
-      <a href="index.html"><i class="fas fa-home"></i><span>Home</span></a>
-      <a href="about.html"><i class="fas fa-question"></i><span>About</span></a>
-      <a href="companies.html"><i class="fas fa-graduation-cap"></i><span>Available Companies</span></a>
-      <a href="user.html"><i class="fas fa-chalkboard-user"></i><span>Network</span></a>
-      <a href="contact.html"><i class="fas fa-headset"></i><span>Contact us</span></a>
+      <a href="index.php"><i class="fas fa-home"></i><span>Home</span></a>
+      <a href="internship-details.php"><i class="fa-solid fa-briefcase"></i><span>Intership Details</span></a>
+      <a href="reports.php"><i class="fa-regular fa-clipboard"></i><span>Reports</span></a>
+      <a href="logout.php"><i class="fa-solid fa-door-open"></i><span>Logout</span></a>
    </nav>
 
 </div>
@@ -79,14 +65,14 @@
 
       <div class="box">
          <div class="tutor">
-            <img src="images/pic-2.jpg" alt="">
+            <img src="../images/pic-2.jpg" alt="">
             <div class="info">
                <h3>john deo</h3>
                <span>21-10-2023</span>
             </div>
          </div>
          <div class="thumb">
-            <img src="images/thumb-1.png" alt="">
+            <img src="../images/thumb-1.png" alt="">
             <span>JPmorgan</span>
          </div>
          <h3 class="title">Web Developer</h3>
@@ -95,14 +81,14 @@
 
       <div class="box">
          <div class="tutor">
-            <img src="images/pic-3.jpg" alt="">
+            <img src="../images/pic-3.jpg" alt="">
             <div class="info">
                <h3>john deo</h3>
                <span>21-10-2023</span>
             </div>
          </div>
          <div class="thumb">
-            <img src="images/thumb-2.png" alt="">
+            <img src="../images/thumb-2.png" alt="">
             <span>JPmorgan</span>
          </div>
          <h3 class="title">Web Developer</h3>
@@ -111,14 +97,14 @@
 
       <div class="box">
          <div class="tutor">
-            <img src="images/pic-4.jpg" alt="">
+            <img src="../images/pic-4.jpg" alt="">
             <div class="info">
                <h3>john deo</h3>
                <span>21-10-2023</span>
             </div>
          </div>
          <div class="thumb">
-            <img src="images/thumb-3.png" alt="">
+            <img src="../images/thumb-3.png" alt="">
             <span>JPmorgan</span>
          </div>
          <h3 class="title">Web Developer</h3>
@@ -127,14 +113,14 @@
 
       <div class="box">
          <div class="tutor">
-            <img src="images/pic-5.jpg" alt="">
+            <img src="../images/pic-5.jpg" alt="">
             <div class="info">
                <h3>john deo</h3>
                <span>21-10-2023</span>
             </div>
          </div>
          <div class="thumb">
-            <img src="images/thumb-4.png" alt="">
+            <img src="../images/thumb-4.png" alt="">
             <span>JPmorgan</span>
          </div>
          <h3 class="title">Web Developer</h3>
@@ -143,14 +129,14 @@
 
       <div class="box">
          <div class="tutor">
-            <img src="images/pic-6.jpg" alt="">
+            <img src="../images/pic-6.jpg" alt="">
             <div class="info">
                <h3>john deo</h3>
                <span>21-10-2023</span>
             </div>
          </div>
          <div class="thumb">
-            <img src="images/thumb-5.png" alt="">
+            <img src="../images/thumb-5.png" alt="">
             <span>JPmorgan</span>
          </div>
          <h3 class="title">Web Developer</h3>
@@ -159,14 +145,14 @@
 
       <div class="box">
          <div class="tutor">
-            <img src="images/pic-7.jpg" alt="">
+            <img src="../images/pic-7.jpg" alt="">
             <div class="info">
                <h3>john deo</h3>
                <span>21-10-2023</span>
             </div>
          </div>
          <div class="thumb">
-            <img src="images/thumb-6.png" alt="">
+            <img src="../images/thumb-6.png" alt="">
             <span>JPmorgan</span>
          </div>
          <h3 class="title">Web Developer</h3>
@@ -175,14 +161,14 @@
 
       <div class="box">
          <div class="tutor">
-            <img src="images/pic-8.jpg" alt="">
+            <img src="../images/pic-8.jpg" alt="">
             <div class="info">
                <h3>john deo</h3>
                <span>21-10-2023</span>
             </div>
          </div>
          <div class="thumb">
-            <img src="images/thumb-7.png" alt="">
+            <img src="../images/thumb-7.png" alt="">
             <span>JPmorgan</span>
          </div>
          <h3 class="title">Web Developer</h3>
@@ -191,14 +177,14 @@
 
       <div class="box">
          <div class="tutor">
-            <img src="images/pic-9.jpg" alt="">
+            <img src="../images/pic-9.jpg" alt="">
             <div class="info">
                <h3>john deo</h3>
                <span>21-10-2023</span>
             </div>
          </div>
          <div class="thumb">
-            <img src="images/thumb-8.png" alt="">
+            <img src="../images/thumb-8.png" alt="">
             <span>JPmorgan</span>
          </div>
          <h3 class="title">Web Developer</h3>
@@ -207,14 +193,14 @@
 
       <div class="box">
          <div class="tutor">
-            <img src="images/pic-1.jpg" alt="">
+            <img src="../images/pic-1.jpg" alt="">
             <div class="info">
                <h3>john deo</h3>
                <span>21-10-2023</span>
             </div>
          </div>
          <div class="thumb">
-            <img src="images/thumb-9.png" alt="">
+            <img src="../images/thumb-9.png" alt="">
             <span>JPmorgan</span>
          </div>
          <h3 class="title">Web Developer</h3>
@@ -245,7 +231,7 @@
 </footer>
 
 <!-- custom js file link  -->
-<script src="js/script.js"></script>
+<script src="../js/script.js"></script>
 
    
 </body>

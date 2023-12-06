@@ -1,3 +1,7 @@
+<?php
+   include "../login/requireSession.php";
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,7 +14,7 @@
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css">
 
    <!-- custom css file link  -->
-   <link rel="stylesheet" href="css/style.css">
+   <link rel="stylesheet" href="../css/style.css">
 
 </head>
 <body>
@@ -21,27 +25,10 @@
 
       <a href="index.html" class="logo">OJT Portal</a>
 
-      <form action="search.html" method="post" class="search-form">
-         <input type="text" name="search_box" required placeholder="search..." maxlength="100">
-         <button type="submit" class="fas fa-search"></button>
-      </form>
 
       <div class="icons">
          <div id="menu-btn" class="fas fa-bars"></div>
-         <div id="search-btn" class="fas fa-search"></div>
-         <div id="user-btn" class="fas fa-user"></div>
          <div id="toggle-btn" class="fas fa-sun"></div>
-      </div>
-
-      <div class="profile">
-         <img src="images/pic-1.jpg" class="image" alt="">
-         <h3 class="name">Hev Abi</h3>
-         <p class="role">student</p>
-         <a href="profile.html" class="btn">view profile</a>
-         <div class="flex-btn">
-            <a href="login.html" class="option-btn">login</a>
-            <a href="register.html" class="option-btn">register</a>
-         </div>
       </div>
 
    </section>
@@ -55,18 +42,17 @@
    </div>
 
    <div class="profile">
-      <img src="images/pic-1.jpg" class="image" alt="">
+      <img src="../images/pic-1.jpg" class="image" alt="">
       <h3 class="name">Hev Abi</h3>
       <p class="role">student</p>
       <a href="profile.html" class="btn">view profile</a>
    </div>
 
    <nav class="navbar">
-      <a href="index.html"><i class="fas fa-home"></i><span>Home</span></a>
-      <a href="about.html"><i class="fas fa-question"></i><span>About</span></a>
-      <a href="companies.html"><i class="fas fa-graduation-cap"></i><span>Available Companies</span></a>
-      <a href="user.html"><i class="fas fa-chalkboard-user"></i><span>Network</span></a>
-      <a href="contact.html"><i class="fas fa-headset"></i><span>Contact us</span></a>
+      <a href="index.php"><i class="fas fa-home"></i><span>Home</span></a>
+      <a href="internship-details.php"><i class="fa-solid fa-briefcase"></i><span>Intership Details</span></a>
+      <a href="reports.php"><i class="fa-regular fa-clipboard"></i><span>Reports</span></a>
+      <a href="logout.php"><i class="fa-solid fa-door-open"></i><span>Logout</span></a>
    </nav>
 
 </div>
@@ -78,7 +64,7 @@
    <div class="info">
 
       <div class="user">
-         <img src="images/pic-1.jpg" alt="">
+         <img src="../images/pic-1.jpg" alt="">
          <h3>Hev Abi</h3>
          <p>Student</p>
          <a href="update.html" class="inline-btn">update profile</a>
@@ -144,7 +130,7 @@
 </footer>
 
 <!-- custom js file link  -->
-<script src="js/script.js"></script>
+<script src="../js/script.js"></script>
 
    
 </body>
