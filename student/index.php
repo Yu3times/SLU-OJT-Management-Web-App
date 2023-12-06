@@ -1,5 +1,20 @@
 <?php
+   require("../database/database.php");
    include "../login/requireSession.php";
+
+   $userId = $_SESSION['userID'];
+   $statement = $db->prepare("SELECT firstName, lastName FROM student WHERE userId = ?");
+   $statement->bind_param("i", $userId);
+   $statement->execute();
+   $result = $statement->get_result();
+   if ($result->num_rows > 0) {
+      $row = $result->fetch_assoc();
+      $fullName = $row['firstName'] . ' ' . $row['lastName'];
+   } else {
+      $fullName = "No data found";
+   }
+
+   $statement->close();
 ?>
 
 <!DOCTYPE html>
@@ -39,8 +54,8 @@
 
       <div class="profile">
          <img src="../../images/pic-1.jpg" class="image" alt="">
-         <h3 class="name">Hev Abi</h3>
-         <p class="role">student</p>
+         <h3 class="name"><?php echo $fullName ?></h3>
+         <p class="role">Intern</p>
          <a href="profile.html" class="btn">view profile</a>
          <div class="flex-btn">
             <a href="logout.php" class="option-btn">logout</a>
@@ -60,17 +75,19 @@
 
    <div class="profile">
       <img src="../images/pic-1.jpg" class="image" alt="">
-      <h3 class="name">Hev Abi</h3>
-      <p class="role">student</p>
+      <h3 class="name"><?php echo $fullName ?></h3>
+      <p class="role">Intern</p>
       <a href="profile.html" class="btn">view profile</a>
    </div>
 
    <nav class="navbar">
-      <a href="index.html"><i class="fas fa-home"></i><span>Home</span></a>
-      <a href="about.html"><i class="fas fa-question"></i><span>About</span></a>
-      <a href="companies.html"><i class="fas fa-graduation-cap"></i><span>Available Companies</span></a>
+      <a href="index.php"><i class="fas fa-home"></i><span>Home</span></a>
+      <a href="about.html"><i class="fa-solid fa-briefcase"></i><span>Intership Details</span></a>
+      <a href="companies.html"><i class="fa-regular fa-clipboard"></i><span>Reports</span></a>
+      <!--
       <a href="user.html"><i class="fas fa-chalkboard-user"></i><span>Network</span></a>
       <a href="contact.html"><i class="fas fa-headset"></i><span>Contact us</span></a>
+      -->
       <a href="logout.php"><i class="fa-solid fa-door-open"></i><span>Logout</span></a>
    </nav>
 
@@ -119,7 +136,7 @@
       </div>
 
       <div class="box">
-         <h3 class="title">Exapand your network</h3>
+         <h3 class="title">Requirements List</h3>
          <p class="tutor">Connect with people in your field!</p>
          <a href="user.html" class="inline-btn">get started</a>
       </div>
@@ -256,7 +273,7 @@
 
 <footer class="footer">
 
-   &copy; copyright @ 2023 by <span>Mr. Hev Abi</span> | all rights reserved!
+   &copy; Copyright @ 2023 by <span>The Croods</span> | All rights reserved!
 
 </footer>
 
