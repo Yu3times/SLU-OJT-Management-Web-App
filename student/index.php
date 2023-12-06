@@ -53,7 +53,7 @@
       </div>
 
       <div class="profile">
-         <img src="../../images/pic-1.jpg" class="image" alt="">
+         <img src="../images/pic-1.jpg" class="image" alt="">
          <h3 class="name"><?php echo $fullName ?></h3>
          <p class="role">Intern</p>
          <a href="profile.html" class="btn">view profile</a>
@@ -100,7 +100,7 @@
    <div class="box-container">
 
       <div class="box">
-         <h3 class="title">Analytics</h3>
+         <h3 class="title">Announcement</h3>
          <p class="likes">Total Likes : <span>25</span></p>
          <a href="#" class="inline-btn">view likes</a>
          <p class="likes">Total connections : <span>12</span></p>
@@ -124,7 +124,7 @@
       </div>
 
       <div class="box">
-         <h3 class="title">Hard Skills</h3>
+         <h3 class="title">Hours Logged This Week</h3>
          <div class="flex">
             <a href="#"><i class="fab fa-html5"></i><span>HTML</span></a>
             <a href="#"><i class="fab fa-css3"></i><span>CSS</span></a>
