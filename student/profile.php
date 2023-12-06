@@ -125,7 +125,7 @@
 
 <footer class="footer">
 
-   &copy; copyright @ 2023 by <span>Mr. Hev Abi</span> | all rights reserved!
+   &copy; copyright @ 2023 by <span>Team Croods</span> | all rights reserved!
 
 </footer>
 
