@@ -40,15 +40,17 @@
 
       <a href="index.html" class="logo">OJT Portal</a>
 
+      <!--
       <form action="search.html" method="post" class="search-form">
          <input type="text" name="search_box" required placeholder="search..." maxlength="100">
          <button type="submit" class="fas fa-search"></button>
       </form>
+      -->
 
       <div class="icons">
-         <div id="menu-btn" class="fas fa-bars"></div>
+         <div id="menu-btn" class="fas fa-bars"></div> 
          <div id="search-btn" class="fas fa-search"></div>
-         <div id="user-btn" class="fas fa-user"></div>
+         <!-- <div id="user-btn" class="fas fa-user"></div> -->
          <div id="toggle-btn" class="fas fa-sun"></div>
       </div>
 
@@ -56,7 +58,7 @@
          <img src="../../images/pic-1.jpg" class="image" alt="">
          <h3 class="name"><?php echo $fullName ?></h3>
          <p class="role">Intern</p>
-         <a href="profile.html" class="btn">view profile</a>
+         <a href="profile.php" class="btn">view profile</a>
          <div class="flex-btn">
             <a href="logout.php" class="option-btn">logout</a>
             <a href="register.html" class="option-btn">register</a>
@@ -77,17 +79,13 @@
       <img src="../images/pic-1.jpg" class="image" alt="">
       <h3 class="name"><?php echo $fullName ?></h3>
       <p class="role">Intern</p>
-      <a href="profile.html" class="btn">view profile</a>
+      <a href="profile.php" class="btn">view profile</a>
    </div>
 
    <nav class="navbar">
       <a href="index.php"><i class="fas fa-home"></i><span>Home</span></a>
-      <a href="about.html"><i class="fa-solid fa-briefcase"></i><span>Intership Details</span></a>
-      <a href="companies.html"><i class="fa-regular fa-clipboard"></i><span>Reports</span></a>
-      <!--
-      <a href="user.html"><i class="fas fa-chalkboard-user"></i><span>Network</span></a>
-      <a href="contact.html"><i class="fas fa-headset"></i><span>Contact us</span></a>
-      -->
+      <a href="internship-details.php"><i class="fa-solid fa-briefcase"></i><span>Intership Details</span></a>
+      <a href="reports.php"><i class="fa-regular fa-clipboard"></i><span>Reports</span></a>
       <a href="logout.php"><i class="fa-solid fa-door-open"></i><span>Logout</span></a>
    </nav>
 
@@ -95,7 +93,7 @@
 
 <section class="home-grid">
 
-   <h1 class="heading">Dashboard</h1>
+   <h1 class="heading">Requirements</h1>
 
    <div class="box-container">
 
@@ -146,7 +144,7 @@
 </section>
 
 
-
+<!--
 <section class="companies">
 
    <h1 class="heading">Available Companies</h1>
@@ -251,26 +249,9 @@
 
    </div>
 
-   <div class="more-btn">
-      <a href="companies.html" class="inline-option-btn">view all</a>
-   </div>
 
 </section>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+-->
 <footer class="footer">
 
    &copy; Copyright @ 2023 by <span>The Croods</span> | All rights reserved!
