@@ -330,6 +330,7 @@ section{
    left: -30rem;
 }
 
+
 .home-grid .box-container{
    display: grid;
    grid-template-columns: repeat(auto-fit, 27.5rem);
@@ -1379,4 +1380,9 @@ section{
       height: 25rem;
    }
 
+}
+
+section.home-grid {
+   min-height: 700px;
+   height: 1000px;
 }
