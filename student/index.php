@@ -22,7 +22,8 @@
     $currentWeekNum = 1;
 
    $userId = $_SESSION['userID'];
-    $hoursQuery = $db->prepare("SELECT hoursWorked FROM reports WHERE studentId = (SELECT studentId FROM student WHERE userId = ?) AND weekNum = ?");
+    $hoursQuery = $db->prepare("SELECT hoursWorked FROM reports WHERE studentId = 
+    (SELECT studentId FROM student WHERE userId = ?) AND weekNum = ?");
     $hoursQuery->bind_param("ii", $userId, $currentWeekNum);
     $hoursQuery->execute();
     $hoursResult = $hoursQuery->get_result();
