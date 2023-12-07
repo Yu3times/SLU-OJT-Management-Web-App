@@ -71,3 +71,4 @@ function closePopup() {
       popup.style.display = "none";
    }
 }
+

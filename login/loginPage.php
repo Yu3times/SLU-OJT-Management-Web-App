@@ -56,9 +56,9 @@
    <form id="loginForm" action="login.php" method="post" enctype="multipart/form-data">
       <h3>login now</h3>
       <p>Your User ID <span>*</span></p>
-      <input type="text" name="userID" placeholder="Enter your userID" required maxlength="10" class="box">
+      <input type="text" id ="userID" name="userID" placeholder="Enter your userID" required maxlength="10" class="box">
       <p>Your Password <span>*</span></p>
-      <input type="password" name="password" placeholder="Enter Your Password" required maxlength="20" class="box">
+      <input type="password" id ="password" name="password" placeholder="Enter Your Password" required maxlength="20" class="box">
       <input type="submit" value="login" name="submit" class="btn">
    </form>
 </section>

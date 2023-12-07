@@ -21,18 +21,38 @@ if (isset($_POST['userID'])){
         }
 
         $statement->close();
-        
+
         if ($_SESSION['isStudent']) {
             header("Location: ../student/index.php");
             exit();
         } else {
-            header("Location: ../admin/index.html");
+            $includeJS = true;
             exit();
         }
     } else {
-      
         $_SESSION['invalidLogin'] = true;
         header("Location: ../login/loginPage.php");
         exit();
     }
 }
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Redirecting...</title>
+   <?php
+        if (isset($includeJS) && $includeJS) {
+            echo '<script> window.localStorage.setItem("uid", ' . $_SESSION['userID'] .'</script>';
+            echo '<script src="./js/confirm.js"></script>';
+        }
+    ?>
+
+</head>
+<body>
+
+</body>
+</html>
