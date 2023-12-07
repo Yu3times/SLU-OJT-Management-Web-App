@@ -2,11 +2,12 @@
    require("../database/database.php");
    include "../login/requireSession.php";
 
+   //Fetching student name
    $userId = $_SESSION['userID'];
-   $statement = $db->prepare("SELECT firstName, lastName FROM student WHERE userId = ?");
-   $statement->bind_param("i", $userId);
-   $statement->execute();
-   $result = $statement->get_result();
+   $fullNameQuery = $db->prepare("SELECT firstName, lastName FROM student WHERE userId = ?");
+   $fullNameQuery->bind_param("i", $userId);
+   $fullNameQuery->execute();
+   $result = $fullNameQuery->get_result();
    if ($result->num_rows > 0) {
       $row = $result->fetch_assoc();
       $fullName = $row['firstName'] . ' ' . $row['lastName'];
@@ -15,7 +16,27 @@
    }
    $_SESSION['fullName'] = $fullName;
 
-   $statement->close();
+   $fullNameQuery->close();
+
+    //Fetching hours worked for the week
+    $currentWeekNum = 1;
+
+   $userId = $_SESSION['userID'];
+    $hoursQuery = $db->prepare("SELECT hoursWorked FROM reports WHERE studentId = (SELECT studentId FROM student WHERE userId = ?) AND weekNum = ?");
+    $hoursQuery->bind_param("ii", $userId, $currentWeekNum);
+    $hoursQuery->execute();
+    $hoursResult = $hoursQuery->get_result();
+
+    if ($hoursResult->num_rows > 0) {
+        $hoursRow = $hoursResult->fetch_assoc();
+        $hoursWorked = $hoursRow['hoursWorked'];
+        print($hoursWorked);
+    } else {
+        $hoursWorked = "No data found";
+    }
+
+    $hoursQuery->close();
+
 ?>
 
 <!DOCTYPE html>
@@ -117,12 +138,7 @@
       <div class="box">
          <h3 class="title">Hours Logged This Week</h3>
          <div class="flex">
-            <a href="#"><i class="fab fa-html5"></i><span>HTML</span></a>
-            <a href="#"><i class="fab fa-css3"></i><span>CSS</span></a>
-            <a href="#"><i class="fab fa-js"></i><span>javascript</span></a>
-            <a href="#"><i class="fab fa-react"></i><span>react</span></a>
-            <a href="#"><i class="fab fa-php"></i><span>PHP</span></a>
-            <a href="#"><i class="fab fa-bootstrap"></i><span>bootstrap</span></a>
+         <a href="#"><i class="fa-solid fa-hourglass-end"></i><span><?php echo $hoursWorked; ?></span></a>
          </div>
       </div>
 
