@@ -1,5 +1,6 @@
 <?php
    include "../login/requireSession.php";
+   include "../database/database.php";
 ?>
 
 <!DOCTYPE html>
@@ -236,12 +237,13 @@
 
       <div class="box">
          <h3 class="title">Requirements List:</h3>
-         <p class="requirements">Job Resume: <span></span></p>
+         <p class="requirements">Student Name: <span></span></p>
          <p class="requirements">Curriculum Vitae: <span></span></p>
          <p class="requirements">Cover Letter: <span></span></p>
          <p class="requirements">MOA: <span></span></p>
          <p class="requirements">Medical Certificate: <span></span></p>
          <p class="requirements">Waiver: <span></span></p>
+         </form>
       </div>
 </section>
 
