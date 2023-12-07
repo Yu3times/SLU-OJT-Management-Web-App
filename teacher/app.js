@@ -1,13 +1,9 @@
 const express = require('express');
 const session = require('express-session');
 const bodyParser = require('body-parser');
-const mysql = require('mysql');
-
-var conn = mysql.createConnection({
-    host:'localhost', user:'root', password:'', database:'ojt_monitoring'
-});
-
 const app = express();
+const routes = require('./routes');
+
 app.use(express.static('public'));
 app.set('views', `${__dirname}/view`);
 app.set('view engine', 'ejs');
@@ -19,19 +15,9 @@ app.use(session({secret: 'frogrammers',
                  saveUninitialized: true
                 }));
 
-app.listen(8001, 'localhost');
+app.use('/', routes);
 
-app.post('/login', (req, res) => {
-    req.session.userID = req.body.userID;
-    req.session.fullName = 'John Doe'; 
-    res.json(userID);
+const PORT = process.env.PORT || 8001;
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
 });
-
-app.render('index', (err, html)=>{
-    if (err){
-        console.log(err);
-    } else{
-        console.log(html);
-    }
-})
-

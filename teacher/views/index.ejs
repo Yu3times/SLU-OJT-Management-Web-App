@@ -1,22 +1,3 @@
-<%
-   const userId = req.session.userId;
-   const statement = db.prepare("SELECT firstName, lastName FROM student WHERE userId = ?");
-   
-   statement.bind_param("i", userId);
-   statement.execute();
-   const result = statement.get_result();
-
-   if (result.num_rows > 0) {
-      const row = result.fetch_assoc();
-      fullName = row.firstName + ' ' + $row.lastName;
-   } else {
-      fullName = "No data found";
-   }
-   req.session.fullName = fullName;
-
-   statement.close();
-%>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -59,7 +40,7 @@
 
    <div class="profile">
       <img src="../images/pic-1.jpg" class="image" alt="">
-      <h3 class="name"><%= echo $fullName %></h3>
+      <h3 class="name"><%= fullName %></h3>
       <p class="role">Student</p>
       <a href="profile.php" class="btn">view profile</a>
    </div>
