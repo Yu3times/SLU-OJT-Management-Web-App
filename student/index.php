@@ -18,8 +18,8 @@
 
    $fullNameQuery->close();
 
-    //Fetching hours worked for the week
-    $currentWeekNum = 1;
+   //Fetching hours worked for the week
+   $currentWeekNum = 1;
 
    $userId = $_SESSION['userID'];
     $hoursQuery = $db->prepare("SELECT hoursWorked FROM reports WHERE studentId = 
@@ -35,22 +35,133 @@
         $hoursWorked = "No data found";
     }
 
-    $hoursQuery->close();
+   $hoursQuery->close();
 
-    $announcementsQuery = $db->prepare("SELECT a.title, a.message, a.datePosted
-    FROM announcements AS a
-    JOIN advisor AS adv ON a.advisorId = adv.advisorId
-    JOIN internship AS i ON adv.advisorId = i.advisorId
-    JOIN student AS s ON i.studentId = s.studentId
-    WHERE s.userId = ?
-    ORDER BY a.datePosted DESC
+   //Fetching announcements made by the advisors
+   $announcementsQuery = $db->prepare("SELECT a.title, a.message, a.datePosted
+   FROM announcements AS a
+   JOIN advisor AS adv ON a.advisorId = adv.advisorId
+   JOIN internship AS i ON adv.advisorId = i.advisorId
+   JOIN student AS s ON i.studentId = s.studentId
+   WHERE s.userId = ?
+   ORDER BY a.datePosted DESC
    ");
 
    $announcementsQuery->bind_param("i", $userId);
    $announcementsQuery->execute();
    $announcementsResult = $announcementsQuery->get_result();
 
-   
+   //Fetching job resume status
+   $jobResumeStatusQuery = $db->prepare("SELECT s.status
+      FROM requirements AS r
+      JOIN status AS s ON r.jobResume = s.code
+      WHERE r.studentId = (SELECT studentId FROM student WHERE userId = ?)");
+
+   $jobResumeStatusQuery->bind_param("i", $userId);
+   $jobResumeStatusQuery->execute();
+   $jobResumeStatusResult = $jobResumeStatusQuery->get_result();
+
+   if ($jobResumeStatusResult->num_rows > 0) {
+      $jobResumeStatusRow = $jobResumeStatusResult->fetch_assoc();
+      $jobResumeStatus = $jobResumeStatusRow['status'];
+   } else {
+      $jobResumeStatus = "No data found";
+   }
+
+   $jobResumeStatusQuery->close();
+
+   //Fetching curriculum vitae status
+   $curriVitaeStatusQuery = $db->prepare("SELECT s.status
+      FROM requirements AS r
+      JOIN status AS s ON r.curriVitae = s.code
+      WHERE r.studentId = (SELECT studentId FROM student WHERE userId = ?)");
+
+   $curriVitaeStatusQuery->bind_param("i", $userId);
+   $curriVitaeStatusQuery->execute();
+   $curriVitaeStatusResult = $curriVitaeStatusQuery->get_result();
+
+   if ($curriVitaeStatusResult->num_rows > 0) {
+      $curriVitaeStatusRow = $curriVitaeStatusResult->fetch_assoc();
+      $curriVitaeStatus = $curriVitaeStatusRow['status'];
+   } else {
+      $curriVitaeStatus = "No data found";
+   }
+
+   $curriVitaeStatusQuery->close();
+
+   //Fetching cover letter status
+   $coverLetterStatusQuery = $db->prepare("SELECT s.status
+    FROM requirements AS r
+    JOIN status AS s ON r.coverLetter = s.code
+    WHERE r.studentId = (SELECT studentId FROM student WHERE userId = ?)");
+
+   $coverLetterStatusQuery->bind_param("i", $userId);
+   $coverLetterStatusQuery->execute();
+   $coverLetterStatusResult = $coverLetterStatusQuery->get_result();
+
+   if ($coverLetterStatusResult->num_rows > 0) {
+      $coverLetterStatusRow = $coverLetterStatusResult->fetch_assoc();
+      $coverLetterStatus = $coverLetterStatusRow['status'];
+   } else {
+      $coverLetterStatus = "No data found";
+   }
+
+   $coverLetterStatusQuery->close();
+
+   //Fetching MOA status
+   $moaStatusQuery = $db->prepare("SELECT s.status
+   FROM requirements AS r
+   JOIN status AS s ON r.moa = s.code
+   WHERE r.studentId = (SELECT studentId FROM student WHERE userId = ?)");
+
+   $moaStatusQuery->bind_param("i", $userId);
+   $moaStatusQuery->execute();
+   $moaStatusResult = $moaStatusQuery->get_result();
+
+   if ($moaStatusResult->num_rows > 0) {
+      $moaStatusRow = $moaStatusResult->fetch_assoc();
+      $moaStatus = $moaStatusRow['status'];
+   } else {
+      $moaStatus = "No data found";
+   }
+
+   //Fetching Medical Certificate status
+   $medCertStatusQuery = $db->prepare("SELECT s.status
+    FROM requirements AS r
+    JOIN status AS s ON r.medCert = s.code
+    WHERE r.studentId = (SELECT studentId FROM student WHERE userId = ?)");
+
+   $medCertStatusQuery->bind_param("i", $userId);
+   $medCertStatusQuery->execute();
+   $medCertStatusResult = $medCertStatusQuery->get_result();
+
+   if ($medCertStatusResult->num_rows > 0) {
+      $medCertStatusRow = $medCertStatusResult->fetch_assoc();
+      $medCertStatus = $medCertStatusRow['status'];
+   } else {
+      $medCertStatus = "No data found";
+   }
+
+   $medCertStatusQuery->close();
+
+   //Fetching Waiver status
+   $waiverStatusQuery = $db->prepare("SELECT s.status
+    FROM requirements AS r
+    JOIN status AS s ON r.waiver = s.code
+    WHERE r.studentId = (SELECT studentId FROM student WHERE userId = ?)");
+
+   $waiverStatusQuery->bind_param("i", $userId);
+   $waiverStatusQuery->execute();
+   $waiverStatusResult = $waiverStatusQuery->get_result();
+
+   if ($waiverStatusResult->num_rows > 0) {
+      $waiverStatusRow = $waiverStatusResult->fetch_assoc();
+      $waiverStatus = $waiverStatusRow['status'];
+   } else {
+      $waiverStatus = "No data found";
+   }
+
+   $waiverStatusQuery->close();
 ?>
 
 <!DOCTYPE html>
@@ -111,17 +222,17 @@
 
 <section class="home-grid">
 
-   <h1 class="heading">Requirements</h1>
+   <h1 class="heading">Dashboard</h1>
 
    <div class="box-container">
       <div class="box">
          <h3 class="title">Requirements List:</h3>
-         <p class="requirements">Job Resume: <span></span></p>
-         <p class="requirements">Curriculum Vitae: <span></span></p>
-         <p class="requirements">Cover Letter: <span></span></p>
-         <p class="requirements">MOA: <span></span></p>
-         <p class="requirements">Medical Certificate: <span></span></p>
-         <p class="requirements">Waiver: <span></span></p>
+         <p class="requirements">Job Resume: <span> <?php echo $jobResumeStatus ?></span></p>
+         <p class="requirements">Curriculum Vitae: <span> <?php echo $curriVitaeStatus ?> </span></p>
+         <p class="requirements">Cover Letter: <span></span> <?php echo $coverLetterStatus ?> </p>
+         <p class="requirements">MOA: <span></span> <?php echo $moaStatus ?> </p>
+         <p class="requirements">Medical Certificate: <span> <?php echo $medCertStatus ?> </span></p>
+         <p class="requirements">Waiver: <span></span> <?php echo $waiverStatus ?> </p>
       </div>
 
       <div class="box">
