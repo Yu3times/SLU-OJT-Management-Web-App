@@ -6,7 +6,7 @@ function submitLogin(){
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({userID}),
+        body: JSON.stringify({userID})
     })
         .then(response => response.json())
         .then(data => {
