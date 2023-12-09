@@ -38,6 +38,32 @@
 
     $hoursQuery->close();
 
+    $announcementsQuery = $db->prepare("
+    SELECT a.title, a.message, a.datePosted
+    FROM announcements AS a
+    JOIN advisor AS adv ON a.advisorId = adv.advisorId
+    JOIN internship AS i ON adv.advisorId = i.advisorId
+    JOIN student AS s ON i.studentId = s.studentId
+    WHERE s.userId = ?
+    ORDER BY a.datePosted DESC
+   ");
+
+   $announcementsQuery->bind_param("i", $userId);
+   $announcementsQuery->execute();
+   $announcementsResult = $announcementsQuery->get_result();
+
+    if ($announcementsResult->num_rows > 0) {
+        echo "<div class='box'><h3 class='title'>Announcements</h3><ul>";
+        while($row = $announcementsResult->fetch_assoc()) {
+            echo "<li><strong>" . htmlspecialchars($row['title']) . "</strong> - " . htmlspecialchars($row['message']) . " (Posted on: " . htmlspecialchars($row['datePosted']) . ")</li>";
+        }
+        echo "</ul></div>";
+    } else {
+        echo "<div class='box'><h3 class='title'>Announcements</h3><p>No announcements found.</p></div>";
+    }
+
+    $announcementsQuery->close();
+
 ?>
 
 <!DOCTYPE html>
@@ -113,13 +139,8 @@
       </div>
 
       <div class="box">
-         <h3 class="title">Announcement</h3>
-         <p class="likes">Total Likes : <span>25</span></p>
-         <a href="#" class="inline-btn">view likes</a>
-         <p class="likes">Total connections : <span>12</span></p>
-         <a href="#" class="inline-btn">view connections</a>
-         <p class="likes">Interactions : <span>4</span></p>
-         <a href="#" class="inline-btn">view interactions</a>
+         <h3 class="title">Announcements</h3>
+      
       </div>
 
       <div class="box">
