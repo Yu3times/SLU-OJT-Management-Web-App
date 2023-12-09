@@ -23,10 +23,23 @@ const noCacheMiddleware = (req, res, next) => {
 router.use(noCacheMiddleware);
 
 const requireLogin = (req, res, next) => {
-    //TODO: handle session
+    if(!req.session.userId){
+        return res.send('<script>window.location.href="/login/loginPage.php";</script>');
+    }
+    next();
 };
 
-router.post('/login', (req, res) => {
+/*
+router.get('/', function(req, res, next) {
+    res.render('index', { title: 'Express' });
+  });
+*/
+
+router.get('/redirect', (req, res) => {
+    res.render('redirect');
+  });
+
+router.post('/homepage', (req, res) => {
     const userId = req.body.userID;
     
     req.session.userID = req.body.userID;
@@ -40,9 +53,9 @@ router.post('/login', (req, res) => {
         const row = result.fetch_assoc();
         const fullName = row.firstName + ' ' + row.lastName;
         console.log('FullName:', fullName);
-        res.render('index.ejs', {fullName});
+        res.render('homepage', {fullName: fullName});
     } else {
-        res.render('index.ejs', { fullName: "No data found" });
+        res.render('homepage', { fullName: "No data found" });
     }
     
     statement.close();

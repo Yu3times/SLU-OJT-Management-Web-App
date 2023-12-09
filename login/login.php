@@ -6,7 +6,6 @@ session_start();
 if (isset($_POST['userID'])){
     $userId = $_POST['userID'];
     $password = $_POST['password'];
-    $_SESSION['isStudent'] = false;
 
     $statement = $db->prepare("SELECT * FROM user WHERE userId = ? AND password = ?");
     $statement->bind_param('ss', $userId, $password);
@@ -27,27 +26,8 @@ if (isset($_POST['userID'])){
             header("Location: ../student/index.php");
             exit();
         } else {
-            $includeJS = true;
-            ?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-   <meta charset="UTF-8">
-   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <title>Redirecting...</title>
-</head>
-<body>
-   <?php
-        if (isset($includeJS) && $includeJS) {
-            echo '<script> window.localStorage.setItem("uid", ' . $_SESSION['userID'] .'</script>';
-            echo '<script src="/public/js/confirm.js"></script>';
-        }
-    ?>
-</body>
-</html>
-            <?php
-            header("Location: ../teacher/views/index.ejs");
+            $teacherUserId = $_SESSION['userID'];
+            header("Location: ../teacher/views/redirect.ejs?teacherUserId=$teacherUserId");
             exit();
         }
     } else {

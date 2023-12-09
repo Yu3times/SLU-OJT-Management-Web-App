@@ -4,12 +4,11 @@ const bodyParser = require('body-parser');
 const app = express();
 const routes = require('./routes.js');
 const cookieParser = require('cookie-parser');
-
-var path = require('path');
+const path = require('path');
 var logger = require('morgan');
 
-app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'));
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -23,8 +22,6 @@ app.use(session({secret: 'frogrammers',
                  resave: true, 
                  saveUninitialized: true
                 }));
-
-app.use('/', routes);
 
 app.use(function(req, res, next) {
   next(createError(404));

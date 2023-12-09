@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <title>Redirecting...</title>
+</head>
+<body>
+   <p>Redirecting...</p>
+   <script>
+      var teacherUserId = '<%= teacherUserId %>';
+      console.log('Teacher User ID:', teacherUserId);
+      console.log('Executing confirm.js logic...');
+ 
+      fetch('/homepage', {
+           method: 'POST',
+           headers: {
+               'Content-Type': 'application/json',
+         },
+         body: JSON.stringify({ userID: teacherUserId })
+      })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);
+            window.location.href = data.homepage;
+      })
+        .catch(error => {
+            console.error('Error:', error);
+      });
+
+      setTimeout(function() {
+         window.location.href = 'homepage.ejs';
+      }, 1000);
+   </script>
+</body>
+</html>
