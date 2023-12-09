@@ -6,6 +6,7 @@ session_start();
 if (isset($_POST['userID'])){
     $userId = $_POST['userID'];
     $password = $_POST['password'];
+    $_SESSION['isStudent'] = false;
 
     $statement = $db->prepare("SELECT * FROM user WHERE userId = ? AND password = ?");
     $statement->bind_param('ss', $userId, $password);
@@ -27,6 +28,7 @@ if (isset($_POST['userID'])){
             exit();
         } else {
             $includeJS = true;
+            header("Location: ../teacher/views/index.ejs");
             exit();
         }
     } else {
