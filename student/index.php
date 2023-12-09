@@ -31,7 +31,6 @@
     if ($hoursResult->num_rows > 0) {
         $hoursRow = $hoursResult->fetch_assoc();
         $hoursWorked = $hoursRow['hoursWorked'];
-        print($hoursWorked);
     } else {
         $hoursWorked = "No data found";
     }
@@ -51,17 +50,7 @@
    $announcementsQuery->execute();
    $announcementsResult = $announcementsQuery->get_result();
 
-   if ($announcementsResult->num_rows > 0) {
-      echo "<div class='box'><h3 class='title'>Announcements</h3><ul>";
-      while($row = $announcementsResult->fetch_assoc()) {
-         echo "<li><strong>" . htmlspecialchars($row['title']) . "</strong> - " . htmlspecialchars($row['message']) . " (Posted on: " . htmlspecialchars($row['datePosted']) . ")</li>";
-      }
-      echo "</ul></div>";
-   } else {
-      echo "<div class='box'><h3 class='title'>Announcements</h3><p>No announcements found.</p></div>";
-   }
-
-   $announcementsQuery->close();
+   
 ?>
 
 <!DOCTYPE html>
@@ -125,7 +114,6 @@
    <h1 class="heading">Requirements</h1>
 
    <div class="box-container">
-
       <div class="box">
          <h3 class="title">Requirements List:</h3>
          <p class="requirements">Job Resume: <span></span></p>
@@ -138,7 +126,18 @@
 
       <div class="box">
          <h3 class="title">Announcements</h3>
-      
+         <?php
+         if ($announcementsResult->num_rows > 0) {
+            echo "<div class='box'><ul>";
+            while($row = $announcementsResult->fetch_assoc()) {
+               echo "<li><strong>" . htmlspecialchars($row['title']) . "</strong> - " . htmlspecialchars($row['message']) . " (Posted on: " . htmlspecialchars($row['datePosted']) . ")</li>";
+            }
+            echo "</ul></div>";
+         } else {
+            echo "<div class='box'><p>No announcements found.</p></div>";
+         }
+         $announcementsQuery->close();
+         ?>
       </div>
 
       <div class="box">
