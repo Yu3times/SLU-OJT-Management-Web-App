@@ -15,7 +15,7 @@
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css">
 
    <!-- custom css file link  -->
-   <link rel="stylesheet" href="../css/style.css">
+   <link rel="stylesheet" href="../public/css/style.css">
 
 </head>
 <body>
@@ -45,7 +45,7 @@
    </div>
 
    <div class="profile">
-      <img src="../images/pic-1.jpg" class="image" alt="">
+      <img src="../public/images/pic-1.jpg" class="image" alt="">
       <h3 class="name"><?php echo $_SESSION['fullName'] ?></h3>
       <p class="role">Student</p>
       <a href="profile.php" class="btn">view profile</a>
@@ -254,7 +254,7 @@
 </footer>
 
 <!-- custom js file link  -->
-<script src="../js/script.js"></script>
+<script src="../public/js/script.js"></script>
 
    
 </body>

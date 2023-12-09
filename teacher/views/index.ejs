@@ -10,7 +10,7 @@
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css">
 
    <!-- custom css file link  -->
-   <link rel="stylesheet" href="../css/style.css">
+   <link rel="stylesheet" type="text/css" href="/public/css/style.css">
 
 </head>
 <body>
@@ -19,7 +19,7 @@
    
    <section class="flex">
 
-      <a href="index.html" class="logo">OJT Portal</a>
+      <a href="index.ejs" class="logo">OJT Portal</a>
 
 
       <div class="icons">
@@ -39,17 +39,17 @@
    </div>
 
    <div class="profile">
-      <img src="../images/pic-1.jpg" class="image" alt="">
+      <img src="/public/images/pic-1.jpg" class="image" alt="">
       <h3 class="name"><%= fullName %></h3>
-      <p class="role">Student</p>
+      <p class="role">Teacher</p>
       <a href="profile.php" class="btn">view profile</a>
    </div>
 
    <nav class="navbar">
-      <a href="index.php"><i class="fas fa-home"></i><span>Home</span></a>
-      <a href="internship-details.php"><i class="fa-solid fa-briefcase"></i><span>Intership Details</span></a>
-      <a href="reports.php"><i class="fa-regular fa-clipboard"></i><span>Reports</span></a>
-      <a href="logout.php"><i class="fa-solid fa-door-open"></i><span>Logout</span></a>
+      <a href="index.ejs"><i class="fas fa-home"></i><span>Home</span></a>
+      <a href="manage-students.ejs"><i class="fa-solid fa-briefcase"></i><span>Manage Students</span></a>
+      <a href="company-details.ejs"><i class="fa-solid fa-door-open"></i><span>Company Details</span></a>
+      <a href="/login/loginPage.php"><i class="fa-solid fa-door-open"></i><span>Log Out</span></a>
    </nav>
 
 </div>
@@ -226,7 +226,7 @@
 </footer>
 
 <!-- custom js file link  -->
-<script src="../js/script.js"></script>
+<script src="/public/js/script.js"></script>
 
 
    

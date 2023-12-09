@@ -10,7 +10,7 @@
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css">
 
    <!-- custom css file link  -->
-   <link rel="stylesheet" href="../css/style.css">
+   <link rel="stylesheet" href="../public/css/style.css">
 
    <style>
       body {
@@ -39,9 +39,7 @@
          color: #555;
       }
    </style>
-</head>
-<body>
-   <?php
+</head><?php
    session_start();
       if (isset($_SESSION['invalidLogin']) && ($_SESSION['invalidLogin'])) {
          echo "<div class='popup'>";
@@ -51,6 +49,8 @@
          unset($_SESSION['invalidLogin']);
       }
    ?>
+<body>
+   
 
 <section class="form-container">
    <form id="loginForm" action="login.php" method="post" enctype="multipart/form-data">
@@ -64,7 +64,7 @@
 </section>
 
 <!-- custom js file link  -->
-<script src="../js/script.js"></script>
+<script src="../public/js/script.js"></script>
 
    
 </body>

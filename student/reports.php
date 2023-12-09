@@ -14,7 +14,7 @@
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css">
 
    <!-- custom css file link  -->
-   <link rel="stylesheet" href="../css/style.css">
+   <link rel="stylesheet" href="../public/css/style.css">
 
 </head>
 <body>
@@ -42,7 +42,7 @@
    </div>
 
    <div class="profile">
-      <img src="../images/pic-1.jpg" class="image" alt="">
+      <img src="../public/images/pic-1.jpg" class="image" alt="">
       <h3 class="name"><?php echo $_SESSION['fullName'] ?></h3>
       <p class="role">Student</p>
       <a href="profile.php" class="btn">view profile</a>
@@ -65,14 +65,14 @@
 
       <div class="box">
          <div class="tutor">
-            <img src="../images/pic-2.jpg" alt="">
+            <img src="../public/images/pic-2.jpg" alt="">
             <div class="info">
                <h3>john deo</h3>
                <span>21-10-2023</span>
             </div>
          </div>
          <div class="thumb">
-            <img src="../images/thumb-1.png" alt="">
+            <img src="../public/images/thumb-1.png" alt="">
             <span>JPmorgan</span>
          </div>
          <h3 class="title">Web Developer</h3>
@@ -81,14 +81,14 @@
 
       <div class="box">
          <div class="tutor">
-            <img src="../images/pic-3.jpg" alt="">
+            <img src="../public/images/pic-3.jpg" alt="">
             <div class="info">
                <h3>john deo</h3>
                <span>21-10-2023</span>
             </div>
          </div>
          <div class="thumb">
-            <img src="../images/thumb-2.png" alt="">
+            <img src="../public/images/thumb-2.png" alt="">
             <span>JPmorgan</span>
          </div>
          <h3 class="title">Web Developer</h3>
@@ -97,14 +97,14 @@
 
       <div class="box">
          <div class="tutor">
-            <img src="../images/pic-4.jpg" alt="">
+            <img src="../public/images/pic-4.jpg" alt="">
             <div class="info">
                <h3>john deo</h3>
                <span>21-10-2023</span>
             </div>
          </div>
          <div class="thumb">
-            <img src="../images/thumb-3.png" alt="">
+            <img src="../public/images/thumb-3.png" alt="">
             <span>JPmorgan</span>
          </div>
          <h3 class="title">Web Developer</h3>
@@ -113,14 +113,14 @@
 
       <div class="box">
          <div class="tutor">
-            <img src="../images/pic-5.jpg" alt="">
+            <img src="../public/images/pic-5.jpg" alt="">
             <div class="info">
                <h3>john deo</h3>
                <span>21-10-2023</span>
             </div>
          </div>
          <div class="thumb">
-            <img src="../images/thumb-4.png" alt="">
+            <img src="../public/images/thumb-4.png" alt="">
             <span>JPmorgan</span>
          </div>
          <h3 class="title">Web Developer</h3>
@@ -129,14 +129,14 @@
 
       <div class="box">
          <div class="tutor">
-            <img src="../images/pic-6.jpg" alt="">
+            <img src="../public/images/pic-6.jpg" alt="">
             <div class="info">
                <h3>john deo</h3>
                <span>21-10-2023</span>
             </div>
          </div>
          <div class="thumb">
-            <img src="../images/thumb-5.png" alt="">
+            <img src="../public/images/thumb-5.png" alt="">
             <span>JPmorgan</span>
          </div>
          <h3 class="title">Web Developer</h3>
@@ -145,14 +145,14 @@
 
       <div class="box">
          <div class="tutor">
-            <img src="../images/pic-7.jpg" alt="">
+            <img src="../public/images/pic-7.jpg" alt="">
             <div class="info">
                <h3>john deo</h3>
                <span>21-10-2023</span>
             </div>
          </div>
          <div class="thumb">
-            <img src="../images/thumb-6.png" alt="">
+            <img src="../public/images/thumb-6.png" alt="">
             <span>JPmorgan</span>
          </div>
          <h3 class="title">Web Developer</h3>
@@ -161,14 +161,14 @@
 
       <div class="box">
          <div class="tutor">
-            <img src="../images/pic-8.jpg" alt="">
+            <img src="../public/images/pic-8.jpg" alt="">
             <div class="info">
                <h3>john deo</h3>
                <span>21-10-2023</span>
             </div>
          </div>
          <div class="thumb">
-            <img src="../images/thumb-7.png" alt="">
+            <img src="../public/images/thumb-7.png" alt="">
             <span>JPmorgan</span>
          </div>
          <h3 class="title">Web Developer</h3>
@@ -177,14 +177,14 @@
 
       <div class="box">
          <div class="tutor">
-            <img src="../images/pic-9.jpg" alt="">
+            <img src="../public/images/pic-9.jpg" alt="">
             <div class="info">
                <h3>john deo</h3>
                <span>21-10-2023</span>
             </div>
          </div>
          <div class="thumb">
-            <img src="../images/thumb-8.png" alt="">
+            <img src="../public/images/thumb-8.png" alt="">
             <span>JPmorgan</span>
          </div>
          <h3 class="title">Web Developer</h3>
@@ -193,14 +193,14 @@
 
       <div class="box">
          <div class="tutor">
-            <img src="../images/pic-1.jpg" alt="">
+            <img src="../public/images/pic-1.jpg" alt="">
             <div class="info">
                <h3>john deo</h3>
                <span>21-10-2023</span>
             </div>
          </div>
          <div class="thumb">
-            <img src="../images/thumb-9.png" alt="">
+            <img src="..../public/images/thumb-9.png" alt="">
             <span>JPmorgan</span>
          </div>
          <h3 class="title">Web Developer</h3>
