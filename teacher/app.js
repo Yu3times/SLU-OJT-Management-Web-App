@@ -23,6 +23,8 @@ app.use(session({secret: 'frogrammers',
                  saveUninitialized: true
                 }));
 
+app.use('/', routes);
+
 app.use(function(req, res, next) {
   next(createError(404));
 });
