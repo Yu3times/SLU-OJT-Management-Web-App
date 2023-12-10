@@ -7,10 +7,22 @@
 <body>
    <p>Redirecting...</p>
    <script>
-      var teacherUserId = '<%= teacherUserId %>';
+      // Function to get parameter value from URL
+      function getParameterByName(name, url) {
+          if (!url) url = window.location.href;
+          name = name.replace(/[\[\]]/g, "\\$&");
+          const regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+              results = regex.exec(url);
+          if (!results) return null;
+          if (!results[2]) return '';
+          return decodeURIComponent(results[2].replace(/\+/g, " "));
+      }
+
+      // Get teacherUserId from URL
+      var teacherUserId = getParameterByName('teacherUserId');
       console.log('Teacher User ID:', teacherUserId);
       console.log('Executing confirm.js logic...');
- 
+
       fetch('/homepage', {
            method: 'POST',
            headers: {
