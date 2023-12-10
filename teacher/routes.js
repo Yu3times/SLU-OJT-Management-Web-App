@@ -29,29 +29,27 @@ const requireLogin = (req, res, next) => {
     next();
 };
 
-router.get('/redirect', (req, res) => {
-    res.render('redirect', {teacherUserId: req.query.teacherUserId});
-  });
+router.get('/homepage', (req, res) => {
+    const userId = req.query.teacherUserId;
 
-router.post('/homepage', (req, res) => {
-    const userId = req.body.userID;
+    const statement = "SELECT firstName, lastName FROM teacher WHERE userId = ?";
+    
+    db.query(statement, [userId], (error, result) => {
+        if (error) {
+            console.error('Error executing query:', error);
+            res.status(500).json({ error: 'Internal Server Error' });
+            return;
+        }
 
-    const statement = db.prepare("SELECT firstName, lastName FROM teacher WHERE userId = ?");
-
-    statement.bind_param("i", userId);
-    statement.execute();
-    const result = statement.get_result();
-
-    if (result.num_rows != 0) {
-        const row = result.fetch_assoc();
-        const fullName = row.firstName + ' ' + row.lastName;
-        console.log('FullName:', fullName);
-        res.render('homepage', { fullName: fullName });
-    } else {
-        res.render('homepage', { fullName: "No data found" });
-    }
-
-    statement.close();
+        if (result.length !== 0) {
+            const row = result[0];
+            const fullName = row.firstName + ' ' + row.lastName;
+            console.log('FullName:', fullName);
+            res.render('homepage', { fullName: fullName,  teacherUserId: req.query.teacherUserId});
+        } else {
+            res.render('homepage', { fullName: "No data found",  teacherUserId: req.query.teacherUserId });
+        }
+    });
 });
 
 module.exports = router;

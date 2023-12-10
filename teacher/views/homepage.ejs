@@ -10,10 +10,36 @@
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css">
 
    <!-- custom css file link  -->
-   <link rel="stylesheet" type="text/css" href="../../public/css/style.css">
+   <link rel="stylesheet" type="text/css" href="/css/style.css">
 
 </head>
 <body>
+   <script>
+      console.log('Executing confirm.js logic...');
+      console.log("Teacher ID: ", '<%= teacherUserId %>');
+
+      const queryString = `userID=${encodeURIComponent('<%= teacherUserId %>')}`;
+
+      fetch(`/homepage?${queryString}`)
+      .then(response => {
+         if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+         }
+         return response.json();
+      })
+      .then(data => {
+         console.log('Response Data:', data);
+         if (data.fullName) {
+            console.log('Full Name:', data.fullName);
+            window.location.href = `${window.location.protocol}//${window.location.host}/homepage`;
+         } else {
+            console.error('Unexpected response from server:', data);
+         }
+      })
+      .catch(error => {
+         console.error('Error:', error);
+      });
+   </script>
 <header class="header">
    
    <section class="flex">

@@ -27,7 +27,7 @@ if (isset($_POST['userID'])){
             exit();
         } else {
             $teacherUserId = $_SESSION['userID'];
-            header("Location: http://localhost:8001/redirect?teacherUserId=$teacherUserId");
+            header("Location: http://localhost:8001/homepage?teacherUserId=$teacherUserId");
             // header("Location: ../teacher/views/redirect.ejs?teacherUserId=$teacherUserId");
             exit();
         }
