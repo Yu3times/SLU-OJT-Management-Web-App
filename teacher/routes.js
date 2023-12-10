@@ -88,4 +88,30 @@ router.get('/logout', (req, res) => {
     res.redirect("http://localhost:8080/ojt-web-project/login/loginPage.php");
 });
 
+router.get('/profile', (req, res) => {
+    if (req.session.userID) {
+        // TODO
+        const statement = "SELECT * FROM user NATURAL JOIN teacher WHERE userId = ?";
+        db.query(statement, [req.session.userID], (error, resul) => {
+        if (error) {
+            console.error('Error executing query:', error);
+            res.status(500).json({ error: 'Internal Server Error' });
+            return;
+        } else if (result.length > 0) {
+            const row = result[0];
+            res.render("profile", {
+                firstName: row.firstName,
+                lastName: row.lastName,
+                password: row.password,
+                email: row.email,
+                teacherId: row.teacherId
+            });
+        }});
+    } else {
+        res.redirect('logout');
+    }
+
+
+});
+
 module.exports = router;

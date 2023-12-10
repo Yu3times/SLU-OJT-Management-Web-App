@@ -1335,13 +1335,10 @@ section{
    border-width: 3px;
 }
 
-.user-profile {
+.user-profile, section.reports, section.home-grid {
    min-height: 550px;
    height: 650px;
 }
-
-
-
 
 @media (max-width:1200px){
 
