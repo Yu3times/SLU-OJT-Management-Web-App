@@ -25,6 +25,7 @@ app.use(session({secret: 'frogrammers',
 
 app.use('/', routes);
 
+/*
 app.use(function(req, res, next) {
   next(createError(404));
 });
@@ -36,6 +37,7 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+*/
 
 const PORT = process.env.PORT || 8001;
 app.listen(PORT, () => {
