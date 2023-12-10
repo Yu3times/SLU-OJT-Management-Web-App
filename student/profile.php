@@ -69,44 +69,6 @@
          <p>Student</p>
       </div>
    
-      <!--
-      <div class="box-container">
-   
-         <div class="box">
-            <div class="flex">
-               <i class="fas fa-bookmark"></i>
-               <div>
-                  <span>4</span>
-                  <p>total Likes</p>
-               </div>
-            </div>
-            <a href="#" class="inline-btn">View Likes</a>
-         </div>
-   
-         <div class="box">
-            <div class="flex">
-               <i class="fas fa-heart"></i>
-               <div>
-                  <span>33</span>
-                  <p>Total Connections</p>
-               </div>
-            </div>
-            <a href="#" class="inline-btn">view connections</a>
-         </div>
-   
-         <div class="box">
-            <div class="flex">
-               <i class="fas fa-comment"></i>
-               <div>
-                  <span>12</span>
-                  <p>total interactions</p>
-               </div>
-            </div>
-            <a href="#" class="inline-btn">view interactions</a>
-         </div>
-   
-      </div>
-      -->
       <?php
           require("../database/database.php");
 
@@ -144,9 +106,9 @@
          <span>Class Code:</span><input name="classCode" type="text" value=<?php echo "\"$classCode\""; ?> disabled> 
       </label>
       <label class="profile-field">
-         <span>Password:</span><input class="password-input" type="text" required maxlength="20" value=<?php echo "\"$password\""; ?> > 
+         <span>Password:</span><input class="password-input" name="password" type="text" required maxlength="20" value=<?php echo "\"$password\""; ?> > 
       </label>
-         <input class="change-password-btn" type="submit" value="Change Password" name="submit" class="change-password-btn">
+         <input class="change-password-btn" type="submit" value="Change Password" name="submit">
       </form>
    </div>
 
