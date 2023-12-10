@@ -59,7 +59,7 @@
 
 <section class="companies">
 
-   <h1 class="heading">Available Companies</h1>
+   <h1 class="heading">Reports</h1>
 
    <div class="box-container">
 
@@ -231,7 +231,7 @@
 </footer>
 
 <!-- custom js file link  -->
-<script src="../js/script.js"></script>
+<script src="../public/js/script.js"></script>
 
    
 </body>

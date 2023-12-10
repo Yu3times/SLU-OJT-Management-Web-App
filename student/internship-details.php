@@ -167,7 +167,13 @@
 
    <!-- custom css file link  -->
    <link rel="stylesheet" href="../public/css/style.css">
+   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+     integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+     crossorigin=""/>
 
+   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+     integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+     crossorigin=""></script>
 </head>
 <body>
 
@@ -389,6 +395,10 @@
          <p class="requirements">Address: <span><?php echo $companyAddress ?></span></p>
          <p class="requirements">Website: <span><?php echo $companyWebsite ?></span></p>
          <p class="requirements">Contact: <span><?php echo $companyContact ?></span></p>
+         <br>
+         <div id="map">
+            
+         </div>
       </div>
 
       <div class="rectangle">
@@ -407,8 +417,43 @@
 
 </footer>
 
-<!-- custom js file link  -->
+<script>
+   var address = "<?php echo $companyAddress; ?>";
+   var map = L.map('map').setView([12.8797, 121.7740], 6); // Default view of the Philippines
+
+   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 19,
+      attribution: '© OpenStreetMap contributors'
+   }).addTo(map);
+
+   function attemptGeocoding(address, attemptCount = 0) {
+      fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(address)}`)
+      .then(response => response.json())
+      .then(data => {
+         console.log(data);
+         if (data.length > 0) {
+            map.setView([data[0].lat, data[0].lon], 16);
+         } else if (attemptCount < 5) {
+            console.log('Address not found, retrying with shorter address...');
+            setTimeout(() => {
+               var shorterAddress = address.substring(address.indexOf(' ') + 1);
+               console.log(shorterAddress);
+               attemptGeocoding(shorterAddress, attemptCount + 1);
+            }, 1000);
+         } else {
+            console.log('Address not found after several attempts.');
+            map.setView([12.8797, 121.7740], 6);
+         }
+      })
+      .catch(error => console.error('Error in fetching the coordinates:', error));
+   }
+
+   attemptGeocoding(address);
+</script>
+
+
 <script src="../public/js/script.js"></script>
+
 
    
 </body>

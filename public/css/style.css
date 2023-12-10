@@ -1293,6 +1293,9 @@ section{
    margin: 1rem 0;
 }
 
+#map { 
+   height: 250px; 
+}
 
 
 
