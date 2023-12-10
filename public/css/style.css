@@ -534,77 +534,47 @@ section{
    color:var(--orange);
 }
 
-.companies .box-container{
-   display: grid;
-   grid-template-columns: repeat(auto-fit, minmax(30rem, 1fr));
-   gap:1.5rem;
-   justify-content: center;
-   align-items: flex-start;
-}
-
-.companies .box-container .box{
-   border-radius: .5rem;
-   background-color: var(--white);
-   padding: 2rem;
-}
-
-.companies .box-container .box .tutor{
+/* Form */
+/* Add this CSS for the form */
+.reports .box-container form {
+   font-size: large;
    display: flex;
-   align-items: center;
-   gap: 1.5rem;
-   margin-bottom: 2.5rem;
-}
-
-.companies .box-container .box .tutor img{
-   height: 5rem;
-   width: 5rem;
-   border-radius: 50%;
-   object-fit: cover;
-}
-
-.companies .box-container .box .tutor h3{
-   font-size: 1.8rem;
+   flex-direction: column;
+   max-width: 400px;
+   margin: auto;
    color: var(--black);
-   margin-bottom: .2rem;
 }
 
-.companies .box-container .box .tutor span{
-   font-size: 1.3rem;
-   color:var(--light-color);
+.reports .box-container form label {
+   margin-bottom: 8px;
+   font-weight: bold;
 }
 
-.companies .box-container .box .thumb{
-   position: relative;
+.reports .box-container form input,
+.reports .box-container form textarea,
+.reports .box-container form button {
+   margin-bottom: 16px;
+   padding: 8px;
+   border: 1px solid #ddd;
+   border-radius: 4px;
 }
 
-.companies .box-container .box .thumb span{
-   position: absolute;
-   top:1rem; left: 1rem;
-   border-radius: .5rem;
-   padding: .5rem 1.5rem;
-   background-color: rgba(0,0,0,.3);
-   color: #fff;
-   font-size: 1.5rem;
+.reports .box-container form button {
+   background-color:var(--main-color);
+   color: white;
+   cursor: pointer;
 }
 
-.companies .box-container .box .thumb img{
-   width: 100%;
-   height: 20rem;
-   object-fit: cover;
-   border-radius: .5rem;
+.reports .box-container form button:hover {
+   background-color:var(--main-color);
 }
 
-.companies .box-container .box .title{
-   font-size: 2rem;
-   color: var(--black);
-   padding-bottom: .5rem;
-   padding-top: 1rem;
-}
-
-.companies .more-btn{
+#message-container {
    text-align: center;
-   margin-top: 2rem;
+   color: var(--black);
 }
+
+/* Form */
 
 .playlist-details .row{
    display: flex;

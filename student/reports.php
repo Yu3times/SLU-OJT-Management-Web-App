@@ -1,5 +1,88 @@
 <?php
-   include "../login/requireSession.php";
+require "../database/database.php";
+include "../login/requireSession.php";
+
+//remove if login is modified
+$idQuery = "SELECT studentId FROM student WHERE userId = '{$_SESSION['userID']}'";
+$result = mysqli_query($db, $idQuery);
+if ($row = mysqli_fetch_assoc($result)) {
+    $_SESSION['studentId'] = $row['studentId']; 
+}
+mysqli_free_result($result);
+
+
+$maxWeekQuery = "SELECT MAX(weekNum) AS maxWeek FROM reports WHERE studentId = '{$_SESSION['studentId']}'";
+$result = mysqli_query($db, $maxWeekQuery);
+$maxWeek = 1;
+if ($row = mysqli_fetch_assoc($result)) {
+    $maxWeek = $row['maxWeek'];
+}
+$_SESSION['weekNum'] = $maxWeek + 1;
+
+mysqli_free_result($result);
+
+$currentWeekStart = date('Y-m-d H:i:s', strtotime('last monday', strtotime('tomorrow')));
+
+$checkReportQuery = "SELECT COUNT(*) AS reportCount FROM reports WHERE studentId = '{$_SESSION['studentId']}' AND weekNum = '$maxWeek' AND submittedAt >= '$currentWeekStart'";
+$checkResult = mysqli_query($db, $checkReportQuery);
+
+if ($checkResult === false) {
+    echo "Error: " . mysqli_error($db);
+} else {
+    $checkRow = mysqli_fetch_assoc($checkResult);
+
+    if ($checkRow !== null) {
+        $reportCount = $checkRow['reportCount'];
+    } else {
+        $reportCount = 0;
+    }
+
+    $_SESSION['reportSubmitted'] = $reportCount > 0;
+    echo $_SESSION['reportSubmitted'];
+    mysqli_free_result($checkResult);
+}
+
+
+// Submit button clicked
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $weekNumber = $_SESSION['weekNum'];
+    $hoursWorked = $_POST['hoursWorked'];
+
+    if ($hoursWorked < 0) {
+        echo "<script>alert('Error: Hours Worked cannot be negative.');</script>";
+        $_SESSION['negativeHrs'] = true;
+        exit;
+    }
+
+    $uploadFolder = '../public/uploads';
+    $allowedFileTypes = ['pdf', 'doc', 'docx'];
+
+    $uploadedFileName = $_FILES['uploadFiles']['name'];
+    $uploadedFileType = pathinfo($uploadedFileName, PATHINFO_EXTENSION);
+
+    if (!in_array($uploadedFileType, $allowedFileTypes)) {
+        echo "<script>alert('Error: Only PDF, DOC, and DOCX files are allowed.');</script>";
+    } else {
+        $reportFile = $uploadFolder . '/' . uniqid() . '.' . $uploadedFileType;
+
+        if (move_uploaded_file($_FILES['uploadFiles']['tmp_name'], $reportFile)) {
+            $insertQuery = "INSERT INTO reports (studentId, weekNum, hoursWorked, reportFile, status) 
+                            VALUES ('{$_SESSION['studentId']}', '$weekNumber', '$hoursWorked', '$reportFile', 1)";
+
+            if (mysqli_query($db, $insertQuery)) {
+                echo "<script>alert('Report submitted successfully.');</script>";
+            } else {
+                echo "<script>alert('Error: " . $insertQuery . " " . mysqli_error($db) . "');</script>";
+            }
+        } else {
+            echo "<script>alert('Error: Failed to move the uploaded file.');</script>";
+        }
+        
+        unset($_SESSION['negativeHrs']);
+    }
+
+    mysqli_close($db);
+}
 ?>
 
 <!DOCTYPE html>
@@ -57,182 +140,52 @@
 
 </div>
 
-<section class="companies">
-
+<section class="reports">
    <h1 class="heading">Reports</h1>
-
    <div class="box-container">
+      <script>
+      window.addEventListener('DOMContentLoaded', (event) => {
+         var formSubmitted = <?php echo json_encode($_SESSION['reportSubmitted']); ?>;
+         if (formSubmitted) {
+            disableForm();
+         }
+      });
 
-      <div class="box">
-         <div class="tutor">
-            <img src="../public/images/pic-2.jpg" alt="">
-            <div class="info">
-               <h3>john deo</h3>
-               <span>21-10-2023</span>
-            </div>
-         </div>
-         <div class="thumb">
-            <img src="../public/images/thumb-1.png" alt="">
-            <span>JPmorgan</span>
-         </div>
-         <h3 class="title">Web Developer</h3>
-         <a class="inline-btn">Apply</a>
-      </div>
+      function disableForm() {
+         var form = document.querySelector('form');
+         var elements = form.elements;
 
-      <div class="box">
-         <div class="tutor">
-            <img src="../public/images/pic-3.jpg" alt="">
-            <div class="info">
-               <h3>john deo</h3>
-               <span>21-10-2023</span>
-            </div>
-         </div>
-         <div class="thumb">
-            <img src="../public/images/thumb-2.png" alt="">
-            <span>JPmorgan</span>
-         </div>
-         <h3 class="title">Web Developer</h3>
-         <a class="inline-btn">Apply</a>
-      </div>
+         for (var i = 0; i < elements.length; i++) {
+            elements[i].disabled = true;
+         }
 
-      <div class="box">
-         <div class="tutor">
-            <img src="../public/images/pic-4.jpg" alt="">
-            <div class="info">
-               <h3>john deo</h3>
-               <span>21-10-2023</span>
-            </div>
-         </div>
-         <div class="thumb">
-            <img src="../public/images/thumb-3.png" alt="">
-            <span>JPmorgan</span>
-         </div>
-         <h3 class="title">Web Developer</h3>
-         <a class="inline-btn">Apply</a>
-      </div>
+         var messageContainer = document.getElementById('message-container');
+         messageContainer.innerHTML = '<h3>Report already submitted for this week. The form will be available next week.</h3>';
+      }
+      </script>
 
-      <div class="box">
-         <div class="tutor">
-            <img src="../public/images/pic-5.jpg" alt="">
-            <div class="info">
-               <h3>john deo</h3>
-               <span>21-10-2023</span>
-            </div>
-         </div>
-         <div class="thumb">
-            <img src="../public/images/thumb-4.png" alt="">
-            <span>JPmorgan</span>
-         </div>
-         <h3 class="title">Web Developer</h3>
-         <a class="inline-btn">Apply</a>
-      </div>
+      <form action="" method="post" enctype="multipart/form-data" onsubmit="return checkFormSubmission();">
 
-      <div class="box">
-         <div class="tutor">
-            <img src="../public/images/pic-6.jpg" alt="">
-            <div class="info">
-               <h3>john deo</h3>
-               <span>21-10-2023</span>
-            </div>
-         </div>
-         <div class="thumb">
-            <img src="../public/images/thumb-5.png" alt="">
-            <span>JPmorgan</span>
-         </div>
-         <h3 class="title">Web Developer</h3>
-         <a class="inline-btn">Apply</a>
-      </div>
+        <label for="weekNumber">Week Number: <?php echo $_SESSION['weekNum']; ?> </label>
 
-      <div class="box">
-         <div class="tutor">
-            <img src="../public/images/pic-7.jpg" alt="">
-            <div class="info">
-               <h3>john deo</h3>
-               <span>21-10-2023</span>
-            </div>
-         </div>
-         <div class="thumb">
-            <img src="../public/images/thumb-6.png" alt="">
-            <span>JPmorgan</span>
-         </div>
-         <h3 class="title">Web Developer</h3>
-         <a class="inline-btn">Apply</a>
-      </div>
+        <label for="hoursWorked">Hours Worked:</label>
+        <input type="number" id="hoursWorked" name="hoursWorked" required>
 
-      <div class="box">
-         <div class="tutor">
-            <img src="../public/images/pic-8.jpg" alt="">
-            <div class="info">
-               <h3>john deo</h3>
-               <span>21-10-2023</span>
-            </div>
-         </div>
-         <div class="thumb">
-            <img src="../public/images/thumb-7.png" alt="">
-            <span>JPmorgan</span>
-         </div>
-         <h3 class="title">Web Developer</h3>
-         <a class="inline-btn">Apply</a>
-      </div>
+        <label for="uploadFiles">Upload Files:</label>
+        <input type="file" id="uploadFiles" name="uploadFiles" required>
 
-      <div class="box">
-         <div class="tutor">
-            <img src="../public/images/pic-9.jpg" alt="">
-            <div class="info">
-               <h3>john deo</h3>
-               <span>21-10-2023</span>
-            </div>
-         </div>
-         <div class="thumb">
-            <img src="../public/images/thumb-8.png" alt="">
-            <span>JPmorgan</span>
-         </div>
-         <h3 class="title">Web Developer</h3>
-         <a class="inline-btn">Apply</a>
-      </div>
-
-      <div class="box">
-         <div class="tutor">
-            <img src="../public/images/pic-1.jpg" alt="">
-            <div class="info">
-               <h3>john deo</h3>
-               <span>21-10-2023</span>
-            </div>
-         </div>
-         <div class="thumb">
-            <img src="..../public/images/thumb-9.png" alt="">
-            <span>JPmorgan</span>
-         </div>
-         <h3 class="title">Web Developer</h3>
-         <a class="inline-btn">Apply</a>
-      </div>
-
+        <button type="submit">Submit Report</button>
+      </form>
+      <div id="message-container"></div>
    </div>
-
 </section>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 <footer class="footer">
-
    &copy; copyright @ 2023 by <span>Team Croods</span> | all rights reserved!
-
 </footer>
 
 <!-- custom js file link  -->
 <script src="../public/js/script.js"></script>
 
-   
 </body>
 </html>
