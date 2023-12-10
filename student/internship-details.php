@@ -1,6 +1,8 @@
 <?php
    include "../login/requireSession.php";
    include "../database/database.php";
+
+
 ?>
 
 <!DOCTYPE html>
@@ -230,20 +232,26 @@
 -->
 
 <section class="home-grid">
-
    <h1 class="heading">Internship Details</h1>
-
    <div class="box-container">
-
-      <div class="box">
-         <h3 class="title">Requirements List:</h3>
+      <div class="rectangle">
+         <h3 class="title">Company Details</h3>
          <p class="requirements">Student Name: <span></span></p>
          <p class="requirements">Curriculum Vitae: <span></span></p>
          <p class="requirements">Cover Letter: <span></span></p>
          <p class="requirements">MOA: <span></span></p>
          <p class="requirements">Medical Certificate: <span></span></p>
          <p class="requirements">Waiver: <span></span></p>
-         </form>
+      </div>
+
+      <div class="rectangle">
+         <h3 class="title">Company Details</h3>
+         <p class="requirements">Student Name: <span></span></p>
+         <p class="requirements">Curriculum Vitae: <span></span></p>
+         <p class="requirements">Cover Letter: <span></span></p>
+         <p class="requirements">MOA: <span></span></p>
+         <p class="requirements">Medical Certificate: <span></span></p>
+         <p class="requirements">Waiver: <span></span></p>
       </div>
 </section>
 

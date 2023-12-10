@@ -331,10 +331,10 @@ section{
 }
 
 
-.home-grid .box-container{
+.home-grid .box-container {
    display: grid;
-   grid-template-columns: repeat(auto-fit, 27.5rem);
-   gap:1.5rem;
+   grid-template-columns: repeat(auto-fit, minmax(30rem, 1fr));
+   gap: 1.5rem;
    justify-content: center;
    align-items: flex-start;
 }
@@ -351,7 +351,30 @@ section{
    text-transform: capitalize;
 }
 
+
 .home-grid .box-container .box .flex{
+   display: flex;
+   flex-wrap: wrap;
+   gap: 1.5rem;
+   margin-top: 2rem;
+}
+
+.home-grid .box-container .rectangle {
+   background-color: var(--white);
+   border-radius: .5rem;
+   padding: 2rem;
+   width: 60rem;
+   height: 46;
+   max-width: 100%;
+}
+
+.home-grid .box-container .rectangle .title{
+   font-size: 2rem;
+   color: var(--black);
+   text-transform: capitalize;
+}
+
+.home-grid .box-container .rectangle .flex{
    display: flex;
    flex-wrap: wrap;
    gap: 1.5rem;

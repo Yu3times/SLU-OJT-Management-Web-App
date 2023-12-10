@@ -225,17 +225,7 @@
    <h1 class="heading">Dashboard</h1>
 
    <div class="box-container">
-      <div class="box">
-         <h3 class="title">Requirements List:</h3>
-         <p class="requirements">Job Resume: <span> <?php echo $jobResumeStatus ?></span></p>
-         <p class="requirements">Curriculum Vitae: <span> <?php echo $curriVitaeStatus ?> </span></p>
-         <p class="requirements">Cover Letter: <span></span> <?php echo $coverLetterStatus ?> </p>
-         <p class="requirements">MOA: <span></span> <?php echo $moaStatus ?> </p>
-         <p class="requirements">Medical Certificate: <span> <?php echo $medCertStatus ?> </span></p>
-         <p class="requirements">Waiver: <span></span> <?php echo $waiverStatus ?> </p>
-      </div>
-
-      <div class="box">
+      <div class="rectangle">
          <h3 class="title">Announcements</h3>
          <?php
          if ($announcementsResult->num_rows > 0) {
@@ -252,17 +242,13 @@
       </div>
 
       <div class="box">
-         <h3 class="title">Soft Skills</h3>
-         <div class="flex">
-            <a href="#"><i class="fas fa-code"></i><span>development</span></a>
-            <a href="#"><i class="fas fa-chart-simple"></i><span>business</span></a>
-            <a href="#"><i class="fas fa-pen"></i><span>design</span></a>
-            <a href="#"><i class="fas fa-chart-line"></i><span>marketing</span></a>
-            <a href="#"><i class="fas fa-music"></i><span>music</span></a>
-            <a href="#"><i class="fas fa-camera"></i><span>photography</span></a>
-            <a href="#"><i class="fas fa-cog"></i><span>software</span></a>
-            <a href="#"><i class="fas fa-vial"></i><span>science</span></a>
-         </div>
+         <h3 class="title">Requirements List:</h3>
+         <p class="requirements">Job Resume: <span> <?php echo $jobResumeStatus ?></span></p>
+         <p class="requirements">Curriculum Vitae: <span> <?php echo $curriVitaeStatus ?> </span></p>
+         <p class="requirements">Cover Letter: <span></span> <?php echo $coverLetterStatus ?> </p>
+         <p class="requirements">MOA: <span></span> <?php echo $moaStatus ?> </p>
+         <p class="requirements">Medical Certificate: <span> <?php echo $medCertStatus ?> </span></p>
+         <p class="requirements">Waiver: <span></span> <?php echo $waiverStatus ?> </p>
       </div>
 
       <div class="box">
@@ -271,9 +257,7 @@
          <a href="#"><i class="fa-solid fa-hourglass-end"></i><span><?php echo $hoursWorked; ?></span></a>
          </div>
       </div>
-
    </div>
-
 </section>
 
 
