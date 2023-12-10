@@ -1396,6 +1396,5 @@ section{
 }
 
 section.home-grid {
-   min-height: 700px;
-   height: 1000px;
+   min-height: 600px;
 }

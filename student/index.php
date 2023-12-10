@@ -2,8 +2,9 @@
    require("../database/database.php");
    include "../login/requireSession.php";
 
-   //Fetching student name
+   //Fetching currently logged in student by their user
    $userId = $_SESSION['userID'];
+   //Fetching student name
    $fullNameQuery = $db->prepare("SELECT firstName, lastName FROM student WHERE userId = ?");
    $fullNameQuery->bind_param("i", $userId);
    $fullNameQuery->execute();
@@ -231,11 +232,11 @@
          if ($announcementsResult->num_rows > 0) {
             echo "<div class='box'><ul>";
             while($row = $announcementsResult->fetch_assoc()) {
-               echo "<li><strong>" . htmlspecialchars($row['title']) . "</strong> - " . htmlspecialchars($row['message']) . " (Posted on: " . htmlspecialchars($row['datePosted']) . ")</li>";
+               echo "<li><strong class='requirements'>" . htmlspecialchars($row['title']) . "</strong> - " . htmlspecialchars($row['message']) . " (Posted on: " . htmlspecialchars($row['datePosted']) . ")</li>";
             }
             echo "</ul></div>";
          } else {
-            echo "<div class='box'><p>No announcements found.</p></div>";
+            echo "<div class='box'><p class='requirements'>No announcements found.</p></div>";
          }
          $announcementsQuery->close();
          ?>

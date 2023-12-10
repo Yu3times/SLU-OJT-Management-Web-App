@@ -1,7 +1,156 @@
 <?php
    include "../login/requireSession.php";
-   include "../database/database.php";
+   require "../database/database.php";
 
+   //Fetching currently logged in student by their user
+   $userId = $_SESSION['userID'];
+
+   //Fetch company name
+   $companyNameQuery = $db->prepare("SELECT c.companyName
+      FROM internship AS i
+      JOIN company AS c ON i.companyId = c.companyID
+      JOIN student AS s ON i.studentId = s.studentId
+      WHERE s.userId = ?
+   ");
+
+   $companyNameQuery->bind_param("i", $userId);
+   $companyNameQuery->execute();
+   $companyNameResult = $companyNameQuery->get_result();
+
+   if ($companyNameResult->num_rows > 0) {
+      $companyNameRow = $companyNameResult->fetch_assoc();
+      $companyName = $companyNameRow['companyName'];
+   } else {
+      $companyName = "No data found";
+   }
+
+   $companyNameQuery->close();
+
+   //Fetch company address
+   $companyAddressQuery = $db->prepare("SELECT c.companyAddress
+      FROM internship AS i
+      JOIN company AS c ON i.companyId = c.companyID
+      JOIN student AS s ON i.studentId = s.studentId
+      WHERE s.userId = ?
+   ");
+
+   $companyAddressQuery->bind_param("i", $userId);
+   $companyAddressQuery->execute();
+   $companyAddressResult = $companyAddressQuery->get_result();
+
+   if ($companyAddressResult->num_rows > 0) {
+      $companyAddressRow = $companyAddressResult->fetch_assoc();
+      $companyAddress = $companyAddressRow['companyAddress'];
+   } else {
+      $companyAddress = "No data found";
+   }
+
+   $companyAddressQuery->close();
+
+   //Fetch company website
+   $companyWebsiteQuery = $db->prepare("SELECT c.website
+      FROM internship AS i
+      JOIN company AS c ON i.companyId = c.companyID
+      JOIN student AS s ON i.studentId = s.studentId
+      WHERE s.userId = ?
+   ");
+
+   $companyWebsiteQuery->bind_param("i", $userId);
+   $companyWebsiteQuery->execute();
+   $companyWebsiteResult = $companyWebsiteQuery->get_result();
+
+   if ($companyWebsiteResult->num_rows > 0) {
+      $companyWebsiteRow = $companyWebsiteResult->fetch_assoc();
+      $companyWebsite = $companyWebsiteRow['website'];
+   } else {
+      $companyWebsite = "No data found";
+   }
+
+   $companyWebsiteQuery->close();
+
+   //Fetch company contact
+   $companyContactQuery = $db->prepare("SELECT c.contact
+      FROM internship AS i
+      JOIN company AS c ON i.companyId = c.companyID
+      JOIN student AS s ON i.studentId = s.studentId
+      WHERE s.userId = ?
+   ");
+
+   $companyContactQuery->bind_param("i", $userId);
+   $companyContactQuery->execute();
+   $companyContactResult = $companyContactQuery->get_result();
+
+   if ($companyContactResult->num_rows > 0) {
+      $companyContactRow = $companyContactResult->fetch_assoc();
+      $companyContact = $companyContactRow['contact'];
+   } else {
+      $companyContact = "No data found";
+   }
+
+   $companyContactQuery->close();
+
+   //Fetch advisor name
+   $advisorNameQuery = $db->prepare("SELECT adv.firstName, adv.lastName
+   FROM internship AS i
+   JOIN advisor AS adv ON i.advisorId = adv.advisorId
+   JOIN student AS s ON i.studentId = s.studentId
+   WHERE s.userId = ?
+   ");
+
+   $advisorNameQuery->bind_param("i", $userId);
+   $advisorNameQuery->execute();
+   $advisorNameResult = $advisorNameQuery->get_result();
+
+   if ($advisorNameResult->num_rows > 0) {
+      $advisorNameRow = $advisorNameResult->fetch_assoc();
+      $advisorName = $advisorNameRow['firstName'] . ' ' . $advisorNameRow['lastName'];
+   } else {
+      $advisorName = "No advisor found";
+   }
+
+   $advisorNameQuery->close();
+
+   //Fetch advisor email
+   $advisorEmailQuery = $db->prepare("SELECT adv.email
+   FROM internship AS i
+   JOIN advisor AS adv ON i.advisorId = adv.advisorId
+   JOIN student AS s ON i.studentId = s.studentId
+   WHERE s.userId = ?
+   ");
+
+   $advisorEmailQuery->bind_param("i", $userId);
+   $advisorEmailQuery->execute();
+   $advisorEmailResult = $advisorEmailQuery->get_result();
+
+   if ($advisorEmailResult->num_rows > 0) {
+      $advisorEmailRow = $advisorEmailResult->fetch_assoc();
+      $advisorEmail = $advisorEmailRow['email'];
+   } else {
+      $advisorEmail = "No email found";
+   }
+
+   $advisorEmailQuery->close();
+
+   //Fetch advisor contact
+   $advisorContactQuery = $db->prepare("SELECT adv.contact
+   FROM internship AS i
+   JOIN advisor AS adv ON i.advisorId = adv.advisorId
+   JOIN student AS s ON i.studentId = s.studentId
+   WHERE s.userId = ?
+   ");
+
+   $advisorContactQuery->bind_param("i", $userId);
+   $advisorContactQuery->execute();
+   $advisorContactResult = $advisorContactQuery->get_result();
+
+   if ($advisorContactResult->num_rows > 0) {
+      $advisorContactRow = $advisorContactResult->fetch_assoc();
+      $advisorContact = $advisorContactRow['contact'];
+   } else {
+      $advisorContact = "No contact found";
+   }
+
+   $advisorContactQuery->close();
 
 ?>
 
@@ -236,24 +385,21 @@
    <div class="box-container">
       <div class="rectangle">
          <h3 class="title">Company Details</h3>
-         <p class="requirements">Student Name: <span></span></p>
-         <p class="requirements">Curriculum Vitae: <span></span></p>
-         <p class="requirements">Cover Letter: <span></span></p>
-         <p class="requirements">MOA: <span></span></p>
-         <p class="requirements">Medical Certificate: <span></span></p>
-         <p class="requirements">Waiver: <span></span></p>
+         <p class="requirements">Name: <span><?php echo $companyName ?></span></p>
+         <p class="requirements">Address: <span><?php echo $companyAddress ?></span></p>
+         <p class="requirements">Website: <span><?php echo $companyWebsite ?></span></p>
+         <p class="requirements">Contact: <span><?php echo $companyContact ?></span></p>
       </div>
 
       <div class="rectangle">
-         <h3 class="title">Company Details</h3>
-         <p class="requirements">Student Name: <span></span></p>
-         <p class="requirements">Curriculum Vitae: <span></span></p>
-         <p class="requirements">Cover Letter: <span></span></p>
-         <p class="requirements">MOA: <span></span></p>
-         <p class="requirements">Medical Certificate: <span></span></p>
-         <p class="requirements">Waiver: <span></span></p>
+         <h3 class="title">Advisor Details</h3>
+         <p class="requirements">Name: <span><?php echo $advisorName ?></span></p>
+         <p class="requirements">Email: <span><?php echo $advisorEmail ?></span></p>
+         <p class="requirements">Contact: <span><?php echo $advisorContact ?></span></p>
       </div>
+
 </section>
+
 
 <footer class="footer">
 
