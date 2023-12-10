@@ -30,8 +30,8 @@ const requireLogin = (req, res, next) => {
 };
 
 router.get('/redirect', (req, res) => {
-    res.render('redirect');
-});
+    res.render('redirect', {teacherUserId: req.query.teacherUserId});
+  });
 
 router.post('/homepage', (req, res) => {
     const userId = req.body.userID;
