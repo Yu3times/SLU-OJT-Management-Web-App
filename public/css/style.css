@@ -1298,9 +1298,6 @@ section{
 }
 
 
-
-
-
 .footer{
    background-color: var(--white);
    border-top: var(--border);
@@ -1396,8 +1393,4 @@ section{
       height: 25rem;
    }
 
-}
-
-section.home-grid {
-   min-height: 600px;
 }

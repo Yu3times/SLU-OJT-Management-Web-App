@@ -61,6 +61,7 @@
 
    <h1 class="heading">Reports</h1>
 
+   <!--
    <div class="box-container">
 
       <div class="box">
@@ -208,21 +209,9 @@
       </div>
 
    </div>
+-->
 
 </section>
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 <footer class="footer">
 
@@ -232,7 +221,6 @@
 
 <!-- custom js file link  -->
 <script src="../public/js/script.js"></script>
-
    
 </body>
 </html>
