@@ -53,7 +53,7 @@
    
 
 <section class="form-container">
-   <form id="loginForm" action="login.php" method="post" enctype="multipart/form-data">
+   <form id="loginForm" method="post">
       <h3>login now</h3>
       <p>Your User ID <span>*</span></p>
       <input type="text" id ="userID" name="userID" placeholder="Enter your userID" required maxlength="10" class="box">

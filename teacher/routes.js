@@ -50,8 +50,6 @@ router.post('/login', (req, res) => {
         }
 
         if (result.length > 0) {
-            const row = result[0];
-            const fullName = row.firstName + ' ' + row.lastName;
             res.redirect("/homepage");
         } else {
             res.redirect('http://localhost:8080/ojt-web-project/login/loginPage.php');
