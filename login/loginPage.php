@@ -59,7 +59,8 @@
       <input type="text" id ="userID" name="userID" placeholder="Enter your userID" required maxlength="10" class="box">
       <p>Your Password <span>*</span></p>
       <input type="password" id ="password" name="password" placeholder="Enter Your Password" required maxlength="20" class="box">
-      <input type="submit" value="login" name="submit" class="btn">
+      <input type="submit" formaction="login.php" value="login as student" name="submit" class="btn">
+      <input type="submit" formaction="http://localhost:8001/homepage" value="login as teacher" name="submit" class="btn">
    </form>
 </section>
 

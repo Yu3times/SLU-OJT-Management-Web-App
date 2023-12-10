@@ -25,12 +25,17 @@ if (isset($_POST['userID'])){
         if ($_SESSION['isStudent']) {
             header("Location: ../student/index.php");
             exit();
-        } else {
+        
+        } 
+
+        /*
+        else {
             $teacherUserId = $_SESSION['userID'];
             header("Location: http://localhost:8001/homepage?teacherUserId=$teacherUserId");
             // header("Location: ../teacher/views/redirect.ejs?teacherUserId=$teacherUserId");
             exit();
         }
+        */
     } else {
         $_SESSION['invalidLogin'] = true;
         header("Location: ../login/loginPage.php");
