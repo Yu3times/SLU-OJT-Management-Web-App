@@ -154,19 +154,6 @@
 
 </section>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 <footer class="footer">
 
    &copy; copyright @ 2023 by <span>Team Croods</span> | all rights reserved!
