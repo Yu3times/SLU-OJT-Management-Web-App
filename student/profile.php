@@ -127,28 +127,26 @@
           $statement->close();
       ?>
 
-      <form id="profile-form" method="post">
-
-      <label>
-         First Name: <input type="text" value=<?php echo "\"$firstName\""; ?> disabled> 
+      <form class="profile-form" action="change-password.php" method="post">
+      <label class="profile-field">
+         <span>First Name:</span><input name="firstName" type="text" value=<?php echo "\"$firstName\""; ?> disabled> 
       </label>
-      <label>
-         Last Name: <input type="text" value=<?php echo "\"$lastName\""; ?> disabled> 
+      <label class="profile-field">
+         <span>Last Name:</span><input name="lastName" type="text" value=<?php echo "\"$lastName\""; ?> disabled> 
       </label>
-      <label>
-         Email: <input type="text" value=<?php echo "\"$email\""; ?> disabled> 
+      <label class="profile-field">
+         <span>Email:</span><input name="email" type="text" value=<?php echo "\"$email\""; ?> disabled> 
       </label>
-      <label>
-         Course: <input type="text" value=<?php echo "\"$course\""; ?> disabled> 
+      <label class="profile-field">
+         <span>Course:</span><input name="course" type="text" value=<?php echo "\"$course\""; ?> disabled> 
       </label>
-      <label>
-         Class Code: <input type="text" value=<?php echo "\"$classCode\""; ?> disabled> 
+      <label class="profile-field">
+         <span>Class Code:</span><input name="classCode" type="text" value=<?php echo "\"$classCode\""; ?> disabled> 
       </label>
-      <label>
-         Change Password: <input type="text" value=<?php echo "\"$password\""; ?> > 
-         <input type="submit" required maxlength="20" formaction="change-password.php" value="Change Password" name="submit" class="change-password-btn">
+      <label class="profile-field">
+         <span>Password:</span><input class="password-input" type="text" required maxlength="20" value=<?php echo "\"$password\""; ?> > 
       </label>
-
+         <input class="change-password-btn" type="submit" value="Change Password" name="submit" class="change-password-btn">
       </form>
    </div>
 
@@ -161,7 +159,7 @@
 </footer>
 
 <!-- custom js file link  -->
-<script src="../js/script.js"></script>
+<script src="../public/js/script.js"></script>
 
    
 </body>
