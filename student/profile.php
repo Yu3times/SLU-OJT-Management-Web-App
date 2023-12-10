@@ -67,9 +67,9 @@
          <img src="../public/images/pic-1.jpg" alt="">
          <h3><?php echo $_SESSION['fullName'] ?></h3>
          <p>Student</p>
-         <a href="update.html" class="inline-btn">update profile</a>
       </div>
    
+      <!--
       <div class="box-container">
    
          <div class="box">
@@ -106,22 +106,53 @@
          </div>
    
       </div>
+      -->
+      <?php
+          require("../database/database.php");
+
+          $userId = $_SESSION['userID'];
+          $statement = $db->prepare("SELECT * FROM user NATURAL JOIN student WHERE userId = ?");
+          $statement->bind_param('s', $userId);
+          $statement->execute();
+          $result = $statement->get_result();
+          
+          $data = $result->fetch_assoc();
+          $firstName = $data['firstName'];
+          $lastName = $data['lastName'];
+          $email = $data['email'];
+          $password = $data['password'];
+          $course = $data['course'];
+          $classCode = $data['classCode'];
+
+          $statement->close();
+      ?>
+
+      <form id="profile-form" method="post">
+
+      <label>
+         First Name: <input type="text" value=<?php echo "\"$firstName\""; ?> disabled> 
+      </label>
+      <label>
+         Last Name: <input type="text" value=<?php echo "\"$lastName\""; ?> disabled> 
+      </label>
+      <label>
+         Email: <input type="text" value=<?php echo "\"$email\""; ?> disabled> 
+      </label>
+      <label>
+         Course: <input type="text" value=<?php echo "\"$course\""; ?> disabled> 
+      </label>
+      <label>
+         Class Code: <input type="text" value=<?php echo "\"$classCode\""; ?> disabled> 
+      </label>
+      <label>
+         Change Password: <input type="text" value=<?php echo "\"$password\""; ?> > 
+         <input type="submit" required maxlength="20" formaction="change-password.php" value="Change Password" name="submit" class="change-password-btn">
+      </label>
+
+      </form>
    </div>
 
 </section>
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 <footer class="footer">
 

@@ -192,13 +192,23 @@
 
    $dateEndedQuery->close();
 
-   $dateStarted = new DateTime($dateStarted);
-   $dateEnded = new DateTime($dateEnded);
+   if ($dateStarted != "No start date found") {
+      $dateStarted = new DateTime($dateStarted);
+   }
+   if ($dateEnded != "No end date found") {
+      $dateEnded = new DateTime($dateEnded);
+   }
 
-   $interval = $dateStarted->diff($dateEnded);
+   if ($dateStarted != "No start date found" and $dateEnded != "No end date found") {
+      $interval = $dateStarted->diff($dateEnded);
 
-   $months = $interval->m + 12 * $interval->y;
-   $weeks = floor($interval->d / 7);
+      $months = $interval->m + 12 * $interval->y;
+      $weeks = floor($interval->d / 7);
+   } else {
+      $interval = "?";
+      $months = "?";
+      $weeks = "?";
+   }
 
    // Fetch teacher's name
    $teacherNameQuery = $db->prepare("
@@ -316,8 +326,21 @@
          <br>
          <br>
          <h3 class="title">Internship</h3>
-         <p class="requirements">Start Date: <span><?php echo $dateStarted->format('m-d-Y'); ?></span></p>
-         <p class="requirements">Expected End Date: <span><?php echo $dateEnded->format('m-d-Y'); ?></span></p>
+         <p class="requirements">Start Date: <span>
+            <?php 
+            if ($dateStarted != "No start date found") {
+            echo $dateStarted->format('m-d-Y');
+            } else {
+               echo $dateStarted;
+            }
+            ?></span></p>
+         <p class="requirements">Expected End Date: <span>
+            <?php 
+            if ($dateEnded != "No end date found") {
+            echo $dateEnded->format('m-d-Y'); 
+            } else {
+               echo $dateEnded;
+            } ?></span></p>
          <p class="requirements">Duration: <span><?php echo "Duration: " . $months . " months and " . $weeks . " weeks"; ?></span></p>
       </div>
 

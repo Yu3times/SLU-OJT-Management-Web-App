@@ -186,6 +186,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <!-- custom js file link  -->
 <script src="../public/js/script.js"></script>
-
 </body>
 </html>
