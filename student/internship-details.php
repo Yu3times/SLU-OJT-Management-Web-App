@@ -152,6 +152,77 @@
 
    $advisorContactQuery->close();
 
+   // Fetch internship start date
+   $dateStartedQuery = $db->prepare("SELECT i.dateStarted
+   FROM internship AS i
+   JOIN student AS s ON i.studentId = s.studentId
+   WHERE s.userId = ?
+   ");
+
+   $dateStartedQuery->bind_param("i", $userId);
+   $dateStartedQuery->execute();
+   $dateStartedResult = $dateStartedQuery->get_result();
+
+   if ($dateStartedResult->num_rows > 0) {
+   $dateStartedRow = $dateStartedResult->fetch_assoc();
+   $dateStarted = $dateStartedRow['dateStarted'];
+   } else {
+   $dateStarted = "No start date found";
+   }
+
+   $dateStartedQuery->close();
+
+   // Fetch internship end date
+   $dateEndedQuery = $db->prepare("SELECT i.dateEnded
+   FROM internship AS i
+   JOIN student AS s ON i.studentId = s.studentId
+   WHERE s.userId = ?
+   ");
+
+   $dateEndedQuery->bind_param("i", $userId);
+   $dateEndedQuery->execute();
+   $dateEndedResult = $dateEndedQuery->get_result();
+
+   if ($dateEndedResult->num_rows > 0) {
+   $dateEndedRow = $dateEndedResult->fetch_assoc();
+   $dateEnded = $dateEndedRow['dateEnded'];
+   } else {
+   $dateEnded = "No end date found";
+   }
+
+   $dateEndedQuery->close();
+
+   $dateStarted = new DateTime($dateStarted);
+   $dateEnded = new DateTime($dateEnded);
+
+   $interval = $dateStarted->diff($dateEnded);
+
+   $months = $interval->m + 12 * $interval->y;
+   $weeks = floor($interval->d / 7);
+
+   // Fetch teacher's name
+   $teacherNameQuery = $db->prepare("
+    SELECT t.firstName, t.lastName
+    FROM internship AS i
+    JOIN student AS s ON i.studentId = s.studentId
+    JOIN teacher AS t ON i.teacherId = t.teacherId
+    WHERE s.userId = ?
+   ");
+
+   
+   $teacherNameQuery->bind_param("i", $userId);
+   $teacherNameQuery->execute();
+   $teacherNameResult = $teacherNameQuery->get_result();
+
+   if ($teacherNameResult->num_rows > 0) {
+      $teacherNameRow = $teacherNameResult->fetch_assoc();
+      $teacherName = $teacherNameRow['firstName'] . ' ' . $teacherNameRow['lastName'];
+   } else {
+      $teacherName = "No teacher found";
+   }
+
+   $teacherNameQuery->close();
+
 ?>
 
 <!DOCTYPE html>
@@ -173,7 +244,8 @@
 
    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
      integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
-     crossorigin=""></script>
+     crossorigin="">
+   </script>
 </head>
 <body>
 
@@ -217,175 +289,6 @@
 
 </div>
 
-<!--
-<section class="about">
-
-   <div class="row">
-
-      <div class="image">
-         <img src="../images/about-img.svg" alt="">
-      </div>
-
-      <div class="content">
-         <h3>why choose us?</h3>
-         <p> We connect future industry leaders with other like minded individuals</p>
-         <a href="companies.html" class="inline-btn">Job Listings</a>
-      </div>
-
-   </div>
-
-   <div class="box-container">
-
-      <div class="box">
-         <i class="fas fa-graduation-cap"></i>
-         <div>
-            <h3>+10k</h3>
-            <p>Parter Companies</p>
-         </div>
-      </div>
-
-      <div class="box">
-         <i class="fas fa-user-graduate"></i>
-         <div>
-            <h3>+40k</h3>
-            <p>Monthly Users</p>
-         </div>
-      </div>
-
-      <div class="box">
-         <i class="fas fa-chalkboard-user"></i>
-         <div>
-            <h3>+2k</h3>
-            <p>Industry Heads</p>
-         </div>
-      </div>
-
-      <div class="box">
-         <i class="fas fa-briefcase"></i>
-         <div>
-            <h3>100%</h3>
-            <p>job placement</p>
-         </div>
-      </div>
-
-   </div>
-
-</section> 
-
-<section class="reviews">
-
-   <h1 class="heading">Reviews</h1>
-
-   <div class="box-container">
-
-      <div class="box">
-         <p>Good shit to kosa</p>
-         <div class="student">
-            <img src="../images/pic-2.jpg" alt="">
-            <div>
-               <h3>john deo</h3>
-               <div class="stars">
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star-half-alt"></i>
-               </div>
-            </div>
-         </div>
-      </div>
-
-      <div class="box">
-         <p>Good shit to kosa</p>
-         <div class="student">
-            <img src="../images/pic-3.jpg" alt="">
-            <div>
-               <h3>john deo</h3>
-               <div class="stars">
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star-half-alt"></i>
-               </div>
-            </div>
-         </div>
-      </div>
-
-      <div class="box">
-         <p>Good shit to kosa</p>
-         <div class="student">
-            <img src="../images/pic-4.jpg" alt="">
-            <div>
-               <h3>john deo</h3>
-               <div class="stars">
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star-half-alt"></i>
-               </div>
-            </div>
-         </div>
-      </div>
-
-      <div class="box">
-         <p>Good shit to kosa</p>
-         <div class="student">
-            <img src="../images/pic-5.jpg" alt="">
-            <div>
-               <h3>john deo</h3>
-               <div class="stars">
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star-half-alt"></i>
-               </div>
-            </div>
-         </div>
-      </div>
-
-      <div class="box">
-         <p>Good shit to kosa</p>
-         <div class="student">
-            <img src="../images/pic-6.jpg" alt="">
-            <div>
-               <h3>john deo</h3>
-               <div class="stars">
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star-half-alt"></i>
-               </div>
-            </div>
-         </div>
-      </div>
-
-      <div class="box">
-         <p>Good shit to kosa</p>
-         <div class="student">
-            <img src="../images/pic-7.jpg" alt="">
-            <div>
-               <h3>john deo</h3>
-               <div class="stars">
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star-half-alt"></i>
-               </div>
-            </div>
-         </div>
-      </div>
-
-   </div>
-
-</section>
-
--->
-
 <section class="home-grid">
    <h1 class="heading">Internship Details</h1>
    <div class="box-container">
@@ -406,6 +309,16 @@
          <p class="requirements">Name: <span><?php echo $advisorName ?></span></p>
          <p class="requirements">Email: <span><?php echo $advisorEmail ?></span></p>
          <p class="requirements">Contact: <span><?php echo $advisorContact ?></span></p>
+         <br>
+         <br>
+         <h3 class="title">Teacher Details</h3>
+         <p class="requirements">Name: <span><?php echo $teacherName ?></span></p>
+         <br>
+         <br>
+         <h3 class="title">Internship</h3>
+         <p class="requirements">Start Date: <span><?php echo $dateStarted->format('m-d-Y'); ?></span></p>
+         <p class="requirements">Expected End Date: <span><?php echo $dateEnded->format('m-d-Y'); ?></span></p>
+         <p class="requirements">Duration: <span><?php echo "Duration: " . $months . " months and " . $weeks . " weeks"; ?></span></p>
       </div>
 
 </section>
@@ -437,7 +350,6 @@
             console.log('Address not found, retrying with shorter address...');
             setTimeout(() => {
                var shorterAddress = address.substring(address.indexOf(' ') + 1);
-               console.log(shorterAddress);
                attemptGeocoding(shorterAddress, attemptCount + 1);
             }, 1000);
          } else {

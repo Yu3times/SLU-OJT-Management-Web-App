@@ -250,13 +250,12 @@
          <p class="requirements">MOA: <span></span> <?php echo $moaStatus ?> </p>
          <p class="requirements">Medical Certificate: <span> <?php echo $medCertStatus ?> </span></p>
          <p class="requirements">Waiver: <span></span> <?php echo $waiverStatus ?> </p>
-      </div>
-
-      <div class="box">
+         <br>
+         <br>
          <h3 class="title">Hours Logged This Week</h3>
          <div class="flex">
          <a href="#"><i class="fa-solid fa-hourglass-end"></i><span><?php echo $hoursWorked; ?></span></a>
-         </div>
+         </div>         
       </div>
    </div>
 </section>
