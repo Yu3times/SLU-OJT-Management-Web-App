@@ -144,6 +144,42 @@ router.get('/profile', (req, res) => {
     }
 });
 
+router.get('/company-details', (req, res) => {
+    console.log("connect to /company-details");
+    if (req.session.userID) {
+        const userQuery = "SELECT * FROM teacher WHERE userId = ?";
+        const companyDetailsQuery = "SELECT * FROM company";
+        db.query(userQuery, [req.session.userID], (error, teacherResult) => {
+            if (error) {
+                console.error('Error executing query:', error);
+                res.status(500).json({ error: 'Internal Server Error' });
+                return;
+            } else {
+                console.log("User Result:", teacherResult);
+                console.log("User ID from session:", req.session.userID);
+                console.log("First Name:", teacherResult[0].firstName);
+                console.log("Last Name:", teacherResult[0].lastName);
+                db.query(companyDetailsQuery, (error, companies) => {
+                    if (error) {
+                        console.error('Error executing query:', error);
+                        res.status(500).json({ error: 'Internal Server Error' });
+                        return;
+                    } else {
+                        res.render("company-details", {
+                            firstName: teacherResult[0].firstName,
+                            lastName: teacherResult[0].lastName,
+                            companies: companies 
+                        });
+                    }
+                });
+            }
+        });
+    } else {
+        res.redirect('logout');
+    }
+});
+
+
 router.post('/submit-announcement', (req, res) => {
     const { teacherId, title, message } = req.body;
   
