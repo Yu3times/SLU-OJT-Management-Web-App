@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Dec 11, 2023 at 11:13 AM
+-- Generation Time: Dec 11, 2023 at 02:07 PM
 -- Server version: 8.0.31
 -- PHP Version: 8.0.26
 
@@ -58,12 +58,23 @@ DROP TABLE IF EXISTS `announcements`;
 CREATE TABLE IF NOT EXISTS `announcements` (
   `announcementId` int NOT NULL AUTO_INCREMENT,
   `teacherId` int NOT NULL,
-  `title` varchar(255) NOT NULL,
-  `message` text NOT NULL,
+  `title` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `message` text COLLATE utf8mb4_unicode_ci NOT NULL,
   `datePosted` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`announcementId`),
   KEY `announcements_advisorId` (`teacherId`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `announcements`
+--
+
+INSERT INTO `announcements` (`announcementId`, `teacherId`, `title`, `message`, `datePosted`) VALUES
+(3, 111011, 'Teacher Transfer', 'To all students under me, transfer to Mrs. Elena Perez', '2023-12-12 21:55:45'),
+(4, 111015, 'Urgent Notification ', 'Mr. Dela Cruz, please see me after work. We have important business matters to discuss.', '2023-12-11 22:05:31'),
+(5, 111012, 'Health notice', 'Mr. Rivera has been diagnosed with COVID-19 , so lessen physical contact among my students. Take care and have a good morning!', '2023-12-11 22:05:31'),
+(6, 111013, 'Merit Assessment', 'Good evening, Mr. Santiago. I have assessed your performance for the last few weeks, and we are yet to discuss on how we will keep you in this company. Come and see me after your work hours if you have the time.', '2023-12-11 22:05:31'),
+(7, 111014, 'Promotion Chance', 'Good morning, Mrs. Cruz. Due to your recent performance for our Christmas Party and your consistency at work, you are hereby promoted to CEO. Please take care of the company and see me tomorrow afternoon.', '2023-12-11 22:05:31');
 
 -- --------------------------------------------------------
 
@@ -74,10 +85,10 @@ CREATE TABLE IF NOT EXISTS `announcements` (
 DROP TABLE IF EXISTS `company`;
 CREATE TABLE IF NOT EXISTS `company` (
   `companyID` int NOT NULL AUTO_INCREMENT,
-  `companyName` varchar(255) NOT NULL,
-  `companyAddress` varchar(255) NOT NULL,
-  `website` varchar(50) NOT NULL,
-  `contact` varchar(50) NOT NULL,
+  `companyName` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `companyAddress` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `website` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `contact` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (`companyID`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -112,7 +123,7 @@ CREATE TABLE IF NOT EXISTS `internship` (
   KEY `internship_advisorId` (`advisorId`),
   KEY `internship_teacherId` (`teacherId`),
   KEY `studentId` (`studentId`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `internship`
@@ -120,7 +131,15 @@ CREATE TABLE IF NOT EXISTS `internship` (
 
 INSERT INTO `internship` (`internshipId`, `studentId`, `companyId`, `teacherId`, `advisorId`, `dateStarted`, `dateEnded`) VALUES
 (1, 222010, 1, 111011, 333003, '2023-01-15', '2023-06-15'),
-(2, 222007, 3, 111015, 333005, '2023-02-01', '2023-05-31');
+(2, 222007, 3, 111015, 333005, '2023-02-01', '2023-05-31'),
+(3, 222001, 1, 111011, 333001, '2023-12-08', '2024-04-17'),
+(4, 222002, 2, 111012, 333002, '2024-02-08', '2024-05-10'),
+(5, 222003, 3, 111013, 333003, '2023-12-14', '2024-02-21'),
+(6, 222004, 4, 111014, 333004, '2024-01-06', '2024-04-19'),
+(7, 222005, 5, 111015, 333005, '2024-03-07', '2024-05-16'),
+(8, 222006, 1, 111011, 333001, '2023-12-01', '2024-01-01'),
+(9, 222008, 2, 111012, 333002, '2024-05-08', '2024-09-27'),
+(10, 222009, 3, 111013, 333003, '2024-02-05', '2024-06-25');
 
 -- --------------------------------------------------------
 
@@ -135,25 +154,34 @@ CREATE TABLE IF NOT EXISTS `reports` (
   `weekNum` int NOT NULL,
   `hoursWorked` int NOT NULL,
   `demerit` int DEFAULT NULL,
-  `reportFile` varchar(255) NOT NULL,
+  `reportFile` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `submittedAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `comment` text NOT NULL,
+  `comment` text COLLATE utf8mb4_unicode_ci NOT NULL,
   `status` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`reportId`),
   KEY `userId_reports` (`studentId`),
   KEY `report_status` (`status`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `reports`
 --
 
 INSERT INTO `reports` (`reportId`, `studentId`, `weekNum`, `hoursWorked`, `demerit`, `reportFile`, `submittedAt`, `comment`, `status`) VALUES
+(7, 222006, 2, 23, NULL, 'sofia_torres_w2_report.pdf', '2023-02-03 05:43:19', 'Can use a little bit of improvement but good work nonetheless', 2),
+(8, 222003, 1, 30, NULL, 'jose_lopez_w1_report.pdf', '2023-01-10 11:15:39', 'Great performance! Keep up the good work.', 2),
+(9, 222003, 2, 16, NULL, 'jose_lopez_w2_report.pdf', '2023-01-17 07:30:00', 'Consistent work! Good job!', 0),
+(10, 222002, 1, 15, NULL, 'maria_gonzales_w1_report.pdf', '2023-01-10 13:28:18', 'Great Job!', 2),
 (11, 222001, 1, 20, NULL, 'juan_santos_w1_report.pdf', '2023-01-10 00:00:00', 'Great progress!', 2),
 (12, 222002, 2, 15, NULL, 'maria_gonzales_w2_report.pdf', '2023-01-17 01:30:00', 'Meeting expectations', 2),
 (13, 222003, 3, 25, NULL, 'jose_lopez_w3_report.pdf', '2023-01-24 02:45:00', 'Exceeding expectations!', 2),
 (14, 222004, 4, 18, NULL, 'ana_cruz_w4_report.pdf', '2023-01-31 03:15:00', 'Good effort.', 1),
-(15, 222005, 5, 30, NULL, 'ramon_reyes_w5_report.pdf', '2023-02-07 04:00:00', 'Outstanding work!', 2);
+(15, 222005, 5, 30, NULL, 'ramon_reyes_w5_report.pdf', '2023-02-07 04:00:00', 'Outstanding work!', 2),
+(16, 222006, 3, 20, 2, 'sofia_torres_w3_report.pdf', '2023-02-10 12:23:34', 'Incomplete work.', 0),
+(17, 222007, 1, 15, 0, 'miguel_delacruz_w1_report.pdf', '2023-03-10 11:10:34', 'Fair work. Could do some improvement.', 1),
+(18, 222008, 1, 13, NULL, 'carmen_rivera_w1_report.pdf', '2023-12-11 02:15:53', 'No comment', 2),
+(19, 222009, 1, 19, NULL, 'pedro_santiago_w1_report.pdf', '2023-05-17 12:23:34', 'Good work.', 2),
+(20, 222010, 1, 16, 3, 'bella_fernando_w1_reports.pdf', '2023-12-11 13:27:50', 'Incorrect name for report file.', 1);
 
 -- --------------------------------------------------------
 
@@ -225,9 +253,9 @@ DROP TABLE IF EXISTS `student`;
 CREATE TABLE IF NOT EXISTS `student` (
   `studentId` int NOT NULL AUTO_INCREMENT,
   `userId` int NOT NULL,
-  `firstName` varchar(255) NOT NULL,
-  `lastName` varchar(255) NOT NULL,
-  `course` varchar(255) NOT NULL,
+  `firstName` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `lastName` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `course` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `classCode` int NOT NULL,
   PRIMARY KEY (`studentId`),
   KEY `userId_student` (`userId`)
@@ -259,8 +287,8 @@ DROP TABLE IF EXISTS `teacher`;
 CREATE TABLE IF NOT EXISTS `teacher` (
   `teacherId` int NOT NULL,
   `userId` int NOT NULL,
-  `firstName` varchar(255) NOT NULL,
-  `lastName` varchar(255) NOT NULL,
+  `firstName` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `lastName` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (`teacherId`),
   KEY `userId_advisor` (`userId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -285,8 +313,8 @@ INSERT INTO `teacher` (`teacherId`, `userId`, `firstName`, `lastName`) VALUES
 DROP TABLE IF EXISTS `user`;
 CREATE TABLE IF NOT EXISTS `user` (
   `userId` int NOT NULL AUTO_INCREMENT,
-  `email` varchar(255) NOT NULL,
-  `password` varchar(255) NOT NULL,
+  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `type` int NOT NULL,
   PRIMARY KEY (`userId`)
 ) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
