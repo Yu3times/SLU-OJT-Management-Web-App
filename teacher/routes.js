@@ -9,7 +9,7 @@ var db = mysql.createConnection({
 });
 
 router.use(express.static('${__dirname}../public'));
-router.use(bodyParser.urlencoded({extended: true}));
+router.use(bodyParser.urlencoded({ extended: true }));
 router.use(bodyParser.json());
 router.use(session({
     secret: 'frogrammers',
@@ -38,7 +38,7 @@ router.post('/login', (req, res) => {
     const password = req.body.password;
 
     const statement = "SELECT firstName, lastName, userId FROM user natural join teacher WHERE teacherId = ? AND password = ?";
-    
+
     db.query(statement, [userId, password], (error, result) => {
         if (error) {
             console.error('Error executing query:', error);
@@ -57,7 +57,7 @@ router.post('/login', (req, res) => {
 
 router.get('/homepage', (req, res) => {
     console.log("connect to /homepage");
-    
+
     if (req.session.userID) {
         const userId = req.session.userID;
         console.log(userId);
@@ -76,6 +76,7 @@ router.get('/homepage', (req, res) => {
             if (teacherResult.length > 0) {
                 const teacherRow = teacherResult[0];
                 const fullName = teacherRow.firstName + ' ' + teacherRow.lastName;
+                req.session.fullName = fullName;
 
                 console.log(fullName);
                 const teacherId = teacherRow.teacherId;
@@ -125,20 +126,21 @@ router.get('/profile', (req, res) => {
     if (req.session.userID) {
         const statement = "SELECT * FROM user NATURAL JOIN teacher WHERE userId = ?";
         db.query(statement, [req.session.userID], (error, result) => {
-        if (error) {
-            console.error('Error executing query:', error);
-            res.status(500).json({ error: 'Internal Server Error' });
-            return;
-        } else if (result.length > 0) {
-            const row = result[0];
-            res.render("profile", {
-                firstName: row.firstName,
-                lastName: row.lastName,
-                password: row.password,
-                email: row.email,
-                teacherId: row.teacherId
-            });
-        }});
+            if (error) {
+                console.error('Error executing query:', error);
+                res.status(500).json({ error: 'Internal Server Error' });
+                return;
+            } else if (result.length > 0) {
+                const row = result[0];
+                res.render("profile", {
+                    firstName: row.firstName,
+                    lastName: row.lastName,
+                    password: row.password,
+                    email: row.email,
+                    teacherId: row.teacherId
+                });
+            }
+        });
     } else {
         res.redirect('logout');
     }
@@ -168,7 +170,7 @@ router.get('/company-details', (req, res) => {
                         res.render("company-details", {
                             firstName: teacherResult[0].firstName,
                             lastName: teacherResult[0].lastName,
-                            companies: companies 
+                            companies: companies
                         });
                     }
                 });
@@ -182,19 +184,100 @@ router.get('/company-details', (req, res) => {
 
 router.post('/submit-announcement', (req, res) => {
     const { teacherId, title, message } = req.body;
-  
+
     const insertAnnouncementQuery = 'INSERT INTO announcements (teacherId, title, message) VALUES (?, ?, ?)';
-  
+
     db.query(insertAnnouncementQuery, [teacherId, title, message], (error, result) => {
-      if (error) {
-        console.error('Error executing query to insert announcement:', error);
-        res.status(500).json({ error: 'Internal Server Error' });
-        return;
-      }
-  
-      console.log('Announcement inserted successfully.');
-      res.json({ success: true });
+        if (error) {
+            console.error('Error executing query to insert announcement:', error);
+            res.status(500).json({ error: 'Internal Server Error' });
+            return;
+        }
+
+        console.log('Announcement inserted successfully.');
+        res.json({ success: true });
     });
-  });
+});
+
+router.get('/manage-students', (req, res) => {
+    console.log("connect to /manage-students");
+    if (req.session.userID) {
+        const userQuery = "SELECT * FROM teacher WHERE userId = ?";
+        db.query(userQuery, [req.session.userID], (error, teacherResult) => {
+            if (error) {
+                console.error('Error executing query:', error);
+                res.status(500).json({ error: 'Internal Server Error' });
+                return;
+            } else {
+                res.render("manage-students", {
+                    fullName: req.session.fullName
+                });
+            }
+        });
+    } else {
+        res.redirect('logout');
+    }
+});
+
+router.get('/fetch-all-students', (req, res) => {
+    try {
+       const fetchAllStudentsQuery = `
+          SELECT
+             student.studentId,
+             CONCAT(student.firstName, ' ', student.lastName) AS fullName,
+             user.email,
+             student.course,
+             student.classCode,
+             company.companyName AS company
+          FROM student
+          JOIN user ON student.userId = user.userId
+          LEFT JOIN internship ON student.studentId = internship.studentId
+          LEFT JOIN company ON internship.companyId = company.companyId
+       `;
+ 
+       // Execute the query
+       db.query(fetchAllStudentsQuery, (error, results) => {
+          if (error) {
+             console.error('Error fetching all students:', error);
+             res.status(500).json({ error: 'Internal Server Error' });
+          } else {
+             res.json(results);
+          }
+       });
+    } catch (error) {
+       console.error('Error in /fetch-all-students route:', error);
+       res.status(500).json({ error: 'Internal Server Error' });
+    }
+ });
+
+router.get('/search-students', async (req, res) => {
+    try {
+       const searchQuery = req.query.query;
+ 
+       const sql = `
+       SELECT student.studentId, CONCAT(student.firstName, ' ', student.lastName) AS fullName, user.email, student.course, student.classCode, company.companyName
+       FROM student
+       JOIN user ON student.userId = user.userId
+       JOIN internship ON student.studentId = internship.studentId
+       JOIN company ON internship.companyId = company.companyId
+       WHERE
+          student.studentId LIKE '%${searchQuery}%'
+          OR user.email LIKE '%${searchQuery}%'
+          OR CONCAT(student.firstName, ' ', student.lastName) LIKE '%${searchQuery}%'
+          OR student.course LIKE '%${searchQuery}%'
+          OR student.classCode LIKE '%${searchQuery}%'
+          OR company.companyName LIKE '%${searchQuery}%'
+       `;
+ 
+       const results = await db.query(sql);
+       
+      const plainResults = JSON.parse(JSON.stringify(results));
+ 
+       res.json(plainResults);
+    } catch (error) {
+       console.error('Error in /search-students route:', error);
+       res.status(500).json({ error: 'Internal Server Error' });
+    }
+ });  
 
 module.exports = router;

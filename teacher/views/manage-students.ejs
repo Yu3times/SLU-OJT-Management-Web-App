@@ -14,32 +14,6 @@
 
 </head>
 <body>
-   <script>
-      console.log('Executing confirm.js logic...');
-      console.log("Teacher ID: ", '<%= teacherUserId %>');
-
-      const queryString = `userID=${encodeURIComponent('<%= teacherUserId %>')}`;
-
-      fetch(`/homepage?${queryString}`)
-      .then(response => {
-         if (!response.ok) {
-            throw new Error(`HTTP error! Status: ${response.status}`);
-         }
-         return response.json();
-      })
-      .then(data => {
-         console.log('Response Data:', data);
-         if (data.fullName) {
-            console.log('Full Name:', data.fullName);
-            window.location.href = `${window.location.protocol}//${window.location.host}/homepage`;
-         } else {
-            console.error('Unexpected response from server:', data);
-         }
-      })
-      .catch(error => {
-         console.error('Error:', error);
-      });
-   </script>
 <header class="header">
    
    <section class="flex">
@@ -65,7 +39,7 @@
 
    <div class="profile">
       <img src="/images/pic-1.jpg" class="image" alt="">
-      <h3 class="name"><%= fullName %></h3>
+      <h1 class="name"><%= fullName %></h1>
       <p class="role">Teacher</p>
       <a href="/profile" class="btn">view profile</a>
    </div>
@@ -79,40 +53,95 @@
 
 </div>
 
-<section class="home-grid">
+<section class="manage-grid">
+   <div class="manage-container">
+       <div class="box">
+           <h1 class="title">Student List</h1>
+           <form id="filterForm">
+               <label for="searchQuery">Search:</label>
+               <input type="text" id="searchQuery" name="searchQuery" placeholder="Enter search query...">
+               <button type="button" onclick="submitSearch()">Search</button>
+           </form>
+           <table id="studentTable">
+               <thead>
+                   <tr>
+                       <th>Student ID</th>
+                       <th>Name</th>
+                       <th>Email</th>
+                       <th>Course</th>
+                       <th>Class Code</th>
+                       <th>Company</th>
+                   </tr>
+               </thead>
+               <tbody id="tableBody"></tbody>
+           </table>
+       </div>
+   </div>
 
-   <h1 class="heading">Requirements</h1>
+<script>
+    window.onload = function () {
+      fetchAllStudents();
+   }
 
-   <div class="box-container">
+   function fetchAllStudents() {
+      fetch('/fetch-all-students')
+         .then(response => response.json())
+         .then(data => populateTable(data))
+         .catch(error => console.error('Error:', error));
+   }
 
-      <div class="box">
-         <h3 class="title">Student List</h3>
-         <!-- Filter checkboxes categorized (Filters: course, class code, company) -->
-         <!-- Filter submit button-->
-         <!-- populate table based on selected filters-->
-      </div>
+   function submitSearch() {
+      const searchQuery = document.getElementById('searchQuery').value.trim();
+      fetch(`/search-students?query=${searchQuery}`)
+         .then(response => response.json())
+         .then(data => populateTable(data))
+         .catch(error => console.error('Error:', error));
+   }
 
-      <div class="box">
-         <h3 class="title">Manage Student</h3>
-         <h5>Requirements</h5>
-         <!-- Requirements checklist of selected students where teacher can set the status -->
-         
-         <h5>Reports to be reviewed</h5>
-         <!-- Details of reports of the selected student that are under reviewing status -->
+   function populateTable(data) {
+      const tableBody = document.getElementById('tableBody');
+      tableBody.innerHTML = ''; 
 
-         <h5>Reports History</h5>
-         <!-- history of approved reports of the selected student -->
-         
-      </div>
+      data.forEach(student => {
+         const row = document.createElement('tr');
+         row.innerHTML = `
+            <td>${student.studentId}</td>
+            <td>${student.fullName}</td>
+            <td>${student.email}</td>
+            <td>${student.course}</td>
+            <td>${student.classCode}</td>
+            <td>${student.company}</td>
+         `;
+         tableBody.appendChild(row);
+      });
+   }
+</script>
+<div class="manage-container">
+   <div class="box">
+       <h1 class="title">Manage Student</h1>
+       <h5>Requirements</h5>
+       <ul>
+           <!-- Requirements checklist items will be populated dynamically -->
+       </ul>
 
+       <h5>Reports to be reviewed</h5>
+       <ul>
+           <!-- Report details will be populated dynamically -->
+       </ul>
+
+       <h5>Reports History</h5>
+       <ul>
+           <!-- Report history will be populated dynamically -->
+       </ul>
+   </div>
+</div>
+</section>
      
 <footer class="footer">
 
    &copy; Copyright @ 2023 by <span>The Croods</span> | All rights reserved!
 
 </footer>
-
-<!-- custom js file link  -->
 <script src="/js/script.js"></script>
 <script>
    console.log('fullName:', '<%= fullName %>');

@@ -691,6 +691,59 @@ a:hover {
 
 /* Form */
 
+.manage-grid {
+   display: flex;
+   justify-content: space-between;
+   padding: 20px;
+   color: var(--black);
+}
+
+.manage-container {
+   width: 48%;
+   background-color: var(--white);
+   padding: 20px;
+   border-radius: 8px;
+   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+   margin-bottom: 20px; /* Added margin bottom */
+}
+
+.manage-container .title{
+   font-size: 22px;
+   margin-bottom: 15px;
+}
+
+h5 {
+   font-size: 12px;
+   margin-bottom: 10px;
+}
+
+#studentTable {
+   width: 100%;
+   border-collapse: collapse;
+   margin-top: 10px;
+}
+
+#studentTable th, #studentTable td {
+   border: 1px solid #ddd;
+   padding: 8px;
+   text-align: left;
+}
+
+#studentTable th {
+   background-color: var(--main-color);
+}
+
+#filterForm input[type="text"] {
+   width: 70%;
+   padding: 8px;
+   margin-right: 10px;
+}
+
+#filterForm button {
+   padding: 8px;
+   cursor: pointer;
+}
+
 .playlist-details .row{
    display: flex;
    align-items: flex-end;
