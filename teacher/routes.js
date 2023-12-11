@@ -32,7 +32,7 @@ const requireLogin = (req, res, next) => {
     }
     next();
 };
-
+8080 
 router.post('/login', (req, res) => {
     console.log("connect to /login");
     const userId = req.body.userID;
@@ -85,7 +85,7 @@ router.get('/homepage', (req, res) => {
 router.get('/logout', (req, res) => {
     console.log("connect to /logout");
     req.session.destroy();
-    res.redirect("http://localhost:8080/ojt-web-project/login/loginPage.php");
+    res.redirect("http://localhost/ojt-web-project/login/loginPage.php");
 });
 
 router.post('/change-password', (req, res) => {
