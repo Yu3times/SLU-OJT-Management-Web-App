@@ -417,9 +417,26 @@ section{
 }
 
 .home-grid .box-container .requirements{
-   color:var(--light-color);
-   font-size: 1.7rem;
+   color:var(--black);
+   font-size: large;
    margin-top: 1.5rem;
+}
+
+.home-grid .box-container .rectangle .box li{
+   color:var(--black);
+   font-size: small;
+}
+
+.home-grid .box-container .rectangle .box p{
+   color:var(--black);
+   font-size: xx-small;
+   margin-bottom: 5px;
+}
+
+#message{
+   color:var(--black);
+   font-size: small;
+   margin-left: 25px;
 }
 
 .about .row{

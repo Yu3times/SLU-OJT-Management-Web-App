@@ -288,7 +288,7 @@
          if ($announcementsResult->num_rows > 0) {
             echo "<div class='box'><ul>";
             while($row = $announcementsResult->fetch_assoc()) {
-               echo "<li><strong class='requirements'>" . htmlspecialchars($row['title']) . "</strong> - " . htmlspecialchars($row['message']) . " (Posted on: " . htmlspecialchars($row['datePosted']) . ")</li>";
+               echo "<li><strong class='requirements'>" . htmlspecialchars($row['title']) . "</strong> <p>(Posted on: " . htmlspecialchars($row['datePosted']) . ")</p>" . " <p id='message'>" . htmlspecialchars($row['message']) . ")</p></li>";
             }
             echo "</ul></div>";
          } else {
