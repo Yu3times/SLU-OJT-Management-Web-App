@@ -1327,7 +1327,7 @@ section{
    margin-bottom: 5px;
 }
 
-.profile-form input[type="text"] {
+.profile-form input[type="text"]{
    background-color: white;
    font-size: 1.8rem;
    border-color: var(--black);
@@ -1335,10 +1335,14 @@ section{
    border-width: 3px;
 }
 
-.user-profile, section.reports, section.home-grid {
-   min-height: 550px;
-   height: 650px;
+.profile-form input[type="password"]{
+   background-color: white;
+   font-size: 1.8rem;
+   border-color: var(--black);
+   border-style: solid;
+   border-width: 3px;
 }
+
 
 @media (max-width:1200px){
 
