@@ -88,11 +88,26 @@ router.get('/logout', (req, res) => {
     res.redirect("http://localhost:8080/ojt-web-project/login/loginPage.php");
 });
 
+router.post('/change-password', (req, res) => {
+    console.log("connect to /change-password");
+    const statement = "UPDATE user set password = ? WHERE userId = ?";
+    db.query(statement, [req.body.password, req.session.userID], (error, result) => {
+        if (error) {
+            console.error('Error executing query:', error);
+            res.status(500).json({ error: 'Internal Server Error' });
+            return;
+        } else {
+            console.log("Changed password");
+        }
+    });
+    res.redirect("/profile");
+});
+
 router.get('/profile', (req, res) => {
+    console.log("connect to /profile");
     if (req.session.userID) {
-        // TODO
         const statement = "SELECT * FROM user NATURAL JOIN teacher WHERE userId = ?";
-        db.query(statement, [req.session.userID], (error, resul) => {
+        db.query(statement, [req.session.userID], (error, result) => {
         if (error) {
             console.error('Error executing query:', error);
             res.status(500).json({ error: 'Internal Server Error' });
