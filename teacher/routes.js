@@ -56,30 +56,47 @@ router.post('/login', (req, res) => {
 });
 
 router.get('/homepage', (req, res) => {
-
     console.log("connect to /homepage");
-    if (req.session.userID) {
-    const statement = "SELECT firstName, lastName FROM user natural join teacher WHERE userId = ?";
-    console.log(req.session.userID);
     
-    db.query(statement, [req.session.userID, req.session.password], (error, result) => {
-        if (error) {
-            console.error('Error executing query:', error);
-            res.status(500).json({ error: 'Internal Server Error' });
-            return;
-        }
+    if (req.session.userID) {
+        const userId = req.session.userID;
+        console.log(userId);
+        const getTeacherNameQuery = "SELECT firstName, lastName, teacherId FROM user JOIN teacher ON user.userId = teacher.userId WHERE user.userId = ?";
 
-        if (result.length > 0) {
-            const row = result[0];
-            const fullName = row.firstName + ' ' + row.lastName;
-            console.log('FullName:', fullName);
-            res.render('homepage', { fullName: fullName,  teacherUserId: req.session.userID});
-            } 
+        const getStudentsQuery = "SELECT student.studentId, CONCAT(student.firstName, ' ', student.lastName) AS fullName, user.email FROM student JOIN user ON student.userId = user.userId JOIN internship ON student.studentId = internship.studentId WHERE internship.teacherId = ?";
+
+        db.query(getTeacherNameQuery, [userId], (error, teacherResult) => {
+            if (error) {
+                console.error('Error executing query to get teacher name:', error);
+                res.status(500).json({ error: 'Internal Server Error' });
+                return;
+            }
+            console.log(teacherResult);
+
+            if (teacherResult.length > 0) {
+                const teacherRow = teacherResult[0];
+                const fullName = teacherRow.firstName + ' ' + teacherRow.lastName;
+
+                console.log(fullName);
+                const teacherId = teacherRow.teacherId;
+                console.log(teacherId);
+                db.query(getStudentsQuery, [teacherId], (studentError, studentResult) => {
+                    if (studentError) {
+                        console.error('Error executing query to get students:', studentError);
+                        res.status(500).json({ error: 'Internal Server Error' });
+                        return;
+                    }
+                    console.log(studentResult);
+
+                    res.render('homepage', { fullName: fullName, teacherUserId: userId, students: studentResult });
+                });
+            }
         });
     } else {
         res.redirect("logout");
     }
 });
+
 
 router.get('/logout', (req, res) => {
     // Remove port number
