@@ -35,7 +35,7 @@ CREATE TABLE IF NOT EXISTS `advisor` (
   `email` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `contact` varchar(15) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (`advisorId`)
-) ENGINE=InnoDB AUTO_INCREMENT=333006 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=333006 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `advisor`
@@ -63,7 +63,7 @@ CREATE TABLE IF NOT EXISTS `announcements` (
   `datePosted` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`announcementId`),
   KEY `announcements_advisorId` (`teacherId`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -79,7 +79,7 @@ CREATE TABLE IF NOT EXISTS `company` (
   `website` varchar(50) NOT NULL,
   `contact` varchar(50) NOT NULL,
   PRIMARY KEY (`companyID`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `company`
@@ -112,7 +112,7 @@ CREATE TABLE IF NOT EXISTS `internship` (
   KEY `internship_advisorId` (`advisorId`),
   KEY `internship_teacherId` (`teacherId`),
   KEY `studentId` (`studentId`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `internship`
@@ -142,7 +142,7 @@ CREATE TABLE IF NOT EXISTS `reports` (
   PRIMARY KEY (`reportId`),
   KEY `userId_reports` (`studentId`),
   KEY `report_status` (`status`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `reports`
@@ -179,7 +179,7 @@ CREATE TABLE IF NOT EXISTS `requirements` (
   KEY `jobResume_status` (`jobResume`),
   KEY `curriVitae_status` (`curriVitae`),
   KEY `coverLetter_status` (`coverLetter`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `requirements`
@@ -204,7 +204,7 @@ CREATE TABLE IF NOT EXISTS `status` (
   `code` tinyint(1) NOT NULL,
   `status` varchar(15) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (`code`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `status`
@@ -231,7 +231,7 @@ CREATE TABLE IF NOT EXISTS `student` (
   `classCode` int NOT NULL,
   PRIMARY KEY (`studentId`),
   KEY `userId_student` (`userId`)
-) ENGINE=InnoDB AUTO_INCREMENT=222011 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=222011 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `student`
@@ -263,7 +263,7 @@ CREATE TABLE IF NOT EXISTS `teacher` (
   `lastName` varchar(255) NOT NULL,
   PRIMARY KEY (`teacherId`),
   KEY `userId_advisor` (`userId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `teacher`
@@ -289,7 +289,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   `password` varchar(255) NOT NULL,
   `type` int NOT NULL,
   PRIMARY KEY (`userId`)
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `user`
