@@ -55,8 +55,8 @@
 <section class="form-container">
    <form id="loginForm" method="post">
       <h3>login now</h3>
-      <p>Your User ID <span>*</span></p>
-      <input type="text" id ="userID" name="userID" placeholder="Enter your userID" required maxlength="10" class="box">
+      <p>Your Student/Teacher ID <span>*</span></p>
+      <input type="text" id ="userID" name="userID" placeholder="Enter your Student or Teacher ID" required maxlength="10" class="box">
       <p>Your Password <span>*</span></p>
       <input type="password" id ="password" name="password" placeholder="Enter Your Password" required maxlength="20" class="box">
       <input type="submit" formaction="login.php" value="login as student" name="submit" class="btn">
