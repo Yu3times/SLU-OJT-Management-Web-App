@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Dec 09, 2023 at 04:08 AM
+-- Generation Time: Dec 11, 2023 at 11:13 AM
 -- Server version: 8.0.31
 -- PHP Version: 8.0.26
 
@@ -21,7 +21,6 @@ SET time_zone = "+00:00";
 -- Database: `ojt_monitoring`
 --
 
-use ojt_monitoring;
 -- --------------------------------------------------------
 
 --
@@ -36,7 +35,7 @@ CREATE TABLE IF NOT EXISTS `advisor` (
   `email` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `contact` varchar(15) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (`advisorId`)
-) ENGINE=InnoDB AUTO_INCREMENT=333006 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=333006 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `advisor`
@@ -58,13 +57,13 @@ INSERT INTO `advisor` (`advisorId`, `firstName`, `lastName`, `email`, `contact`)
 DROP TABLE IF EXISTS `announcements`;
 CREATE TABLE IF NOT EXISTS `announcements` (
   `announcementId` int NOT NULL AUTO_INCREMENT,
-  `advisorId` int NOT NULL,
+  `teacherId` int NOT NULL,
   `title` varchar(255) NOT NULL,
   `message` text NOT NULL,
   `datePosted` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`announcementId`),
-  KEY `announcements_advisorId` (`advisorId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  KEY `announcements_advisorId` (`teacherId`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -80,7 +79,7 @@ CREATE TABLE IF NOT EXISTS `company` (
   `website` varchar(50) NOT NULL,
   `contact` varchar(50) NOT NULL,
   PRIMARY KEY (`companyID`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `company`
@@ -113,7 +112,15 @@ CREATE TABLE IF NOT EXISTS `internship` (
   KEY `internship_advisorId` (`advisorId`),
   KEY `internship_teacherId` (`teacherId`),
   KEY `studentId` (`studentId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `internship`
+--
+
+INSERT INTO `internship` (`internshipId`, `studentId`, `companyId`, `teacherId`, `advisorId`, `dateStarted`, `dateEnded`) VALUES
+(1, 222010, 1, 111011, 333003, '2023-01-15', '2023-06-15'),
+(2, 222007, 3, 111015, 333005, '2023-02-01', '2023-05-31');
 
 -- --------------------------------------------------------
 
@@ -127,6 +134,7 @@ CREATE TABLE IF NOT EXISTS `reports` (
   `studentId` int NOT NULL,
   `weekNum` int NOT NULL,
   `hoursWorked` int NOT NULL,
+  `demerit` int DEFAULT NULL,
   `reportFile` varchar(255) NOT NULL,
   `submittedAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `comment` text NOT NULL,
@@ -134,18 +142,18 @@ CREATE TABLE IF NOT EXISTS `reports` (
   PRIMARY KEY (`reportId`),
   KEY `userId_reports` (`studentId`),
   KEY `report_status` (`status`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `reports`
 --
 
-INSERT INTO `reports` (`reportId`, `studentId`, `weekNum`, `hoursWorked`, `reportFile`, `submittedAt`, `comment`, `status`) VALUES
-(11, 222001, 1, 20, 'juan_santos_w1_report.pdf', '2023-01-10 00:00:00', 'Great progress!', 2),
-(12, 222002, 2, 15, 'maria_gonzales_w2_report.pdf', '2023-01-17 01:30:00', 'Meeting expectations', 2),
-(13, 222003, 3, 25, 'jose_lopez_w3_report.pdf', '2023-01-24 02:45:00', 'Exceeding expectations!', 2),
-(14, 222004, 4, 18, 'ana_cruz_w4_report.pdf', '2023-01-31 03:15:00', 'Good effort.', 1),
-(15, 222005, 5, 30, 'ramon_reyes_w5_report.pdf', '2023-02-07 04:00:00', 'Outstanding work!', 2);
+INSERT INTO `reports` (`reportId`, `studentId`, `weekNum`, `hoursWorked`, `demerit`, `reportFile`, `submittedAt`, `comment`, `status`) VALUES
+(11, 222001, 1, 20, NULL, 'juan_santos_w1_report.pdf', '2023-01-10 00:00:00', 'Great progress!', 2),
+(12, 222002, 2, 15, NULL, 'maria_gonzales_w2_report.pdf', '2023-01-17 01:30:00', 'Meeting expectations', 2),
+(13, 222003, 3, 25, NULL, 'jose_lopez_w3_report.pdf', '2023-01-24 02:45:00', 'Exceeding expectations!', 2),
+(14, 222004, 4, 18, NULL, 'ana_cruz_w4_report.pdf', '2023-01-31 03:15:00', 'Good effort.', 1),
+(15, 222005, 5, 30, NULL, 'ramon_reyes_w5_report.pdf', '2023-02-07 04:00:00', 'Outstanding work!', 2);
 
 -- --------------------------------------------------------
 
@@ -171,13 +179,14 @@ CREATE TABLE IF NOT EXISTS `requirements` (
   KEY `jobResume_status` (`jobResume`),
   KEY `curriVitae_status` (`curriVitae`),
   KEY `coverLetter_status` (`coverLetter`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `requirements`
 --
 
 INSERT INTO `requirements` (`requirementId`, `studentId`, `jobResume`, `curriVitae`, `coverLetter`, `moa`, `medCert`, `waiver`) VALUES
+(1, 222007, 0, 1, 2, 0, 1, 2),
 (11, 222001, 0, 0, 0, 1, 1, 0),
 (12, 222002, 0, 0, 0, 1, 0, 1),
 (13, 222003, 0, 0, 0, 1, 1, 0),
@@ -195,7 +204,7 @@ CREATE TABLE IF NOT EXISTS `status` (
   `code` tinyint(1) NOT NULL,
   `status` varchar(15) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (`code`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `status`
@@ -222,7 +231,7 @@ CREATE TABLE IF NOT EXISTS `student` (
   `classCode` int NOT NULL,
   PRIMARY KEY (`studentId`),
   KEY `userId_student` (`userId`)
-) ENGINE=InnoDB AUTO_INCREMENT=222011 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=222011 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `student`
@@ -254,7 +263,7 @@ CREATE TABLE IF NOT EXISTS `teacher` (
   `lastName` varchar(255) NOT NULL,
   PRIMARY KEY (`teacherId`),
   KEY `userId_advisor` (`userId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `teacher`
@@ -280,7 +289,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   `password` varchar(255) NOT NULL,
   `type` int NOT NULL,
   PRIMARY KEY (`userId`)
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `user`
@@ -293,10 +302,10 @@ INSERT INTO `user` (`userId`, `email`, `password`, `type`) VALUES
 (4, 'student4@slu.edu.ph', 'student4pass', 1),
 (5, 'student5@slu.edu.ph', 'student5pass', 1),
 (6, 'student6@slu.edu.ph', 'student6pass', 1),
-(7, 'student7@slu.edu.ph', 'student7pass', 1),
+(7, 'student7@slu.edu.ph', '1', 1),
 (8, 'student8@slu.edu.ph', 'student8pass', 1),
 (9, 'student9@slu.edu.ph', 'student9pass', 1),
-(10, 'student10@slu.edu.ph', 'student10pass', 1),
+(10, 'student10@slu.edu.ph', '1', 1),
 (11, 'teacher1@slu.edu.ph', 'teacher1pass', 2),
 (12, 'teacher2@slu.edu.ph', 'teacher2pass', 2),
 (13, 'teacher3@slu.edu.ph', ' teacher3pass', 2),
@@ -316,7 +325,7 @@ INSERT INTO `user` (`userId`, `email`, `password`, `type`) VALUES
 -- Constraints for table `announcements`
 --
 ALTER TABLE `announcements`
-  ADD CONSTRAINT `announcements_advisorId` FOREIGN KEY (`advisorId`) REFERENCES `advisor` (`advisorId`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+  ADD CONSTRAINT `announcements_teacherId` FOREIGN KEY (`teacherId`) REFERENCES `teacher` (`teacherId`) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
 --
 -- Constraints for table `internship`
