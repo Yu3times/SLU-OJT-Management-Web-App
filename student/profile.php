@@ -23,7 +23,7 @@
    
    <section class="flex">
 
-      <a href="index.html" class="logo">OJT Portal</a>
+      <a href="index.php" class="logo">OJT Portal</a>
 
 
       <div class="icons">
@@ -106,19 +106,10 @@
          <span>Class Code:</span><input name="classCode" type="text" value=<?php echo "\"$classCode\""; ?> disabled> 
       </label>
       <label class="profile-field">
-         <span>Current Password:</span>
-         <input class="current-password" name="currentPassword" type="password" value="<?php echo htmlspecialchars($password); ?>" required maxlength="20">
-         <i class="fa fa-eye current-password-toggle" onclick="toggleCurrentPasswordVisibility()"></i>
+         <span>Password:</span><input class="password-input" name="password" type="password" placeholder="Your password" required maxlength="20" value=<?php echo "\"$password\""; ?> > 
       </label>
       <label class="profile-field">
-         <span>New Password:</span>
-         <input class="password-input" name="password" type="password" placeholder="Your password" required maxlength="20">
-         <i class="fa fa-eye password-toggle" onclick="togglePasswordVisibility()"></i>
-      </label>
-      <label class="profile-field">
-         <span>Confirm Password:</span>
-         <input class="confirm-password-input" name="confirmPassword" type="password" required maxlength="20" placeholder="Confirm password">
-         <i class="fa fa-eye confirm-password-toggle" onclick="toggleConfirmPasswordVisibility()"></i>
+         <span>Confirm Password:</span><input class="confirm-password-input" name="password" required maxlength="20" placeholder="Confirm password">
       </label>
          <input class="change-password-btn" type="submit" value="Change Password" name="submit">
       </form>
@@ -135,67 +126,20 @@
 <!-- custom js file link  -->
 <script src="../public/js/script.js"></script>
 <script>
-
-var currentPassword = document.querySelectory(".current-password")
-var currentPasswordToggle = document.querySelector(".current-password-toggle");
+   /*
 var password = document.querySelector(".password-input");
-var confirmPassword = document.querySelector(".confirm-password-input");
-var passwordToggle = document.querySelector(".password-toggle");
-var confirmPasswordToggle = document.querySelector(".confirm-password-toggle");
-
-function toggleCurrentPasswordVisibility() {
-  var currentPassword = document.querySelector(".current-password");
-  var toggle = document.querySelector(".current-password-toggle");
-  
-  if (currentPassword.type === "password") {
-    currentPassword.type = "text";
-    toggle.classList.add('fa-eye-slash');
-    toggle.classList.remove('fa-eye');
-  } else {
-    currentPassword.type = "password";
-    toggle.classList.remove('fa-eye-slash');
-    toggle.classList.add('fa-eye');
-  }
-}
-
-function togglePasswordVisibility() {
-  var password = document.querySelector(".password-input");
-  var toggle = document.querySelector(".password-toggle");
-  if (password.type === "password") {
-    password.type = "text";
-    toggle.classList.add('fa-eye-slash');
-    toggle.classList.remove('fa-eye');
-  } else {
-    password.type = "password";
-    toggle.classList.remove('fa-eye-slash');
-    toggle.classList.add('fa-eye');
-  }
-}
-
-function toggleConfirmPasswordVisibility() {
-  var confirmPassword = document.querySelector(".confirm-password-input");
-  var toggle = document.querySelector(".confirm-password-toggle");
-  if (confirmPassword.type === "password") {
-    confirmPassword.type = "text";
-    toggle.classList.add('fa-eye-slash');
-    toggle.classList.remove('fa-eye');
-  } else {
-    confirmPassword.type = "password";
-    toggle.classList.remove('fa-eye-slash');
-    toggle.classList.add('fa-eye');
-  }
-}
-
-password.onchange = validatePassword;
-confirmPassword.onkeyup = validatePassword;
+  , confirm_password = document.querySelector(".confirm-password-input");
 
 function validatePassword(){
-  if(password.value != confirmPassword.value) {
-    confirmPassword.setCustomValidity("Passwords Don't Match");
+  if(password.value != confirm_password.value) {
+    confirm_password.setCustomValidity("Passwords Don't Match");
   } else {
-    confirmPassword.setCustomValidity('');
+    confirm_password.setCustomValidity('');
   }
 }
+password.onchange = validatePassword;
+confirm_password.onkeyup = validatePassword;
+*/
 </script>
 
    
