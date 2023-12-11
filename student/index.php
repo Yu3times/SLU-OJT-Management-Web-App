@@ -163,6 +163,42 @@
    }
 
    $waiverStatusQuery->close();
+
+   $internshipQuery = $db->prepare("SELECT dateStarted FROM internship WHERE studentId = (SELECT studentId FROM student WHERE userId = ?)");
+   $internshipQuery->bind_param("i", $userId);
+   $internshipQuery->execute();
+   $internshipResult = $internshipQuery->get_result();
+
+   $currentWeekNum = 0;
+   $reportDue = false; // Default value
+
+   if ($internshipResult->num_rows > 0) {
+       $internshipRow = $internshipResult->fetch_assoc();
+
+       // Calculate the current week number
+      $currentDate = new DateTime();
+      $dateStarted = new DateTime($internshipRow['dateStarted']);
+      $interval = $dateStarted->diff($currentDate);
+      $totalWeeksSinceStart = floor($interval->days / 7) + 1;
+
+      $dueReports = [];
+
+      for ($week = 1; $week <= $totalWeeksSinceStart; $week++) {
+         $reportCheckQuery = $db->prepare("SELECT reportId FROM reports WHERE studentId = (SELECT studentId FROM student WHERE userId = ?) AND weekNum = ?");
+         $reportCheckQuery->bind_param("ii", $userId, $week);
+         $reportCheckQuery->execute();
+         $reportCheckResult = $reportCheckQuery->get_result();
+
+         if ($reportCheckResult->num_rows === 0) {
+               // No report submitted for this week
+               $dueReports[] = $week;
+         }
+
+         $reportCheckQuery->close();
+      }
+   }
+
+   $internshipQuery->close();
 ?>
 
 <!DOCTYPE html>
@@ -243,13 +279,22 @@
       </div>
 
       <div class="box">
-         <h3 class="title">Requirements List:</h3>
+         <h3 class="title">To Do</h3>
          <p class="requirements">Job Resume: <span> <?php echo $jobResumeStatus ?></span></p>
          <p class="requirements">Curriculum Vitae: <span> <?php echo $curriVitaeStatus ?> </span></p>
          <p class="requirements">Cover Letter: <span></span> <?php echo $coverLetterStatus ?> </p>
          <p class="requirements">MOA: <span></span> <?php echo $moaStatus ?> </p>
          <p class="requirements">Medical Certificate: <span> <?php echo $medCertStatus ?> </span></p>
          <p class="requirements">Waiver: <span></span> <?php echo $waiverStatus ?> </p>
+         <?php if (!empty($dueReports)): ?>
+         <br>
+         <br>
+         <h3 class="title">Report</h3>
+            <?php foreach ($dueReports as $dueWeek): ?>
+               <p class="requirements"><span>Report for Week <?php echo $dueWeek; ?> is due</span></p>
+            <?php endforeach; ?>
+         <?php endif; ?>
+
          <br>
          <br>
          <h3 class="title">Hours Logged This Week</h3>
@@ -261,114 +306,6 @@
 </section>
 
 
-<!--
-<section class="companies">
-
-   <h1 class="heading">Available Companies</h1>
-
-   <div class="box-container">
-
-      <div class="box">
-         <div class="tutor">
-            <img src="../images/pic-2.jpg" alt="">
-            <div class="info">
-               <h3>Hev Abi</h3>
-               <span>21-10-2023</span>
-            </div>
-         </div>
-         <div class="thumb">
-            <img src="../images/thumb-1.png" alt="">
-            <span>JPmorgan</span>
-         </div>
-         <h3 class="title">Web Developer</h3>
-         <a class="inline-btn">Apply</a>
-      </div>
-
-      <div class="box">
-         <div class="tutor">
-            <img src="../images/pic-3.jpg" alt="">
-            <div class="info">
-               <h3>john deo</h3>
-               <span>21-10-2023</span>
-            </div>
-         </div>
-         <div class="thumb">
-            <img src="../images/thumb-2.png" alt="">
-            <span>JPmorgan</span>
-         </div>
-         <h3 class="title">Web Developer</h3>
-         <a class="inline-btn">Apply</a>
-      </div>
-
-      <div class="box">
-         <div class="tutor">
-            <img src="../images/pic-4.jpg" alt="">
-            <div class="info">
-               <h3>john deo</h3>
-               <span>21-10-2023</span>
-            </div>
-         </div>
-         <div class="thumb">
-            <img src="../images/thumb-3.png" alt="">
-            <span>JPmorgan</span>
-         </div>
-         <h3 class="title">Web Developer</h3>
-         <a class="inline-btn">Apply</a>
-      </div>
-
-      <div class="box">
-         <div class="tutor">
-            <img src="../images/pic-5.jpg" alt="">
-            <div class="info">
-               <h3>john deo</h3>
-               <span>21-10-2023</span>
-            </div>
-         </div>
-         <div class="thumb">
-            <img src="../images/thumb-4.png" alt="">
-            <span>JPmorgan</span>
-         </div>
-         <h3 class="title">Web Developer</h3>
-         <a class="inline-btn">Apply</a>
-      </div>
-
-      <div class="box">
-         <div class="tutor">
-            <img src="../images/pic-6.jpg" alt="">
-            <div class="info">
-               <h3>john deo</h3>
-               <span>21-10-2023</span>
-            </div>
-         </div>
-         <div class="thumb">
-            <img src="../images/thumb-5.png" alt="">
-            <span>JPmorgan</span>
-         </div>
-         <h3 class="title">Web Developer</h3>
-         <a class="inline-btn">Apply</a>
-      </div>
-
-      <div class="box">
-         <div class="tutor">
-            <img src="../images/pic-7.jpg" alt="">
-            <div class="info">
-               <h3>john deo</h3>
-               <span>21-10-2023</span>
-            </div>
-         </div>
-         <div class="thumb">
-            <img src="../images/thumb-6.png" alt="">
-            <span>JPmorgan</span>
-         </div>
-         <h3 class="title">Web Developer</h3>
-         <a class="inline-btn">Apply</a>
-      </div>
-
-   </div>
-
-
-</section>
--->
 <footer class="footer">
 
    &copy; Copyright @ 2023 by <span>The Croods</span> | All rights reserved!
