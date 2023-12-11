@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Dec 11, 2023 at 02:07 PM
+-- Generation Time: Dec 11, 2023 at 04:00 PM
 -- Server version: 8.0.31
 -- PHP Version: 8.0.26
 
@@ -168,20 +168,20 @@ CREATE TABLE IF NOT EXISTS `reports` (
 --
 
 INSERT INTO `reports` (`reportId`, `studentId`, `weekNum`, `hoursWorked`, `demerit`, `reportFile`, `submittedAt`, `comment`, `status`) VALUES
-(7, 222006, 2, 23, NULL, 'sofia_torres_w2_report.pdf', '2023-02-03 05:43:19', 'Can use a little bit of improvement but good work nonetheless', 2),
-(8, 222003, 1, 30, NULL, 'jose_lopez_w1_report.pdf', '2023-01-10 11:15:39', 'Great performance! Keep up the good work.', 2),
-(9, 222003, 2, 16, NULL, 'jose_lopez_w2_report.pdf', '2023-01-17 07:30:00', 'Consistent work! Good job!', 0),
-(10, 222002, 1, 15, NULL, 'maria_gonzales_w1_report.pdf', '2023-01-10 13:28:18', 'Great Job!', 2),
-(11, 222001, 1, 20, NULL, 'juan_santos_w1_report.pdf', '2023-01-10 00:00:00', 'Great progress!', 2),
-(12, 222002, 2, 15, NULL, 'maria_gonzales_w2_report.pdf', '2023-01-17 01:30:00', 'Meeting expectations', 2),
-(13, 222003, 3, 25, NULL, 'jose_lopez_w3_report.pdf', '2023-01-24 02:45:00', 'Exceeding expectations!', 2),
-(14, 222004, 4, 18, NULL, 'ana_cruz_w4_report.pdf', '2023-01-31 03:15:00', 'Good effort.', 1),
-(15, 222005, 5, 30, NULL, 'ramon_reyes_w5_report.pdf', '2023-02-07 04:00:00', 'Outstanding work!', 2),
-(16, 222006, 3, 20, 2, 'sofia_torres_w3_report.pdf', '2023-02-10 12:23:34', 'Incomplete work.', 0),
-(17, 222007, 1, 15, 0, 'miguel_delacruz_w1_report.pdf', '2023-03-10 11:10:34', 'Fair work. Could do some improvement.', 1),
-(18, 222008, 1, 13, NULL, 'carmen_rivera_w1_report.pdf', '2023-12-11 02:15:53', 'No comment', 2),
-(19, 222009, 1, 19, NULL, 'pedro_santiago_w1_report.pdf', '2023-05-17 12:23:34', 'Good work.', 2),
-(20, 222010, 1, 16, 3, 'bella_fernando_w1_reports.pdf', '2023-12-11 13:27:50', 'Incorrect name for report file.', 1);
+(7, 222006, 2, 23, NULL, '../public/uploads/sofia_torres_w2_report.pdf', '2023-02-03 05:43:19', 'Can use a little bit of improvement but good work nonetheless', 2),
+(8, 222003, 1, 30, NULL, '../public/uploads/jose_lopez_w1_report.pdf', '2023-01-10 11:15:39', 'Great performance! Keep up the good work.', 2),
+(9, 222003, 2, 16, NULL, '../public/uploads/jose_lopez_w2_report.pdf', '2023-01-17 07:30:00', 'Consistent work! Good job!', 0),
+(10, 222002, 1, 15, NULL, '../public/uploads/maria_gonzales_w1_report.pdf', '2023-01-10 13:28:18', 'Great Job!', 2),
+(11, 222001, 1, 20, NULL, '../public/uploads/juan_santos_w1_report.pdf', '2023-01-10 00:00:00', 'Great progress!', 2),
+(12, 222002, 2, 15, NULL, '../public/uploads/maria_gonzales_w2_report.pdf', '2023-01-17 01:30:00', 'Meeting expectations', 2),
+(13, 222003, 3, 25, NULL, '../public/uploads/jose_lopez_w3_report.pdf', '2023-01-24 02:45:00', 'Exceeding expectations!', 2),
+(14, 222004, 4, 18, NULL, '../public/uploads/ana_cruz_w4_report.pdf', '2023-01-31 03:15:00', 'Good effort.', 1),
+(15, 222005, 5, 30, NULL, '../public/uploads/ramon_reyes_w5_report.pdf', '2023-02-07 04:00:00', 'Outstanding work!', 2),
+(16, 222006, 3, 20, 2, '../public/uploads/sofia_torres_w3_report.pdf', '2023-02-10 12:23:34', 'Incomplete work.', 0),
+(17, 222007, 1, 15, 0, '../public/uploads/miguel_delacruz_w1_report.pdf', '2023-03-10 11:10:34', 'Fair work. Could do some improvement.', 1),
+(18, 222008, 1, 13, NULL, '../public/uploads/carmen_rivera_w1_report.pdf', '2023-12-11 02:15:53', 'No comment', 2),
+(19, 222009, 1, 19, NULL, '../public/uploads/pedro_santiago_w1_report.pdf', '2023-05-17 12:23:34', 'Good work.', 2),
+(20, 222010, 1, 16, 3, '../public/uploads/bella_fernando_w1_reports.pdf', '2023-12-11 13:27:50', 'Incorrect name for report file.', 1);
 
 -- --------------------------------------------------------
 
