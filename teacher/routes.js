@@ -142,8 +142,39 @@ router.get('/profile', (req, res) => {
     } else {
         res.redirect('logout');
     }
-
-
 });
+
+router.get('/company-details', (req, res) => {
+    console.log("connect to /company-details");
+    if (req.session.userID) {
+        const userQuery = "SELECT * FROM user WHERE userId = ?";
+        const companyDetailsQuery = "SELECT * FROM company";
+        db.query(userQuery, [req.session.userID], (error, userResult) => {
+            if (error) {
+                console.error('Error executing query:', error);
+                res.status(500).json({ error: 'Internal Server Error' });
+                return;
+            } else {
+                db.query(companyDetailsQuery, (error, companies) => {
+                    if (error) {
+                        console.error('Error executing query:', error);
+                        res.status(500).json({ error: 'Internal Server Error' });
+                        return;
+                    } else {
+                        res.render("company-details", {
+                            firstName: userResult[0].firstName,
+                            lastName: userResult[0].lastName,
+                            companies: companies 
+                        });
+                    }
+                });
+            }
+        });
+    } else {
+        res.redirect('logout');
+    }
+});
+
+
 
 module.exports = router;
