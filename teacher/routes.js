@@ -83,6 +83,7 @@ router.get('/homepage', (req, res) => {
 });
 
 router.get('/logout', (req, res) => {
+    // Remove port number
     console.log("connect to /logout");
     req.session.destroy();
     res.redirect("http://localhost/ojt-web-project/login/loginPage.php");
