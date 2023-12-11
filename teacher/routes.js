@@ -37,10 +37,8 @@ router.post('/login', (req, res) => {
     console.log("connect to /login");
     const userId = req.body.userID;
     const password = req.body.password;
-    req.session.userID = userId;
-    req.session.password = password;
 
-    const statement = "SELECT firstName, lastName FROM user natural join teacher WHERE teacherId = ? AND password = ?";
+    const statement = "SELECT firstName, lastName, userId FROM user natural join teacher WHERE teacherId = ? AND password = ?";
     
     db.query(statement, [userId, password], (error, result) => {
         if (error) {
@@ -50,6 +48,7 @@ router.post('/login', (req, res) => {
         }
 
         if (result.length > 0) {
+            req.session.userID = result[0].userId;
             res.redirect("/homepage");
         } else {
             res.redirect('http://localhost:8080/ojt-web-project/login/loginPage.php');
@@ -61,7 +60,8 @@ router.get('/homepage', (req, res) => {
 
     console.log("connect to /homepage");
     if (req.session.userID) {
-    const statement = "SELECT firstName, lastName FROM user natural join teacher WHERE userId = ? AND password = ?";
+    const statement = "SELECT firstName, lastName FROM user natural join teacher WHERE userId = ?";
+    console.log(req.session.userID);
     
     db.query(statement, [req.session.userID, req.session.password], (error, result) => {
         if (error) {
