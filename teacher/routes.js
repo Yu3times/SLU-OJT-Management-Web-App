@@ -88,7 +88,7 @@ router.get('/homepage', (req, res) => {
                     }
                     console.log(studentResult);
 
-                    res.render('homepage', { fullName: fullName, teacherUserId: userId, students: studentResult });
+                    res.render('homepage', { fullName: fullName, teacherUserId: teacherId, students: studentResult });
                 });
             }
         });
@@ -142,8 +142,23 @@ router.get('/profile', (req, res) => {
     } else {
         res.redirect('logout');
     }
-
-
 });
+
+router.post('/submit-announcement', (req, res) => {
+    const { teacherId, title, message } = req.body;
+  
+    const insertAnnouncementQuery = 'INSERT INTO announcements (teacherId, title, message) VALUES (?, ?, ?)';
+  
+    db.query(insertAnnouncementQuery, [teacherId, title, message], (error, result) => {
+      if (error) {
+        console.error('Error executing query to insert announcement:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+        return;
+      }
+  
+      console.log('Announcement inserted successfully.');
+      res.json({ success: true });
+    });
+  });
 
 module.exports = router;

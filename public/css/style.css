@@ -631,34 +631,46 @@ a:hover {
    padding: 20px;
    margin: 10px;
    border-radius: 8px;
-}
+ }
 
-.adminbox h3 {
+ .adminbox h3 {
    color: var(--black);
    font-size: large;
-}
+ }
 
-.adminbox form {
+ .adminbox form {
    margin-top: 10px;
-}
+ }
 
-.adminbox textarea {
+ .adminbox label {
+   display: block;
+   margin-bottom: 5px;
+   color: var(--black);
+   font-size: small;
+ }
+
+ .adminbox input,
+ .adminbox textarea {
    width: 100%;
    padding: 10px;
    margin-bottom: 10px;
    box-sizing: border-box;
    border: 1px solid #ddd;
    border-radius: 4px;
-}
+ }
 
-.adminbox button {
+ .adminbox button {
    background-color: var(--main-color);
    color: white;
    padding: 10px 15px;
    border: none;
    border-radius: 4px;
    cursor: pointer;
-}
+ }
+
+ .adminbox button:hover {
+   background-color: darken(var(--main-color), 10%);
+ }
 
 /* Form */
 
