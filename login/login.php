@@ -7,7 +7,7 @@ if (isset($_POST['userID'])){
     $userId = $_POST['userID'];
     $password = $_POST['password'];
 
-    $statement = $db->prepare("SELECT * FROM user WHERE userId = ? AND password = ? AND type = 1");
+    $statement = $db->prepare("SELECT * FROM user NATURAL JOIN student WHERE studentId = ? AND password = ? AND type = 1");
     $statement->bind_param('ss', $userId, $password);
     $statement->execute();
     $result = $statement->get_result();
