@@ -109,7 +109,7 @@
          <span>Password:</span><input class="password-input" name="password" type="password" placeholder="Your password" required maxlength="20" value=<?php echo "\"$password\""; ?> > 
       </label>
       <label class="profile-field">
-         <span>Confirm Password:</span><input class="confirm-password-input" name="password" required maxlength="20" placeholder="Confirm password">
+         <span>Confirm Password:</span><input type="password" class="confirm-password-input" name="password" required maxlength="20" placeholder="Confirm password">
       </label>
          <input class="change-password-btn" type="submit" value="Change Password" name="submit">
       </form>
