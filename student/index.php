@@ -41,8 +41,8 @@
    //Fetching announcements made by the advisors
    $announcementsQuery = $db->prepare("SELECT a.title, a.message, a.datePosted
    FROM announcements AS a
-   JOIN advisor AS adv ON a.advisorId = adv.advisorId
-   JOIN internship AS i ON adv.advisorId = i.advisorId
+   JOIN teacher AS tea ON a.teacherId = tea.teacherId
+   JOIN internship AS i ON tea.teacherId = i.teacherId
    JOIN student AS s ON i.studentId = s.studentId
    WHERE s.userId = ?
    ORDER BY a.datePosted DESC
