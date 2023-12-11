@@ -106,7 +106,10 @@
          <span>Class Code:</span><input name="classCode" type="text" value=<?php echo "\"$classCode\""; ?> disabled> 
       </label>
       <label class="profile-field">
-         <span>Password:</span><input class="password-input" name="password" type="text" required maxlength="20" value=<?php echo "\"$password\""; ?> > 
+         <span>Password:</span><input class="password-input" name="password" type="password" placeholder="Your password" required maxlength="20" value=<?php echo "\"$password\""; ?> > 
+      </label>
+      <label class="profile-field">
+         <span>Confirm Password:</span><input class="confirm-password-input" name="confirm-password" type="password" required maxlength="20" placeholder="Confirm password">
       </label>
          <input class="change-password-btn" type="submit" value="Change Password" name="submit">
       </form>
@@ -122,6 +125,23 @@
 
 <!-- custom js file link  -->
 <script src="../public/js/script.js"></script>
+<script>
+var password = document.querySelector(".password-input");
+var confirm_password = document.querySelector(".confirm-password-input");
+
+
+  console.log(password, confirm_password);
+
+function validatePassword(){
+  if(password.value != confirm_password.value) {
+    confirm_password.setCustomValidity("Passwords Don't Match");
+  } else {
+    confirm_password.setCustomValidity('');
+  }
+}
+password.onchange = validatePassword;
+confirm_password.onkeyup = validatePassword;
+</script>
 
    
 </body>
