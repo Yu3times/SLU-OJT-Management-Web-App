@@ -1385,9 +1385,28 @@ a:hover {
    border-width: 3px;
 }
 
-.user-profile, section.reports, section.home-grid {
-   min-height: 550px;
-   height: 650px;
+.current-password,
+.password-input,
+.confirm-password-input {
+   width: calc(50% - 60px);
+}
+
+.current-password-toggle,
+.password-toggle,
+.confirm-password-toggle {
+   cursor: pointer;
+   position: absolute;
+   margin-left: 520px;
+}
+
+.user-profile {
+   min-height: 800px;
+   height: 850px;
+}
+
+section.reports, section.home-grid {
+   min-height: 650px;
+   height: 700px;
 }
 
 @media (max-width:1200px){
