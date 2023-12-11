@@ -263,7 +263,7 @@
    
    <section class="flex">
 
-      <a href="index.html" class="logo">OJT Portal</a>
+      <a href="index.php" class="logo">OJT Portal</a>
 
 
       <div class="icons">

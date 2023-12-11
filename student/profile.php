@@ -23,7 +23,7 @@
    
    <section class="flex">
 
-      <a href="index.html" class="logo">OJT Portal</a>
+      <a href="index.php" class="logo">OJT Portal</a>
 
 
       <div class="icons">
@@ -106,12 +106,12 @@
          <span>Class Code:</span><input name="classCode" type="text" value=<?php echo "\"$classCode\""; ?> disabled> 
       </label>
       <label class="profile-field">
-         <span>Current Password:</span>
+      <span>Current Password:</span>
          <input class="current-password" name="currentPassword" type="password" value="<?php echo htmlspecialchars($password); ?>" required maxlength="20">
          <i class="fa fa-eye current-password-toggle" onclick="toggleCurrentPasswordVisibility()"></i>
       </label>
       <label class="profile-field">
-         <span>New Password:</span>
+      <span>New Password:</span>
          <input class="password-input" name="password" type="password" placeholder="Your password" required maxlength="20">
          <i class="fa fa-eye password-toggle" onclick="togglePasswordVisibility()"></i>
       </label>
@@ -135,8 +135,21 @@
 <!-- custom js file link  -->
 <script src="../public/js/script.js"></script>
 <script>
+   /*
+var password = document.querySelector(".password-input");
+  , confirm_password = document.querySelector(".confirm-password-input");
 
-var currentPassword = document.querySelectory(".current-password")
+function validatePassword(){
+  if(password.value != confirm_password.value) {
+    confirm_password.setCustomValidity("Passwords Don't Match");
+  } else {
+    confirm_password.setCustomValidity('');
+  }
+}
+password.onchange = validatePassword;
+confirm_password.onkeyup = validatePassword;
+*/
+var currentPassword = document.querySelector(".current-password")
 var currentPasswordToggle = document.querySelector(".current-password-toggle");
 var password = document.querySelector(".password-input");
 var confirmPassword = document.querySelector(".confirm-password-input");
@@ -190,12 +203,14 @@ password.onchange = validatePassword;
 confirmPassword.onkeyup = validatePassword;
 
 function validatePassword(){
-  if(password.value != confirmPassword.value) {
+   if(password.value != confirmPassword.value) {
     confirmPassword.setCustomValidity("Passwords Don't Match");
   } else {
-    confirmPassword.setCustomValidity('');
+   confirmPassword.setCustomValidity('');
   }
 }
+
+
 </script>
 
    
