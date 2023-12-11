@@ -536,6 +536,7 @@ section{
 
 /* Form */
 /* Add this CSS for the form */
+
 .reports .box-container form {
    font-size: large;
    display: flex;
@@ -569,9 +570,58 @@ section{
    background-color:var(--main-color);
 }
 
+.reports .box-container{
+   margin-bottom: 20px;
+}
+
+.reports .box-container .rectangle {
+   background-color: var(--white);
+   border-radius: 0.5rem;
+   padding: 2rem;
+   width: 60rem;
+   max-width: 100%;
+   margin: auto;
+}
+
 #message-container {
    text-align: center;
    color: var(--black);
+}
+
+table {
+   font-size: small;
+   font-weight: bold;
+   color:var(--black);
+   width: 100%;
+   border-collapse: collapse;
+}
+
+caption {
+   font-size: 1.5em;
+   margin-bottom: 10px;
+}
+
+th, td {
+   border: 1px solid #ddd;
+   padding: 8px;
+   text-align: left;
+}
+
+th {
+   background-color: var(--main-color);
+}
+
+tr:hover {
+   background-color:var(--light-bg);
+}
+
+a {
+   text-decoration: none;
+   color: var(--orange);
+}
+
+a:hover {
+   text-decoration: underline;
 }
 
 /* Form */
@@ -1327,7 +1377,7 @@ section{
    margin-bottom: 5px;
 }
 
-.profile-form input[type="text"] {
+.profile-field input[type="text"], .profile-field input[type="password"] {
    background-color: white;
    font-size: 1.8rem;
    border-color: var(--black);
@@ -1335,14 +1385,9 @@ section{
    border-width: 3px;
 }
 
-.user-profile {
-   min-height: 850px;
-   height: 875px;
-}
-
-section.reports, section.home-grid {
-   min-height: 650px;
-   height: 700px;
+.user-profile, section.reports, section.home-grid {
+   min-height: 550px;
+   height: 650px;
 }
 
 @media (max-width:1200px){

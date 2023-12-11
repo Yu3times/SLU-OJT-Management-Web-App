@@ -40,7 +40,7 @@ router.post('/login', (req, res) => {
     req.session.userID = userId;
     req.session.password = password;
 
-    const statement = "SELECT firstName, lastName FROM user natural join teacher WHERE userId = ? AND password = ?";
+    const statement = "SELECT firstName, lastName FROM user natural join teacher WHERE teacherId = ? AND password = ?";
     
     db.query(statement, [userId, password], (error, result) => {
         if (error) {

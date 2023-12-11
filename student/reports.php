@@ -6,7 +6,7 @@ include "../login/requireSession.php";
 $idQuery = "SELECT studentId FROM student WHERE userId = '{$_SESSION['userID']}'";
 $result = mysqli_query($db, $idQuery);
 if ($row = mysqli_fetch_assoc($result)) {
-    $_SESSION['studentId'] = $row['studentId']; 
+   $_SESSION['studentId'] = $row['studentId'];
 }
 mysqli_free_result($result);
 
@@ -15,7 +15,7 @@ $maxWeekQuery = "SELECT MAX(weekNum) AS maxWeek FROM reports WHERE studentId = '
 $result = mysqli_query($db, $maxWeekQuery);
 $maxWeek = 1;
 if ($row = mysqli_fetch_assoc($result)) {
-    $maxWeek = $row['maxWeek'];
+   $maxWeek = $row['maxWeek'];
 }
 $_SESSION['weekNum'] = $maxWeek + 1;
 
@@ -27,66 +27,64 @@ $checkReportQuery = "SELECT COUNT(*) AS reportCount FROM reports WHERE studentId
 $checkResult = mysqli_query($db, $checkReportQuery);
 
 if ($checkResult === false) {
-    echo "Error: " . mysqli_error($db);
+   echo "Error: " . mysqli_error($db);
 } else {
-    $checkRow = mysqli_fetch_assoc($checkResult);
+   $checkRow = mysqli_fetch_assoc($checkResult);
 
-    if ($checkRow !== null) {
-        $reportCount = $checkRow['reportCount'];
-    } else {
-        $reportCount = 0;
-    }
+   if ($checkRow !== null) {
+      $reportCount = $checkRow['reportCount'];
+   } else {
+      $reportCount = 0;
+   }
 
-    $_SESSION['reportSubmitted'] = $reportCount > 0;
-    echo $_SESSION['reportSubmitted'];
-    mysqli_free_result($checkResult);
+   $_SESSION['reportSubmitted'] = $reportCount > 0;
+   mysqli_free_result($checkResult);
 }
 
 
 // Submit button clicked
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $weekNumber = $_SESSION['weekNum'];
-    $hoursWorked = $_POST['hoursWorked'];
+   $weekNumber = $_SESSION['weekNum'];
+   $hoursWorked = $_POST['hoursWorked'];
 
-    if ($hoursWorked < 0) {
-        echo "<script>alert('Error: Hours Worked cannot be negative.');</script>";
-        $_SESSION['negativeHrs'] = true;
-        exit;
-    }
+   if ($hoursWorked < 0) {
+      echo "<script>alert('Error: Hours Worked cannot be negative.');</script>";
+      $_SESSION['negativeHrs'] = true;
+      exit;
+   }
 
-    $uploadFolder = '../public/uploads';
-    $allowedFileTypes = ['pdf', 'doc', 'docx'];
+   $uploadFolder = '../public/uploads';
+   $allowedFileTypes = ['pdf', 'doc', 'docx'];
 
-    $uploadedFileName = $_FILES['uploadFiles']['name'];
-    $uploadedFileType = pathinfo($uploadedFileName, PATHINFO_EXTENSION);
+   $uploadedFileName = $_FILES['uploadFiles']['name'];
+   $uploadedFileType = pathinfo($uploadedFileName, PATHINFO_EXTENSION);
 
-    if (!in_array($uploadedFileType, $allowedFileTypes)) {
-        echo "<script>alert('Error: Only PDF, DOC, and DOCX files are allowed.');</script>";
-    } else {
-        $reportFile = $uploadFolder . '/' . uniqid() . '.' . $uploadedFileType;
+   if (!in_array($uploadedFileType, $allowedFileTypes)) {
+      echo "<script>alert('Error: Only PDF, DOC, and DOCX files are allowed.');</script>";
+   } else {
+      $reportFile = $uploadFolder . '/' . uniqid() . '.' . $uploadedFileType;
 
-        if (move_uploaded_file($_FILES['uploadFiles']['tmp_name'], $reportFile)) {
-            $insertQuery = "INSERT INTO reports (studentId, weekNum, hoursWorked, reportFile, status) 
+      if (move_uploaded_file($_FILES['uploadFiles']['tmp_name'], $reportFile)) {
+         $insertQuery = "INSERT INTO reports (studentId, weekNum, hoursWorked, reportFile, status) 
                             VALUES ('{$_SESSION['studentId']}', '$weekNumber', '$hoursWorked', '$reportFile', 1)";
 
-            if (mysqli_query($db, $insertQuery)) {
-                echo "<script>alert('Report submitted successfully.');</script>";
-            } else {
-                echo "<script>alert('Error: " . $insertQuery . " " . mysqli_error($db) . "');</script>";
-            }
-        } else {
-            echo "<script>alert('Error: Failed to move the uploaded file.');</script>";
-        }
-        
-        unset($_SESSION['negativeHrs']);
-    }
+         if (mysqli_query($db, $insertQuery)) {
+            echo "<script>alert('Report submitted successfully.');</script>";
+         } else {
+            echo "<script>alert('Error: " . $insertQuery . " " . mysqli_error($db) . "');</script>";
+         }
+      } else {
+         echo "<script>alert('Error: Failed to move the uploaded file.');</script>";
+      }
 
-    mysqli_close($db);
+      unset($_SESSION['negativeHrs']);
+   }
 }
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
    <meta charset="UTF-8">
    <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -100,91 +98,153 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
    <link rel="stylesheet" href="../public/css/style.css">
 
 </head>
+
 <body>
 
-<header class="header">
-   
-   <section class="flex">
+   <header class="header">
 
-      <a href="index.html" class="logo">OJT Portal</a>
+      <section class="flex">
+
+         <a href="index.html" class="logo">OJT Portal</a>
 
 
-      <div class="icons">
-         <div id="menu-btn" class="fas fa-bars"></div>
-         <div id="toggle-btn" class="fas fa-sun"></div>
+         <div class="icons">
+            <div id="menu-btn" class="fas fa-bars"></div>
+            <div id="toggle-btn" class="fas fa-sun"></div>
+         </div>
+
+      </section>
+
+   </header>
+
+   <div class="side-bar">
+
+      <div id="close-btn">
+         <i class="fas fa-times"></i>
+      </div>
+
+      <div class="profile">
+         <img src="../public/images/pic-1.jpg" class="image" alt="">
+         <h3 class="name"><?php echo $_SESSION['fullName'] ?></h3>
+         <p class="role">Student</p>
+         <a href="profile.php" class="btn">view profile</a>
+      </div>
+
+      <nav class="navbar">
+         <a href="index.php"><i class="fas fa-home"></i><span>Home</span></a>
+         <a href="internship-details.php"><i class="fa-solid fa-briefcase"></i><span>Intership Details</span></a>
+         <a href="reports.php"><i class="fa-regular fa-clipboard"></i><span>Reports</span></a>
+         <a href="logout.php"><i class="fa-solid fa-door-open"></i><span>Logout</span></a>
+      </nav>
+
+   </div>
+
+   <section class="reports">
+      <h1 class="heading">Reports</h1>
+      <div class="box-container">
+         <div class="rectangle">
+            <script>
+               window.addEventListener('DOMContentLoaded', (event) => {
+                  var formSubmitted = <?php echo json_encode($_SESSION['reportSubmitted']); ?>;
+                  if (formSubmitted) {
+                     disableForm();
+                  }
+               });
+
+               function disableForm() {
+                  var form = document.querySelector('form');
+                  var elements = form.elements;
+
+                  for (var i = 0; i < elements.length; i++) {
+                     elements[i].disabled = true;
+                  }
+
+                  var messageContainer = document.getElementById('message-container');
+                  messageContainer.innerHTML = '<h3>Report already submitted for this week. The form will be available next week.</h3>';
+               }
+            </script>
+
+            <form action="" method="post" enctype="multipart/form-data" onsubmit="return checkFormSubmission();">
+
+               <label for="weekNumber">Week Number: <?php echo $_SESSION['weekNum']; ?> </label>
+
+               <label for="hoursWorked">Hours Worked:</label>
+               <input type="number" id="hoursWorked" name="hoursWorked" required>
+
+               <label for="uploadFiles">Upload Files:</label>
+               <input type="file" id="uploadFiles" name="uploadFiles" required>
+
+               <button type="submit">Submit Report</button>
+            </form>
+            <div id="message-container"></div>
+         </div>
+      </div>
+
+      <div class="box-container">
+         <div class="rectangle">
+            <table>
+               <caption>Weekly Reports History</caption>
+               <tr>
+                  <th>Week</th>
+                  <th>Hours Worked</th>
+                  <th>Submitted</th>
+                  <th>File</th>
+                  <th>Teacher Comment</th>
+                  <th>Demerit</th>
+                  <th>Status</th>
+               </tr>
+
+               <?php
+               $fetchReportsQuery = "SELECT r.weekNum, r.hoursWorked, r.submittedAt, r.reportFile, r.comment, r.demerit, s.status FROM reports r JOIN status s ON r.status = s.code WHERE r.studentId = '{$_SESSION['studentId']}'";
+
+               $fetchReportsResult = mysqli_query($db, $fetchReportsQuery);
+
+               if (!$fetchReportsResult) {
+                  die('Error in query: ' . mysqli_error($db));
+               }
+
+               if (mysqli_num_rows($fetchReportsResult) > 0) {
+                  while ($reportRow = mysqli_fetch_assoc($fetchReportsResult)) {
+                     echo "<tr>";
+                     echo "<td>{$reportRow['weekNum']}</td>";
+                     echo "<td>{$reportRow['hoursWorked']}</td>";
+                     echo "<td>{$reportRow['submittedAt']}</td>";
+                     echo "<td><a href='{$reportRow['reportFile']}' target='_blank'>Show File</a></td>";
+                     echo "<td>{$reportRow['comment']}</td>";
+                     $demerit = $reportRow['demerit'] !== null ? $reportRow['hoursWorked'] - $reportRow['demerit'] : "N/A";
+                     echo "<td>{$demerit}</td>";
+                     echo "<td>{$reportRow['status']}</td>";
+                     echo "</tr>";
+                  }
+               } else {
+                  echo "<tr><td colspan='7'>No reports found.</td></tr>";
+               }
+
+               mysqli_free_result($fetchReportsResult);
+               ?>
+            </table>
+         </div>
       </div>
 
    </section>
 
-</header>   
 
-<div class="side-bar">
+   <?php
+   $totalReportsQuery = "SELECT COUNT(*) as total FROM reports WHERE studentId = '{$_SESSION['studentId']}'";
+   $totalReportsResult = mysqli_query($db, $totalReportsQuery);
+   $totalReports = mysqli_fetch_assoc($totalReportsResult)['total'];
 
-   <div id="close-btn">
-      <i class="fas fa-times"></i>
+   mysqli_free_result($totalReportsResult);
+   ?>
    </div>
+   </section>
 
-   <div class="profile">
-      <img src="../public/images/pic-1.jpg" class="image" alt="">
-      <h3 class="name"><?php echo $_SESSION['fullName'] ?></h3>
-      <p class="role">Student</p>
-      <a href="profile.php" class="btn">view profile</a>
-   </div>
+   <footer class="footer">
+      &copy; copyright @ 2023 by <span>Team Croods</span> | all rights reserved!
+   </footer>
 
-   <nav class="navbar">
-      <a href="index.php"><i class="fas fa-home"></i><span>Home</span></a>
-      <a href="internship-details.php"><i class="fa-solid fa-briefcase"></i><span>Intership Details</span></a>
-      <a href="reports.php"><i class="fa-regular fa-clipboard"></i><span>Reports</span></a>
-      <a href="logout.php"><i class="fa-solid fa-door-open"></i><span>Logout</span></a>
-   </nav>
-
-</div>
-
-<section class="reports">
-   <h1 class="heading">Reports</h1>
-   <div class="box-container">
-      <script>
-      window.addEventListener('DOMContentLoaded', (event) => {
-         var formSubmitted = <?php echo json_encode($_SESSION['reportSubmitted']); ?>;
-         if (formSubmitted) {
-            disableForm();
-         }
-      });
-
-      function disableForm() {
-         var form = document.querySelector('form');
-         var elements = form.elements;
-
-         for (var i = 0; i < elements.length; i++) {
-            elements[i].disabled = true;
-         }
-
-         var messageContainer = document.getElementById('message-container');
-         messageContainer.innerHTML = '<h3>Report already submitted for this week. The form will be available next week.</h3>';
-      }
-      </script>
-
-      <form action="" method="post" enctype="multipart/form-data" onsubmit="return checkFormSubmission();">
-
-        <label for="weekNumber">Week Number: <?php echo $_SESSION['weekNum']; ?> </label>
-
-        <label for="hoursWorked">Hours Worked:</label>
-        <input type="number" id="hoursWorked" name="hoursWorked" required>
-
-        <label for="uploadFiles">Upload Files:</label>
-        <input type="file" id="uploadFiles" name="uploadFiles" required>
-
-        <button type="submit">Submit Report</button>
-      </form>
-      <div id="message-container"></div>
-   </div>
-</section>
-
-<footer class="footer">
-   &copy; copyright @ 2023 by <span>Team Croods</span> | all rights reserved!
-</footer>
-
-<!-- custom js file link  -->
-<script src="../public/js/script.js"></script>
+   <!-- custom js file link  -->
+   <script src="../public/js/script.js"></script>
 </body>
+
 </html>
