@@ -164,6 +164,26 @@
 
    $waiverStatusQuery->close();
 
+   $allApprovedOrReviewing = true;
+
+    // Check the status of each requirement
+   $requirements = [
+        'jobResume' => $jobResumeStatus,
+        'curriVitae' => $curriVitaeStatus,
+        'coverLetter' => $coverLetterStatus,
+        'moa' => $moaStatus,
+        'medCert' => $medCertStatus,
+        'waiver' => $waiverStatus
+    ];
+
+    foreach ($requirements as $status) {
+        if ($status !== 'APPROVED' && $status !== 'REVIEWING') {
+            $allApprovedOrReviewing = false;
+            break;
+        }
+    }
+
+
    $internshipQuery = $db->prepare("SELECT dateStarted FROM internship WHERE studentId = (SELECT studentId FROM student WHERE userId = ?)");
    $internshipQuery->bind_param("i", $userId);
    $internshipQuery->execute();
@@ -279,13 +299,27 @@
       </div>
 
       <div class="box">
-         <h3 class="title">To Do</h3>
-         <p class="requirements">Job Resume: <span> <?php echo $jobResumeStatus ?></span></p>
-         <p class="requirements">Curriculum Vitae: <span> <?php echo $curriVitaeStatus ?> </span></p>
-         <p class="requirements">Cover Letter: <span></span> <?php echo $coverLetterStatus ?> </p>
-         <p class="requirements">MOA: <span></span> <?php echo $moaStatus ?> </p>
-         <p class="requirements">Medical Certificate: <span> <?php echo $medCertStatus ?> </span></p>
-         <p class="requirements">Waiver: <span></span> <?php echo $waiverStatus ?> </p>
+      <?php if (!$allApprovedOrReviewing): ?>
+         <h3 class="title">Requirements List:</h3>
+         <?php if ($requirements['jobResume'] !== 'APPROVED' && $requirements['jobResume'] !== 'REVIEWING'): ?>
+            <p class="requirements">Job Resume: <span> <?php echo $requirements['jobResume'] ?></span></p>
+         <?php endif; ?>
+         <?php if ($requirements['curriVitae'] !== 'APPROVED' && $requirements['curriVitae'] !== 'REVIEWING'): ?>
+            <p class="requirements">Curriculum Vitae: <span> <?php echo $requirements['curriVitae'] ?> </span></p>
+         <?php endif; ?>
+         <?php if ($requirements['coverLetter'] !== 'APPROVED' && $requirements['coverLetter'] !== 'REVIEWING'): ?>
+            <p class="requirements">Cover Letter: <span> <?php echo $requirements['coverLetter'] ?> </span></p>
+         <?php endif; ?>
+         <?php if ($requirements['moa'] !== 'APPROVED' && $requirements['moa'] !== 'REVIEWING'): ?>
+            <p class="requirements">MOA: <span> <?php echo $requirements['moa'] ?> </span></p>
+         <?php endif; ?>
+         <?php if ($requirements['medCert'] !== 'APPROVED' && $requirements['medCert'] !== 'REVIEWING'): ?>
+            <p class="requirements">Medical Certificate: <span> <?php echo $requirements['medCert'] ?> </span></p>
+         <?php endif; ?>
+         <?php if ($requirements['waiver'] !== 'APPROVED' && $requirements['waiver'] !== 'REVIEWING'): ?>
+            <p class="requirements">Waiver: <span> <?php echo $requirements['waiver'] ?> </span></p>
+         <?php endif; ?>
+      <?php endif; ?>
          <?php if (!empty($dueReports)): ?>
          <br>
          <br>
