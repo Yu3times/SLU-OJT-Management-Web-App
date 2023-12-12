@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Dec 11, 2023 at 04:00 PM
+-- Generation Time: Dec 12, 2023 at 09:31 PM
 -- Server version: 8.0.31
 -- PHP Version: 8.0.26
 
@@ -58,8 +58,8 @@ DROP TABLE IF EXISTS `announcements`;
 CREATE TABLE IF NOT EXISTS `announcements` (
   `announcementId` int NOT NULL AUTO_INCREMENT,
   `teacherId` int NOT NULL,
-  `title` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `message` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `title` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `message` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `datePosted` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`announcementId`),
   KEY `announcements_advisorId` (`teacherId`)
@@ -71,10 +71,10 @@ CREATE TABLE IF NOT EXISTS `announcements` (
 
 INSERT INTO `announcements` (`announcementId`, `teacherId`, `title`, `message`, `datePosted`) VALUES
 (3, 111011, 'Teacher Transfer', 'To all students under me, transfer to Mrs. Elena Perez', '2023-12-12 21:55:45'),
-(4, 111015, 'Urgent Notification ', 'Mr. Dela Cruz, please see me after work. We have important business matters to discuss.', '2023-12-11 22:05:31'),
-(5, 111012, 'Health notice', 'Mr. Rivera has been diagnosed with COVID-19 , so lessen physical contact among my students. Take care and have a good morning!', '2023-12-11 22:05:31'),
-(6, 111013, 'Merit Assessment', 'Good evening, Mr. Santiago. I have assessed your performance for the last few weeks, and we are yet to discuss on how we will keep you in this company. Come and see me after your work hours if you have the time.', '2023-12-11 22:05:31'),
-(7, 111014, 'Promotion Chance', 'Good morning, Mrs. Cruz. Due to your recent performance for our Christmas Party and your consistency at work, you are hereby promoted to CEO. Please take care of the company and see me tomorrow afternoon.', '2023-12-11 22:05:31');
+(4, 111015, 'Urgent Notification ', 'Mr. Reyes, please see me after work. We have important business matters to discuss.', '2023-12-11 22:05:31'),
+(5, 111012, 'HEALTH NOTICE', 'With the ongoing COVID situation, remember: No mask, no entry. Prioritize safety. Thank you.', '2023-12-06 22:05:31'),
+(6, 111013, 'Missing Requirements', 'Those with incomplete/under review requirements, please come to the office ASAP. Let\'s address and resolve any outstanding issues. Thank you.', '2023-12-11 22:05:31'),
+(7, 111014, 'Promotion Chance', 'Promotion chances are favorable for those with zero demerits. Keep up the good work and maintain a clean record. Best of luck!', '2023-12-11 22:05:31');
 
 -- --------------------------------------------------------
 
@@ -85,10 +85,10 @@ INSERT INTO `announcements` (`announcementId`, `teacherId`, `title`, `message`, 
 DROP TABLE IF EXISTS `company`;
 CREATE TABLE IF NOT EXISTS `company` (
   `companyID` int NOT NULL AUTO_INCREMENT,
-  `companyName` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `companyAddress` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `website` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `contact` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `companyName` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `companyAddress` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `website` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `contact` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (`companyID`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -130,16 +130,16 @@ CREATE TABLE IF NOT EXISTS `internship` (
 --
 
 INSERT INTO `internship` (`internshipId`, `studentId`, `companyId`, `teacherId`, `advisorId`, `dateStarted`, `dateEnded`) VALUES
-(1, 222010, 1, 111011, 333003, '2023-01-15', '2023-06-15'),
-(2, 222007, 3, 111015, 333005, '2023-02-01', '2023-05-31'),
-(3, 222001, 1, 111011, 333001, '2023-12-08', '2024-04-17'),
-(4, 222002, 2, 111012, 333002, '2024-02-08', '2024-05-10'),
-(5, 222003, 3, 111013, 333003, '2023-12-14', '2024-02-21'),
-(6, 222004, 4, 111014, 333004, '2024-01-06', '2024-04-19'),
-(7, 222005, 5, 111015, 333005, '2024-03-07', '2024-05-16'),
-(8, 222006, 1, 111011, 333001, '2023-12-01', '2024-01-01'),
-(9, 222008, 2, 111012, 333002, '2024-05-08', '2024-09-27'),
-(10, 222009, 3, 111013, 333003, '2024-02-05', '2024-06-25');
+(1, 222001, 1, 111011, 333001, '2023-12-05', '2024-05-08'),
+(2, 222002, 2, 111012, 333002, '2023-11-23', '2024-04-24'),
+(3, 222003, 3, 111013, 333003, '2023-11-17', '2024-04-15'),
+(4, 222004, 4, 111014, 333004, '2023-12-06', '2024-05-17'),
+(5, 222005, 5, 111015, 333005, '2023-11-24', '2024-04-24'),
+(6, 222006, 5, 111015, 333005, '2023-11-30', '2024-05-01'),
+(7, 222007, 4, 111014, 333004, '2023-12-02', '2024-05-16'),
+(8, 222008, 3, 111013, 333003, '2023-12-06', '2024-05-06'),
+(9, 222009, 2, 111012, 333002, '2023-12-04', '2024-05-08'),
+(10, 222010, 1, 111011, 333001, '2023-12-02', '2024-05-13');
 
 -- --------------------------------------------------------
 
@@ -154,34 +154,36 @@ CREATE TABLE IF NOT EXISTS `reports` (
   `weekNum` int NOT NULL,
   `hoursWorked` int NOT NULL,
   `demerit` int DEFAULT NULL,
-  `reportFile` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `reportFile` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `submittedAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `comment` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `comment` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `status` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`reportId`),
   KEY `userId_reports` (`studentId`),
   KEY `report_status` (`status`)
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `reports`
 --
 
 INSERT INTO `reports` (`reportId`, `studentId`, `weekNum`, `hoursWorked`, `demerit`, `reportFile`, `submittedAt`, `comment`, `status`) VALUES
-(7, 222006, 2, 23, NULL, '../public/uploads/sofia_torres_w2_report.pdf', '2023-02-03 05:43:19', 'Can use a little bit of improvement but good work nonetheless', 2),
-(8, 222003, 1, 30, NULL, '../public/uploads/jose_lopez_w1_report.pdf', '2023-01-10 11:15:39', 'Great performance! Keep up the good work.', 2),
-(9, 222003, 2, 16, NULL, '../public/uploads/jose_lopez_w2_report.pdf', '2023-01-17 07:30:00', 'Consistent work! Good job!', 0),
-(10, 222002, 1, 15, NULL, '../public/uploads/maria_gonzales_w1_report.pdf', '2023-01-10 13:28:18', 'Great Job!', 2),
-(11, 222001, 1, 20, NULL, '../public/uploads/juan_santos_w1_report.pdf', '2023-01-10 00:00:00', 'Great progress!', 2),
-(12, 222002, 2, 15, NULL, '../public/uploads/maria_gonzales_w2_report.pdf', '2023-01-17 01:30:00', 'Meeting expectations', 2),
-(13, 222003, 3, 25, NULL, '../public/uploads/jose_lopez_w3_report.pdf', '2023-01-24 02:45:00', 'Exceeding expectations!', 2),
-(14, 222004, 4, 18, NULL, '../public/uploads/ana_cruz_w4_report.pdf', '2023-01-31 03:15:00', 'Good effort.', 1),
-(15, 222005, 5, 30, NULL, '../public/uploads/ramon_reyes_w5_report.pdf', '2023-02-07 04:00:00', 'Outstanding work!', 2),
-(16, 222006, 3, 20, 2, '../public/uploads/sofia_torres_w3_report.pdf', '2023-02-10 12:23:34', 'Incomplete work.', 0),
-(17, 222007, 1, 15, 0, '../public/uploads/miguel_delacruz_w1_report.pdf', '2023-03-10 11:10:34', 'Fair work. Could do some improvement.', 1),
-(18, 222008, 1, 13, NULL, '../public/uploads/carmen_rivera_w1_report.pdf', '2023-12-11 02:15:53', 'No comment', 2),
-(19, 222009, 1, 19, NULL, '../public/uploads/pedro_santiago_w1_report.pdf', '2023-05-17 12:23:34', 'Good work.', 2),
-(20, 222010, 1, 16, 3, '../public/uploads/bella_fernando_w1_reports.pdf', '2023-12-11 13:27:50', 'Incorrect name for report file.', 1);
+(7, 222006, 2, 36, NULL, '../public/uploads/sofia_torres_w2_report.pdf', '2023-12-07 05:43:19', 'Can use a little bit of improvement but good work nonetheless', 2),
+(8, 222003, 1, 37, NULL, '../public/uploads/jose_lopez_w1_report.pdf', '2023-11-12 11:15:39', 'Good Job!', 2),
+(9, 222003, 2, 43, 2, '../public/uploads/jose_lopez_w2_report.pdf', '2023-11-20 07:30:00', 'I encourage the intern to maintain honesty in reporting hours.', 1),
+(10, 222002, 1, 30, 1, '../public/uploads/maria_gonzales_w1_report.pdf', '2023-11-30 16:50:00', 'Keep up the good work but there is a need for increased commitment to meeting the required work hours.', 2),
+(11, 222001, 1, 36, NULL, '../public/uploads/juan_santos_w1_report.pdf', '2023-12-10 00:00:00', 'Great job on completing week 1!', 2),
+(12, 222002, 2, 35, NULL, '../public/uploads/maria_gonzales_w2_report.pdf', '2023-12-11 17:48:00', 'Meeting expectations—well done!', 2),
+(13, 222003, 3, 35, NULL, '../public/uploads/jose_lopez_w3_report.pdf', '2023-12-01 02:45:00', 'Appreciate the honesty in Week 3.', 2),
+(14, 222004, 1, 18, 1, '../public/uploads/ana_cruz_w1_report.pdf', '2023-12-09 03:15:00', 'Let\'s aim for more hours next week. Keep it up!', 2),
+(15, 222005, 3, 36, NULL, '../public/uploads/ramon_reyes_w3_report.pdf', '2023-12-13 04:00:00', 'Great job on submitting the report for Week 3! Could you also provide updates on your activities for the first two weeks? ', 2),
+(16, 222006, 3, 20, 2, '../public/uploads/sofia_torres_w3_report.pdf', '2023-12-13 12:23:34', 'Incomplete work. Work hours did not meet the required target.', 1),
+(17, 222007, 1, 29, 1, '../public/uploads/miguel_delacruz_w1_report.pdf', '2023-12-07 22:00:00', 'Fair work. Could do some improvement.', 2),
+(18, 222008, 1, 13, NULL, '../public/uploads/carmen_rivera_w1_report.pdf', '2023-12-11 02:15:53', 'Please come see me for a brief discussion.', 1),
+(19, 222009, 1, 38, NULL, '../public/uploads/pedro_santiago_w1_report.pdf', '2023-05-17 12:23:34', 'Good work!', 2),
+(20, 222010, 1, 16, 3, '../public/uploads/bella_fernando_w1_reports.pdf', '2023-12-11 13:27:50', 'Incorrect name for report file. Did not reach required work hours.', 1),
+(23, 222005, 2, 33, 2, '', '2023-12-07 02:30:00', 'There is no way to check/confirm your work hours without a report.', 0),
+(24, 222005, 1, 26, 2, '', '2023-12-01 03:32:00', 'No file uploaded.', 0);
 
 -- --------------------------------------------------------
 
@@ -207,19 +209,23 @@ CREATE TABLE IF NOT EXISTS `requirements` (
   KEY `jobResume_status` (`jobResume`),
   KEY `curriVitae_status` (`curriVitae`),
   KEY `coverLetter_status` (`coverLetter`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `requirements`
 --
 
 INSERT INTO `requirements` (`requirementId`, `studentId`, `jobResume`, `curriVitae`, `coverLetter`, `moa`, `medCert`, `waiver`) VALUES
-(1, 222007, 0, 1, 2, 0, 1, 2),
-(11, 222001, 0, 0, 0, 1, 1, 0),
-(12, 222002, 0, 0, 0, 1, 0, 1),
-(13, 222003, 0, 0, 0, 1, 1, 0),
-(14, 222004, 0, 0, 0, 0, 1, 1),
-(15, 222005, 0, 0, 0, 1, 0, 0);
+(1, 222001, 2, 2, 2, 2, 1, 2),
+(11, 222002, 2, 2, 2, 1, 1, 2),
+(12, 222003, 2, 2, 2, 1, 0, 2),
+(13, 222004, 2, 1, 1, 0, 1, 1),
+(14, 222005, 2, 2, 2, 2, 2, 2),
+(15, 222006, 2, 2, 2, 1, 2, 2),
+(16, 222007, 2, 1, 1, 1, 2, 2),
+(17, 222008, 1, 2, 0, 0, 0, 0),
+(18, 222009, 2, 2, 1, 0, 0, 1),
+(19, 222010, 0, 1, 1, 2, 1, 2);
 
 -- --------------------------------------------------------
 
@@ -253,9 +259,9 @@ DROP TABLE IF EXISTS `student`;
 CREATE TABLE IF NOT EXISTS `student` (
   `studentId` int NOT NULL AUTO_INCREMENT,
   `userId` int NOT NULL,
-  `firstName` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `lastName` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `course` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `firstName` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `lastName` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `course` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `classCode` int NOT NULL,
   PRIMARY KEY (`studentId`),
   KEY `userId_student` (`userId`)
@@ -287,8 +293,8 @@ DROP TABLE IF EXISTS `teacher`;
 CREATE TABLE IF NOT EXISTS `teacher` (
   `teacherId` int NOT NULL,
   `userId` int NOT NULL,
-  `firstName` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `lastName` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `firstName` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `lastName` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (`teacherId`),
   KEY `userId_advisor` (`userId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -313,8 +319,8 @@ INSERT INTO `teacher` (`teacherId`, `userId`, `firstName`, `lastName`) VALUES
 DROP TABLE IF EXISTS `user`;
 CREATE TABLE IF NOT EXISTS `user` (
   `userId` int NOT NULL AUTO_INCREMENT,
-  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `type` int NOT NULL,
   PRIMARY KEY (`userId`)
 ) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
