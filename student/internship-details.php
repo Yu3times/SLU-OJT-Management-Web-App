@@ -292,7 +292,7 @@
 
    <nav class="navbar">
       <a href="index.php"><i class="fas fa-home"></i><span>Home</span></a>
-      <a href="internship-details.php"><i class="fa-solid fa-briefcase"></i><span>Intership Details</span></a>
+      <a href="internship-details.php"><i class="fa-solid fa-briefcase"></i><span>Internship Details</span></a>
       <a href="reports.php"><i class="fa-regular fa-clipboard"></i><span>Reports</span></a>
       <a href="logout.php"><i class="fa-solid fa-door-open"></i><span>Logout</span></a>
    </nav>
