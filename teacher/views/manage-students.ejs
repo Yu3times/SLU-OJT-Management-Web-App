@@ -172,7 +172,7 @@ function updateReportsTable(reports) {
                 <td>${report.weekNum}</td>
                 <td>${report.hoursWorked}</td>
                 <td>${new Date(report.submittedAt).toLocaleDateString()}</td>
-                <td><a href="${report.reportFile}" target="_blank" download>Download File</a></td>
+                <td><a href="${report.reportFile.replace('/public', '')}" target="_blank">Show File</a></td>
                 <td>${report.demerit || 'N/A'}</td>
             `;
             reportsTableBody.appendChild(row);
