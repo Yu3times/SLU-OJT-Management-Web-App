@@ -50,7 +50,9 @@
       }
    ?>
 <body>
+   <div class="panorama"></div>
    
+   <div class="multiply"></div>
 
 <section class="form-container">
    <form id="loginForm" method="post">

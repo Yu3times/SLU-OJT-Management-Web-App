@@ -284,6 +284,7 @@
    <div class="box-container">
       <div class="rectangle">
          <h3 class="title">Announcements</h3>
+         <hr class="hrule">
          <?php
          if ($announcementsResult->num_rows > 0) {
             echo "<div class='box'><ul>";
@@ -300,24 +301,25 @@
 
       <div class="box">
       <?php if (!$allApprovedOrReviewing): ?>
-         <h3 class="title">Requirements List:</h3>
+         <h3 class="title">Requirements List</h3>
+         <hr class="hrule">
          <?php if ($requirements['jobResume'] !== 'APPROVED' && $requirements['jobResume'] !== 'REVIEWING'): ?>
-            <p class="requirements">Job Resume: <span> <?php echo $requirements['jobResume'] ?></span></p>
+            <p class="requirements">Job Resume: <span class="reqspan"> <?php echo $requirements['jobResume'] ?></span></p>
          <?php endif; ?>
          <?php if ($requirements['curriVitae'] !== 'APPROVED' && $requirements['curriVitae'] !== 'REVIEWING'): ?>
-            <p class="requirements">Curriculum Vitae: <span> <?php echo $requirements['curriVitae'] ?> </span></p>
+            <p class="requirements">Curriculum Vitae: <span class="reqspan"> <?php echo $requirements['curriVitae'] ?> </span></p>
          <?php endif; ?>
          <?php if ($requirements['coverLetter'] !== 'APPROVED' && $requirements['coverLetter'] !== 'REVIEWING'): ?>
-            <p class="requirements">Cover Letter: <span> <?php echo $requirements['coverLetter'] ?> </span></p>
+            <p class="requirements">Cover Letter: <span class="reqspan"> <?php echo $requirements['coverLetter'] ?> </span></p>
          <?php endif; ?>
          <?php if ($requirements['moa'] !== 'APPROVED' && $requirements['moa'] !== 'REVIEWING'): ?>
-            <p class="requirements">MOA: <span> <?php echo $requirements['moa'] ?> </span></p>
+            <p class="requirements">MOA: <span class="reqspan"> <?php echo $requirements['moa'] ?> </span></p>
          <?php endif; ?>
          <?php if ($requirements['medCert'] !== 'APPROVED' && $requirements['medCert'] !== 'REVIEWING'): ?>
-            <p class="requirements">Medical Certificate: <span> <?php echo $requirements['medCert'] ?> </span></p>
+            <p class="requirements">Medical Certificate: <span class="reqspan"> <?php echo $requirements['medCert'] ?> </span></p>
          <?php endif; ?>
          <?php if ($requirements['waiver'] !== 'APPROVED' && $requirements['waiver'] !== 'REVIEWING'): ?>
-            <p class="requirements">Waiver: <span> <?php echo $requirements['waiver'] ?> </span></p>
+            <p class="requirements">Waiver: <span class="reqspan"> <?php echo $requirements['waiver'] ?> </span></p>
          <?php endif; ?>
       <?php endif; ?>
          <?php if (!empty($dueReports)): ?>
@@ -332,6 +334,7 @@
          <br>
          <br>
          <h3 class="title">Hours Logged This Week</h3>
+         <hr class="hrule">
          <div class="flex">
          <a href="#"><i class="fa-solid fa-hourglass-end"></i><span><?php echo $hoursWorked; ?></span></a>
          </div>         
