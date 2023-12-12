@@ -119,7 +119,31 @@
               Submit Announcement
             </button>
           </form>
+          <br>
+          <div class="adminbox">
+  <h3 class="title">Announcements</h3>
+  <table>
+    <tr>
+      <th>Title</th>
+      <th>Message</th>
+      <th>Date Posted</th>
+      <th>Actions</th>
+    </tr>
+    <% announcements.forEach(announcement => { %>
+      <tr id="announcement-row-<%= announcement.id %>">
+          <td><span id="title-<%= announcement.id %>"><%= announcement.title %></span></td>
+          <td><span id="message-<%= announcement.id %>"><%= announcement.message %></span></td>
+          <td><%= announcement.datePosted %></td>
+          <td>
+              <button onclick="editAnnouncement('<%= announcement.id %>')">Edit</button>
+              <button onclick="deleteAnnouncement('<%= announcement.id %>')">Delete</button>
+          </td>
+      </tr>
+    <% }); %>      
+  </table>
+</div>
         </div>
+
         <script>
           function submitAnnouncement() {
             const announcementTitle =
@@ -175,6 +199,66 @@
     <!-- custom js file link  -->
     <script src="/js/script.js"></script>
     <script>
+      function editAnnouncement(announcementId) {
+        const row = document.getElementById(`announcement-row-${announcementId}`);
+        const title = document.getElementById(`title-${announcementId}`).innerText;
+        const message = document.getElementById(`message-${announcementId}`).innerText;
+
+        // Replace text with input fields
+        document.getElementById(`title-${announcementId}`).innerHTML = `<input type='text' id='edit-title-${announcementId}' value='${title}' />`;
+        document.getElementById(`message-${announcementId}`).innerHTML = `<input type='text' id='edit-message-${announcementId}' value='${message}' />`;
+
+        // Replace the Edit button with a Save button
+        row.querySelector('button').outerHTML = `<button onclick="saveAnnouncement('${announcementId}')">Save</button>`;
+      }
+
+      function saveAnnouncement(announcementId) {
+    const editedTitle = document.getElementById(`edit-title-${announcementId}`).value;
+    const editedMessage = document.getElementById(`edit-message-${announcementId}`).value;
+
+    // Prepare the data to be sent in the request
+    const data = {
+        announcementId: announcementId,
+        title: editedTitle,
+        message: editedMessage
+    };
+
+    // Make an AJAX call to submit the edited data to the server
+    fetch(`/edit-announcement`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
+    .then(data => {
+        // Handle success
+        console.log('Success:', data);
+
+        // Update the UI with the new title and message
+        document.getElementById(`title-${announcementId}`).innerText = editedTitle;
+        document.getElementById(`message-${announcementId}`).innerText = editedMessage;
+
+        // Change the Save button back to the Edit button
+        const row = document.getElementById(`announcement-row-${announcementId}`);
+        row.querySelector('button').outerHTML = `<button onclick="editAnnouncement('${announcementId}')">Edit</button>`;
+        
+        // Optionally, show a success message to the user
+        alert('Announcement updated successfully!');
+    })
+    .catch(error => {
+        // Handle errors
+        console.error('Error:', error);
+        alert('Error updating announcement. Please try again.');
+    });
+}
+
       console.log("fullName:", "<%= fullName %>");
     </script>
   </body>

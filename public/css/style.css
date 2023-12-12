@@ -1522,7 +1522,13 @@ h5 {
    height: 850px;
 }
 
-section.reports, section.home-grid {
+section.home-grid {
+   min-height: 900px;
+   height: 950px;
+
+}
+
+section.reports {
    min-height: 650px;
    height: 700px;
 }

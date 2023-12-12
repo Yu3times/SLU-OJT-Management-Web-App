@@ -65,6 +65,9 @@ router.get('/homepage', (req, res) => {
 
         const getStudentsQuery = "SELECT student.studentId, CONCAT(student.firstName, ' ', student.lastName) AS fullName, user.email FROM student JOIN user ON student.userId = user.userId JOIN internship ON student.studentId = internship.studentId WHERE internship.teacherId = ?";
 
+        // Fetch announcements query
+        const fetchAnnouncementsQuery = "SELECT * FROM announcements WHERE teacherId = ?";
+
         db.query(getTeacherNameQuery, [userId], (error, teacherResult) => {
             if (error) {
                 console.error('Error executing query to get teacher name:', error);
@@ -81,6 +84,7 @@ router.get('/homepage', (req, res) => {
                 console.log(fullName);
                 const teacherId = teacherRow.teacherId;
                 console.log(teacherId);
+
                 db.query(getStudentsQuery, [teacherId], (studentError, studentResult) => {
                     if (studentError) {
                         console.error('Error executing query to get students:', studentError);
@@ -89,7 +93,28 @@ router.get('/homepage', (req, res) => {
                     }
                     console.log(studentResult);
 
-                    res.render('homepage', { fullName: fullName, teacherUserId: teacherId, students: studentResult });
+                    // Fetching announcements
+                    db.query(fetchAnnouncementsQuery, [teacherId], (announcementError, announcements) => {
+                        if (announcementError) {
+                            console.error('Error fetching announcements:', announcementError);
+                            res.status(500).json({ error: 'Internal Server Error' });
+                            return;
+                        }
+
+                        announcements.forEach(announcement => {
+                            if (announcement.datePosted) {
+                                announcement.datePosted = new Date(announcement.datePosted).toDateString() + ' ' + new Date(announcement.datePosted).toLocaleTimeString();
+                            }
+                        });
+
+                        // Render homepage with all necessary data
+                        res.render('homepage', {
+                            fullName: fullName,
+                            teacherUserId: teacherId,
+                            students: studentResult,
+                            announcements: announcements
+                        });
+                    });
                 });
             }
         });
@@ -97,6 +122,33 @@ router.get('/homepage', (req, res) => {
         res.redirect("logout");
     }
 });
+
+router.post('/edit-announcement', (req, res) => {
+    const { announcementId, title, message } = req.body;
+    const updateQuery = "UPDATE announcements SET title = ?, message = ? WHERE announcementId = ?";
+    db.query(updateQuery, [title, message, announcementId], (error, result) => {
+        if (error) {
+            console.error('Error updating announcement:', error);
+            res.status(500).json({ error: 'Internal Server Error' });
+            return;
+        }
+        res.json({ success: true });
+    });
+});
+
+router.post('/delete-announcement', (req, res) => {
+    const { announcementId } = req.body;
+    const deleteQuery = "DELETE FROM announcements WHERE announcementId = ?";
+    db.query(deleteQuery, [announcementId], (error, result) => {
+        if (error) {
+            console.error('Error deleting announcement:', error);
+            res.status(500).json({ error: 'Internal Server Error' });
+            return;
+        }
+        res.json({ success: true });
+    });
+});
+
 
 
 router.get('/logout', (req, res) => {
@@ -164,7 +216,7 @@ router.get('/company-details', (req, res) => {
                 db.query(companyDetailsQuery, (error, companies) => {
                     if (error) {
                         console.error('Error executing query:', error);
-                        res.status(500).json({ error: 'Internal Server Error' });
+                        res.status(500).json({ error: 'Internal Server Error'   });
                         return;
                     } else {
                         res.render("company-details", {
