@@ -189,6 +189,26 @@ router.get('/student-reports', (req, res) => {
     });
 });
 
+router.post('/approve-report', (req, res) => {
+    const reportId = req.body.reportId;
+
+    if (!reportId) {
+        return res.status(400).json({ error: 'Report ID is required' });
+    }
+
+    const updateQuery = "UPDATE reports SET status = 2 WHERE reportId = ?";
+
+    db.query(updateQuery, [reportId], (error, result) => {
+        if (error) {
+            console.error('Error updating report:', error);
+            return res.status(500).json({ error: 'Internal Server Error' });
+        }
+
+        res.json({ success: true });
+    });
+});
+
+
 
 router.get('/logout', (req, res) => {
     // Remove port number
