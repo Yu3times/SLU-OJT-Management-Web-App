@@ -169,12 +169,16 @@ function updateReportsTable(reports) {
 
         reports.forEach(report => {
             let row = document.createElement('tr');
+            // Add the data-report-id attribute here
+            row.setAttribute('data-report-id', report.reportId);
+
             row.innerHTML = `
                 <td>${report.weekNum}</td>
                 <td>${report.hoursWorked}</td>
                 <td>${new Date(report.submittedAt).toLocaleDateString()}</td>
                 <td><a href="${report.reportFile.replace('/public', '')}" target="_blank">Show File</a></td>
-                <td>${report.demerit || 'N/A'}</td>
+                <td><input type="number" value="${report.demerit || ''}" min="0" step="1" /></td>
+                <td><button type="button" onclick="approveReport(${report.reportId})">Approve</button></td>
             `;
             reportsTableBody.appendChild(row);
         });
@@ -182,6 +186,34 @@ function updateReportsTable(reports) {
         console.error('Reports table body not found');
     }
 }
+
+
+function approveReport(reportId) {
+    fetch('/approve-report', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ reportId: reportId })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            console.log('Report approved successfully');
+
+            const reportRow = document.querySelector(`tr[data-report-id="${reportId}"]`);
+            if (reportRow) {
+                reportRow.remove();
+            }
+        } else {
+            console.error('Failed to approve report');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+}
+
 
 
 </script>
@@ -210,7 +242,7 @@ function updateReportsTable(reports) {
          <tbody>
              <!-- Rows will be added here dynamically -->
          </tbody>
-     </table>
+        </table>
      
 
        <h5>Reports History</h5>
