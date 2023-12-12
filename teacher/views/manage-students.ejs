@@ -99,35 +99,118 @@
    }
 
    function populateTable(data) {
-      const tableBody = document.getElementById('tableBody');
-      tableBody.innerHTML = ''; 
+    const tableBody = document.getElementById('tableBody');
+    tableBody.innerHTML = ''; 
 
-      data.forEach(student => {
-         const row = document.createElement('tr');
-         row.innerHTML = `
+    data.forEach(student => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
             <td>${student.studentId}</td>
             <td>${student.fullName}</td>
             <td>${student.email}</td>
             <td>${student.course}</td>
             <td>${student.classCode}</td>
             <td>${student.company}</td>
-         `;
-         tableBody.appendChild(row);
-      });
+        `;
+        row.setAttribute("data-student-id", student.studentId); // Add a data attribute
+        row.addEventListener("click", function() { selectRow(this); });
+        tableBody.appendChild(row);
+    });
    }
+
+function selectRow(row) {
+    // Remove highlighting from all rows
+    document.querySelectorAll('#studentTable tr').forEach(tr => {
+        tr.classList.remove('highlighted');
+    });
+
+    // Highlight the selected row
+    row.classList.add('highlighted');
+
+    const studentId = row.getAttribute('data-student-id');  
+    console.log('Selected Student ID:', studentId);
+
+    // Fetch Requirements
+    fetch(`/student-requirements?studentId=${studentId}`)
+        .then(response => response.json())
+        .then(data => updateRequirementsUI(data))
+        .catch(error => console.error('Error:', error));
+
+    // Fetch Reports
+    fetch(`/student-reports?studentId=${studentId}`)
+        .then(response => response.json())
+        .then(reports => updateReportsTable(reports))
+        .catch(error => console.error('Error:', error));
+   }
+
+   function updateRequirementsUI(data) {
+    const statusToText = (status) => {
+        switch(status) {
+            case 0: return 'Missing';
+            case 1: return 'Reviewing';
+            case 2: return 'Approved';
+            default: return 'Unknown';
+        }
+    };
+
+    document.querySelector(".requirements.job-resume span").textContent = statusToText(data.jobResume);
+    document.querySelector(".requirements.curriculum-vitae span").textContent = statusToText(data.curriVitae);
+    document.querySelector(".requirements.cover-letter span").textContent = statusToText(data.coverLetter);
+    document.querySelector(".requirements.moa span").textContent = statusToText(data.moa);
+    document.querySelector(".requirements.medical-certificate span").textContent = statusToText(data.medCert);
+    document.querySelector(".requirements.waiver span").textContent = statusToText(data.waiver);
+}
+
+function updateReportsTable(reports) {
+    let reportsTableBody = document.querySelector("#reportsTable tbody");
+    if (reportsTableBody) {
+        reportsTableBody.innerHTML = ''; // Clear existing rows
+
+        reports.forEach(report => {
+            let row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${report.weekNum}</td>
+                <td>${report.hoursWorked}</td>
+                <td>${new Date(report.submittedAt).toLocaleDateString()}</td>
+                <td><a href="${report.reportFile}" target="_blank" download>Download File</a></td>
+                <td>${report.demerit || 'N/A'}</td>
+            `;
+            reportsTableBody.appendChild(row);
+        });
+    } else {
+        console.error('Reports table body not found');
+    }
+}
+
+
 </script>
 <div class="manage-container">
    <div class="box">
        <h1 class="title">Manage Student</h1>
-       <h5>Requirements</h5>
-       <ul>
-           <!-- Requirements checklist items will be populated dynamically -->
-       </ul>
+       <h5>Requirements:</h5>
+       <p class="requirements job-resume">Job Resume: <span></span></p>
+       <p class="requirements curriculum-vitae">Curriculum Vitae: <span></span></p>
+       <p class="requirements cover-letter">Cover Letter: <span></span></p>
+       <p class="requirements moa">MOA: <span> </span></p>
+       <p class="requirements medical-certificate">Medical Certificate: <span> </span></p>
+       <p class="requirements waiver">Waiver: <span> </span></p>
 
        <h5>Reports to be reviewed</h5>
-       <ul>
-           <!-- Report details will be populated dynamically -->
-       </ul>
+       <table id="reportsTable">
+         <thead>
+             <tr>
+                 <th>Week</th>
+                 <th>Hours Worked</th>
+                 <th>Submitted</th>
+                 <th>File</th>
+                 <th>Demerit</th>
+             </tr>
+         </thead>
+         <tbody>
+             <!-- Rows will be added here dynamically -->
+         </tbody>
+     </table>
+     
 
        <h5>Reports History</h5>
        <ul>

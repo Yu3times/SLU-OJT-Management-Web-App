@@ -689,6 +689,10 @@ a:hover {
    background-color: darken(var(--main-color), 10%);
  }
 
+ .highlighted {
+   background-color: rgba(240, 240, 240, 0.3);
+}
+
 /* Form */
 
 .manage-grid {

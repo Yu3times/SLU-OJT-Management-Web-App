@@ -149,6 +149,41 @@ router.post('/delete-announcement', (req, res) => {
     });
 });
 
+router.get('/student-requirements', (req, res) => {
+    const studentId = req.query.studentId;
+
+    const query = `
+        SELECT jobResume, curriVitae, coverLetter, moa, medCert, waiver
+        FROM requirements
+        WHERE studentId = ?`;
+
+    db.query(query, [studentId], (error, results) => {
+        if (error) {
+            console.error('Error fetching requirements:', error);
+            res.status(500).json({ error: 'Internal Server Error' });
+        } else {
+            res.json(results[0]);
+        }
+    });
+});
+
+router.get('/student-reports', (req, res) => {
+    const studentId = req.query.studentId;
+
+    const query = `
+        SELECT *
+        FROM reports
+        WHERE studentId = ? AND status = 1`;
+
+    db.query(query, [studentId], (error, results) => {
+        if (error) {
+            console.error('Error fetching reports:', error);
+            res.status(500).json({ error: 'Internal Server Error' });
+            return;
+        }
+        res.json(results);
+    });
+});
 
 
 router.get('/logout', (req, res) => {
