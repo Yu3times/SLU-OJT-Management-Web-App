@@ -304,6 +304,7 @@
    <div class="box-container">
       <div class="rectangle">
          <h3 class="title">Company Details</h3>
+         <hr class="hrule">
          <p class="requirements">Name: <span><?php echo $companyName ?></span></p>
          <p class="requirements">Address: <span><?php echo $companyAddress ?></span></p>
          <p class="requirements">Website: <span><?php echo $companyWebsite ?></span></p>
@@ -316,16 +317,19 @@
 
       <div class="rectangle">
          <h3 class="title">Advisor Details</h3>
+         <hr class="hrule">
          <p class="requirements">Name: <span><?php echo $advisorName ?></span></p>
          <p class="requirements">Email: <span><?php echo $advisorEmail ?></span></p>
          <p class="requirements">Contact: <span><?php echo $advisorContact ?></span></p>
          <br>
          <br>
          <h3 class="title">Teacher Details</h3>
+         <hr class="hrule">
          <p class="requirements">Name: <span><?php echo $teacherName ?></span></p>
          <br>
          <br>
          <h3 class="title">Internship</h3>
+         <hr class="hrule">
          <p class="requirements">Start Date: <span>
             <?php 
             if ($dateStarted != "No start date found") {
