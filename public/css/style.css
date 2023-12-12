@@ -26,9 +26,7 @@
 
 html{
    font-size: 62.5%;
-   margin: 0;
-   padding: 0;
-   overflow: hidden;
+   overflowx: hidden;
 }
 
 html::-webkit-scrollbar{
@@ -47,9 +45,6 @@ html::-webkit-scrollbar-thumb{
 body{
    background-color: var(--light-bg);
    padding-left: 30rem;
-   margin: 0;
-   padding: 0;
-   overflow: hidden;
 }
  
  .panorama {
