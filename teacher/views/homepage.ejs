@@ -129,17 +129,33 @@
       <th>Date Posted</th>
       <th>Actions</th>
     </tr>
-    <% announcements.forEach(announcement => { %>
-      <tr id="announcement-row-<%= announcement.id %>">
-          <td><span id="title-<%= announcement.id %>"><%= announcement.title %></span></td>
-          <td><span id="message-<%= announcement.id %>"><%= announcement.message %></span></td>
-          <td><%= announcement.datePosted %></td>
-          <td>
-              <button onclick="editAnnouncement('<%= announcement.id %>')">Edit</button>
-              <button onclick="deleteAnnouncement('<%= announcement.id %>')">Delete</button>
-          </td>
-      </tr>
-    <% }); %>      
+  
+    <script>
+      console.log(typeof '<%= announcements%>');
+      console.log(JSON.parse('<%= announcements%>'));
+    </script>
+</script> 
+<% announcements.forEach(announcement => { %>
+  <script>
+    console.log( "foo");
+    console.log( '<%= announcement.announcementId%>');
+    console.log( '<%= announcement.title%>');
+    console.log( '<%= announcement.message%>');
+    console.log( "foo");
+
+  </script>
+
+  <tr id="announcement-row-<%= announcement.announcementId %>">
+      <td><span id="title-<%= announcement.announcementId %>"><%= announcement.title %></span></td>
+      <td><span id="message-<%= announcement.announcementId %>"><%= announcement.message %></span></td>
+      <td><%= announcement.datePosted %></td>
+      <td>
+          <button onclick="editAnnouncement('<%= announcement.announcementId %>')">Edit</button>
+          <button onclick="deleteAnnouncement('<%= announcement.announcementId %>')">Delete</button>
+      </td>
+  </tr>
+<% }); %>    
+  
   </table>
 </div>
         </div>
@@ -181,8 +197,7 @@
               })
               .then((data) => {
                 alert("Announcement submitted successfully:", data);
-                document.getElementById("announcementTitle").value = "";
-                document.getElementById("announcementText").value = "";
+                location.reload();
               })
               .catch((error) => {
                 console.error("Error:", error);
@@ -222,6 +237,7 @@
         title: editedTitle,
         message: editedMessage
     };
+    console.log(data);
 
     // Make an AJAX call to submit the edited data to the server
     fetch(`/edit-announcement`, {
@@ -251,6 +267,7 @@
         
         // Optionally, show a success message to the user
         alert('Announcement updated successfully!');
+        location.reload();
     })
     .catch(error => {
         // Handle errors
@@ -259,6 +276,40 @@
     });
 }
 
+      function deleteAnnouncement(announcementId){
+
+        const data = {
+        announcementId: announcementId
+    };
+
+        fetch(`/delete-announcement`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
+    .then(data => {
+        // Handle success
+        console.log('Success:', data);
+
+        // Optionally, show a success message to the user
+        alert('Announcement deleted successfully!');
+        location.reload();
+    })
+    .catch(error => {
+        // Handle errors
+        console.error('Error:', error);
+        alert('Error updating announcement. Please try again.');
+        location.reload();
+    });
+}
       console.log("fullName:", "<%= fullName %>");
     </script>
   </body>

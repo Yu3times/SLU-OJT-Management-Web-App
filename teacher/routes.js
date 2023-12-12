@@ -106,6 +106,7 @@ router.get('/homepage', (req, res) => {
                                 announcement.datePosted = new Date(announcement.datePosted).toDateString() + ' ' + new Date(announcement.datePosted).toLocaleTimeString();
                             }
                         });
+                        console.log(announcements);
 
                         // Render homepage with all necessary data
                         res.render('homepage', {
@@ -124,6 +125,7 @@ router.get('/homepage', (req, res) => {
 });
 
 router.post('/edit-announcement', (req, res) => {
+    console.log(req.body);
     const { announcementId, title, message } = req.body;
     const updateQuery = "UPDATE announcements SET title = ?, message = ? WHERE announcementId = ?";
     db.query(updateQuery, [title, message, announcementId], (error, result) => {
@@ -137,6 +139,8 @@ router.post('/edit-announcement', (req, res) => {
 });
 
 router.post('/delete-announcement', (req, res) => {
+    
+    console.log(req.body);
     const { announcementId } = req.body;
     const deleteQuery = "DELETE FROM announcements WHERE announcementId = ?";
     db.query(deleteQuery, [announcementId], (error, result) => {
