@@ -208,6 +208,23 @@ router.post('/approve-report', (req, res) => {
     });
 });
 
+router.get('/fetch-all-reports', (req, res) => {
+    const studentId = req.query.studentId;
+
+    if (!studentId) {
+        return res.status(400).json({ error: 'Student ID is required' });
+    }
+
+    const query = "SELECT * FROM reports WHERE studentId = ?";
+
+    db.query(query, [studentId], (error, results) => {
+        if (error) {
+            console.error('Error fetching reports:', error);
+            return res.status(500).json({ error: 'Internal Server Error' });
+        }
+        res.json(results);
+    });
+});
 
 
 router.get('/logout', (req, res) => {

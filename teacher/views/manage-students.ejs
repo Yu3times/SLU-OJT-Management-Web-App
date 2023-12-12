@@ -118,6 +118,33 @@
     });
    }
 
+   function populateAllReportsTable(reports) {
+    let allRreportsTableBody = document.querySelector("#allReportsTable tbody");
+    allRreportsTableBody.innerHTML = ''; // Clear existing rows
+
+    reports.forEach(report => {
+        let row = document.createElement('tr');
+        row.innerHTML = `
+            <td>${report.weekNum}</td>
+            <td>${report.hoursWorked}</td>
+            <td>${new Date(report.submittedAt).toLocaleDateString()}</td>
+            <td><a href="${report.reportFile.replace('/public', '')}" target="_blank">Show File</a></td>
+            <td>${report.demerit || 'N/A'}</td>
+            <td>${reportStatusToText(report.status)}</td>
+        `;
+        allRreportsTableBody.appendChild(row);
+    });
+}
+
+function reportStatusToText(status) {
+    switch(status) {
+        case 0: return 'Pending';
+        case 1: return 'Reviewing';
+        case 2: return 'Approved';
+        default: return 'Unknown';
+    }
+}
+
 function selectRow(row) {
     // Remove highlighting from all rows
     document.querySelectorAll('#studentTable tr').forEach(tr => {
@@ -140,6 +167,11 @@ function selectRow(row) {
     fetch(`/student-reports?studentId=${studentId}`)
         .then(response => response.json())
         .then(reports => updateReportsTable(reports))
+        .catch(error => console.error('Error:', error));
+
+    fetch(`/fetch-all-reports?studentId=${studentId}`)
+        .then(response => response.json())
+        .then(reports => populateAllReportsTable(reports))
         .catch(error => console.error('Error:', error));
    }
 
@@ -245,9 +277,20 @@ function approveReport(reportId) {
      
 
        <h5>Reports History</h5>
-       <ul>
-           <!-- Report history will be populated dynamically -->
-       </ul>
+        <table id="allReportsTable">
+            <thead>
+                <tr>
+                    <th>Week</th>
+                    <th>Hours Worked</th>
+                    <th>Submitted</th>
+                    <th>File</th>
+                    <th>Demerit</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Rows will be added here dynamically -->
+            </tbody>
+        </table>
    </div>
 </div>
 </section>
