@@ -129,17 +129,33 @@
       <th>Date Posted</th>
       <th>Actions</th>
     </tr>
-    <% announcements.forEach(announcement => { %>
-      <tr id="announcement-row-<%= announcement.id %>">
-          <td><span id="title-<%= announcement.id %>"><%= announcement.title %></span></td>
-          <td><span id="message-<%= announcement.id %>"><%= announcement.message %></span></td>
-          <td><%= announcement.datePosted %></td>
-          <td>
-              <button onclick="editAnnouncement('<%= announcement.id %>')">Edit</button>
-              <button onclick="deleteAnnouncement('<%= announcement.id %>')">Delete</button>
-          </td>
-      </tr>
-    <% }); %>      
+  
+    <script>
+      console.log(typeof '<%= announcements%>');
+      console.log(JSON.parse('<%= announcements%>'));
+    </script>
+</script> 
+<% announcements.forEach(announcement => { %>
+  <script>
+    console.log( "foo");
+    console.log( '<%= announcement.announcementId%>');
+    console.log( '<%= announcement.title%>');
+    console.log( '<%= announcement.message%>');
+    console.log( "foo");
+
+  </script>
+
+  <tr id="announcement-row-<%= announcement.announcementId %>">
+      <td><span id="title-<%= announcement.announcementId %>"><%= announcement.title %></span></td>
+      <td><span id="message-<%= announcement.announcementId %>"><%= announcement.message %></span></td>
+      <td><%= announcement.datePosted %></td>
+      <td>
+          <button onclick="editAnnouncement('<%= announcement.announcementId %>')">Edit</button>
+          <button onclick="deleteAnnouncement('<%= announcement.announcementId %>')">Delete</button>
+      </td>
+  </tr>
+<% }); %>    
+  
   </table>
 </div>
         </div>
@@ -222,6 +238,7 @@
         title: editedTitle,
         message: editedMessage
     };
+    console.log(data);
 
     // Make an AJAX call to submit the edited data to the server
     fetch(`/edit-announcement`, {
