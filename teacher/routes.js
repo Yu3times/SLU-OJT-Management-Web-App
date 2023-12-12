@@ -141,7 +141,7 @@ router.post('/edit-announcement', (req, res) => {
 router.post('/delete-announcement', (req, res) => {
     
     console.log(req.body);
-    const { announcementId } = req.body.announcementId;
+    const { announcementId } = req.body;
     const deleteQuery = "DELETE FROM announcements WHERE announcementId = ?";
     db.query(deleteQuery, [announcementId], (error, result) => {
         if (error) {
