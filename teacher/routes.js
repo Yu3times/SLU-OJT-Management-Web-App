@@ -50,7 +50,7 @@ router.post('/login', (req, res) => {
             req.session.userID = result[0].userId;
             res.redirect("/homepage");
         } else {
-            res.redirect('http://localhost/ojt-web-project/login/loginPage.php');
+            res.redirect('/logout');
         }
     });
 });
@@ -253,7 +253,9 @@ router.get('/fetch-all-students', (req, res) => {
 router.get('/search-students', async (req, res) => {
     try {
        const searchQuery = req.query.query;
+	    console.log(searchQuery);
  
+	    /*
        const sql = `
        SELECT student.studentId, CONCAT(student.firstName, ' ', student.lastName) AS fullName, user.email, student.course, student.classCode, company.companyName
        FROM student
@@ -270,10 +272,28 @@ router.get('/search-students', async (req, res) => {
        `;
  
        const results = await db.query(sql);
-       
+	     */
+
+       const sql = `SELECT student.studentId, CONCAT(student.firstName, ' ', student.lastName) AS fullName, user.email, student.firstName, student.lastName, student.course, student.classCode, company.companyName as company FROM student JOIN user ON student.userId = user.userId JOIN internship ON student.studentId = internship.studentId JOIN company ON internship.companyId = company.companyId WHERE student.studentId LIKE '%${searchQuery}%' OR user.email LIKE '%${searchQuery}%' OR CONCAT(student.firstName, ' ', student.lastName) LIKE '%${searchQuery}%' OR student.course LIKE '%${searchQuery}%'  OR student.classCode LIKE '%${searchQuery}%' OR company.companyName LIKE '%${searchQuery}%'`;
+
+	console.log(db.query(sql, [searchQuery,searchQuery,searchQuery,searchQuery,searchQuery,searchQuery], (error, result) => {
+            if (error) {
+                console.error('Error executing query:', error);
+                res.status(500).json({ error: 'Internal Server Error' });
+                return;
+            } else {
+      		const plainResults = JSON.parse(JSON.stringify(result));
+		    console.log(plainResults);
+       		res.json(plainResults);
+            }
+	    }));
+
+ 
+	    /*
       const plainResults = JSON.parse(JSON.stringify(results));
  
        res.json(plainResults);
+       */
     } catch (error) {
        console.error('Error in /search-students route:', error);
        res.status(500).json({ error: 'Internal Server Error' });
