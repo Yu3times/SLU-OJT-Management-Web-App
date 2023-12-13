@@ -40,6 +40,10 @@
       }
    </style>
 </head><?php
+   if(session_status() == "PHP_SESSION_ACTIVE"){
+      session_destroy();
+   };
+
    session_start();
       if (isset($_SESSION['invalidLogin']) && ($_SESSION['invalidLogin'])) {
          echo "<div class='popup'>";
