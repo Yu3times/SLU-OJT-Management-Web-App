@@ -26,7 +26,7 @@
 
 html{
    font-size: 62.5%;
-   overflowx: hidden;
+   overflow-x: hidden;
 }
 
 html::-webkit-scrollbar{
@@ -48,13 +48,13 @@ body{
 }
  
  .panorama {
-   position: fixed;
+  position: fixed;
   top: 0;
   left: 0;
   width: 1000%;
   height: 100%;
   background: url(../images/360-degree-panorama-rendering-services.jpg) center;
-    background-size: auto;
+  background-size: auto;
   filter: blur(1.5px);
   animation: panoramaAnimation 1200s infinite linear;
   z-index: -2;

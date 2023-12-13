@@ -1,3 +1,12 @@
+<?php
+   header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
+   header("Cache-Control: post-check=0, pre-check=0", false);
+   header("Pragma: no-cache");
+
+   if(session_status() == PHP_SESSION_ACTIVE){
+      session_destroy();
+   };
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -39,11 +48,19 @@
          color: #555;
       }
    </style>
-</head><?php
-   if(session_status() == "PHP_SESSION_ACTIVE"){
-      session_destroy();
-   };
+<script>
+   
+      // Push an initial state to the history
+      history.pushState({ page: 1 }, "title 1", "");
 
+      // Prevent navigating forward
+      history.pushState({ page: 2 }, "title 2", "");
+      window.onpopstate = function (event) {
+         history.go(1);
+      };
+</script>
+
+</head><?php
    session_start();
       if (isset($_SESSION['invalidLogin']) && ($_SESSION['invalidLogin'])) {
          echo "<div class='popup'>";
@@ -60,7 +77,7 @@
 
 <section class="form-container">
    <form id="loginForm" method="post">
-      <h3>login now</h3>
+      <h3>OJT Portal</h3>
       <p>Your Student/Teacher ID <span>*</span></p>
       <input type="text" id ="userID" name="userID" placeholder="Enter your Student or Teacher ID" required maxlength="10" class="box">
       <p>Your Password <span>*</span></p>
@@ -72,6 +89,7 @@
 
 <!-- custom js file link  -->
 <script src="../public/js/script.js"></script>
+
 
    
 </body>

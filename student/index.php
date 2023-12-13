@@ -234,7 +234,6 @@
 
    <!-- custom css file link  -->
    <link rel="stylesheet" href="../public/css/style.css">
-
 </head>
 <body>
 
@@ -351,8 +350,5 @@
 
 <!-- custom js file link  -->
 <script src="../public/js/script.js"></script>
-
-
-   
 </body>
 </html>
