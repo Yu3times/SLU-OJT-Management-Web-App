@@ -277,6 +277,10 @@ section{
    display: none;
 }
 
+.reqhed{
+   font-size: 20px;
+}
+
 .side-bar{
    position: fixed;
    top: 0; left: 0;

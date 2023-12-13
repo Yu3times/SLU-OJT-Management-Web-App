@@ -54,32 +54,40 @@
 </div>
 
 <section class="manage-grid">
-    <h1 class="heading">Manage Students</h1>
-   <div class="manage-container">
-       <div class="box">
-           <h1 class="title">Student List</h1>
-           <form id="filterForm">
-               <label for="searchQuery">Search:</label>
-               <input type="text" id="searchQuery" name="searchQuery" placeholder="Enter search query...">
-               <button type="button" onclick="submitSearch()">Search</button>
-           </form>
-           <table id="studentTable">
-               <thead>
-                   <tr>
-                       <th>Student ID</th>
-                       <th>Name</th>
-                       <th>Email</th>
-                       <th>Course</th>
-                       <th>Class Code</th>
-                       <th>Company</th>
-                   </tr>
-               </thead>
-               <tbody id="tableBody"></tbody>
-           </table>
-       </div>
-   </div>
+    <div class="manage-container">
+        <div class="box">
+            <h1 class="title">Student List</h1>
+            <hr class="hrule">
+            <br>
+            <form id="filterForm">
+                <label for="searchQuery">Search:</label>
+                <input type="text" id="searchQuery" name="searchQuery" placeholder="Enter search query...">
+                <button type="button" onclick="submitSearch()">Search</button>
+            </form>
+ 
+            <!-- Add the checkbox here -->
+            <br>
+            <input type="checkbox" id="showMyStudents" name="showMyStudents" onclick="showMyStudents()">
+            <label for="showMyStudents">Show my students</label>
+            
+            <table id="studentTable">
+                <thead>
+                    <tr>
+                        <th>Student ID</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Course</th>
+                        <th>Class Code</th>
+                        <th>Company</th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody"></tbody>
+            </table>
+        </div>
+    </div>
 
 <script>
+    let studentId;
     window.onload = function () {
       fetchAllStudents();
    }
@@ -155,7 +163,7 @@ function selectRow(row) {
     // Highlight the selected row
     row.classList.add('highlighted');
 
-    const studentId = row.getAttribute('data-student-id');  
+    studentId = row.getAttribute('data-student-id');  
     console.log('Selected Student ID:', studentId);
 
     // Fetch Requirements
@@ -180,7 +188,7 @@ function selectRow(row) {
     const statusToText = (status) => {
         switch(status) {
             case 0: return 'Missing';
-            case 1: return 'Reviewing';
+            case 1: return 'Missing';
             case 2: return 'Approved';
             default: return 'Unknown';
         }
@@ -246,19 +254,112 @@ function approveReport(reportId) {
     });
 }
 
+function showMyStudents() {
+      const showMyStudentsCheckbox = document.getElementById('showMyStudents');
+      const filterForm = document.getElementById('filterForm');
+      const searchQueryInput = document.getElementById('searchQuery');
+      
+      if (showMyStudentsCheckbox.checked) {
+         fetch(`/fetch-my-students`)
+            .then(response => response.json())
+            .then(data => populateTable(data))
+            .catch(error => console.error('Error:', error));
 
+         filterForm.style.display = 'none';
+      } else {
+         fetchAllStudents();
+         filterForm.style.display = 'block';
+      }
+      searchQueryInput.value = '';
+   }
+
+   function updateRequirementStatus(selectedReq) {
+    
+    fetch(`/update-requirement-status`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            requirement : selectedReq,
+            studentId : studentId,
+            status: 2,
+        }),
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            console.log(`Status for ${requirement} updated successfully.`);
+        } else {
+            console.error(`Failed to update status for ${requirement}.`);
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+}
 
 </script>
 <div class="manage-container">
-   <div class="box">
-       <h1 class="title">Manage Student</h1>
-       <h5>Requirements:</h5>
-       <p class="requirements job-resume">Job Resume: <span></span></p>
-       <p class="requirements curriculum-vitae">Curriculum Vitae: <span></span></p>
-       <p class="requirements cover-letter">Cover Letter: <span></span></p>
-       <p class="requirements moa">MOA: <span> </span></p>
-       <p class="requirements medical-certificate">Medical Certificate: <span> </span></p>
-       <p class="requirements waiver">Waiver: <span> </span></p>
+    <div class="box">
+        <h1 class="title">Manage Student</h1>
+        <hr class="hrule">
+        <br>
+        <h2 class="reqhed">Requirements</h2>
+        <table class="reqtable" style="border-collapse: collapse; border: none;">
+            <tr>
+              <td>
+                <p class="requirements job-resume">Job Resume: <span></span></p>
+              </td>
+              <td>
+                <button onclick="updateRequirementStatus('jobResume')">Update Status</button>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <p class="requirements curriculum-vitae">Curriculum Vitae: <span></span></p>
+              </td>
+              <td>
+                <button onclick="updateRequirementStatus('curriVitae')">Update Status</button>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <p class="requirements cover-letter">Cover Letter: <span></span></p>
+              </td>
+              <td>
+                <button onclick="updateRequirementStatus('coverLetter')">Update Status</button>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <p class="requirements moa">MOA: <span></span></p>
+              </td>
+              <td>
+                <button onclick="updateRequirementStatus('moa')">Update Status</button>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <p class="requirements medical-certificate">Medical Certificate: <span></span></p>
+              </td>
+              <td>
+                <button onclick="updateRequirementStatus('medCert')">Update Status</button>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <p class="requirements waiver">Waiver: <span></span></p>
+              </td>
+              <td>
+                <button onclick="updateRequirementStatus('waiver')">Update Status</button>
+              </td>
+            </tr>
+          </table>
+          
+     </div>
+     
+    
 
        <h5>Reports to be reviewed</h5>
        <table id="reportsTable">

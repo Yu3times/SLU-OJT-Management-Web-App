@@ -172,6 +172,28 @@ router.get('/student-requirements', (req, res) => {
     });
 });
 
+router.post('/update-requirement-status', (req, res) => {
+    const { studentId, requirement, status } = req.body;
+    console.log({ studentId, requirement, status })
+
+    if (!studentId || !requirement || status === undefined) {
+        return res.status(400).json({ success: false, message: 'Invalid request parameters.' });
+    }
+
+    const query = `
+        UPDATE requirements
+        SET ${requirement} = ?
+        WHERE studentId = ?`;
+        db.query(query, [requirement, status, studentId], (error, result) => {
+            if (error) {
+                console.error('Error updating announcement:', error);
+                res.status(500).json({ error: 'Internal Server Error' });
+                return;
+            }
+            res.json({ success: true });
+    });
+});
+
 router.get('/student-reports', (req, res) => {
     const studentId = req.query.studentId;
 
@@ -381,7 +403,7 @@ router.get('/fetch-all-students', (req, res) => {
        const fetchAllStudentsQuery = `
           SELECT
              student.studentId,
-             CONCAT(student.firstName, ' ', student.lastName) AS fullName,
+             CONCAT(student.lastName, ' ', student.firstName) AS fullName,
              user.email,
              student.course,
              student.classCode,
@@ -389,7 +411,7 @@ router.get('/fetch-all-students', (req, res) => {
           FROM student
           JOIN user ON student.userId = user.userId
           LEFT JOIN internship ON student.studentId = internship.studentId
-          LEFT JOIN company ON internship.companyId = company.companyId
+          LEFT JOIN company ON internship.companyId = company.companyId  ORDER BY fullName ASC
        `;
  
        // Execute the query
@@ -406,6 +428,56 @@ router.get('/fetch-all-students', (req, res) => {
        res.status(500).json({ error: 'Internal Server Error' });
     }
  });
+
+ router.get('/fetch-my-students', (req, res) => {
+    try {
+        const fetchTeacherIdQuery = 'SELECT teacherId FROM teacher WHERE userId = ?';
+
+        db.query(fetchTeacherIdQuery, [req.session.userID], (teacherIdError, teacherIdResults) => {
+            if (teacherIdError) {
+                console.error('Error fetching teacher ID:', teacherIdError);
+                return res.status(500).json({ error: 'Internal Server Error' });
+            }
+
+            if (teacherIdResults.length === 0) {
+                return res.status(404).json({ error: 'Teacher not found' });
+            }
+
+            const teacherId = teacherIdResults[0].teacherId;
+
+            // Fetch students associated with the teacher
+            const fetchMyStudentsQuery = `
+                SELECT
+                    student.studentId,
+                    CONCAT(student.lastName, ' ', student.firstName) AS fullName,
+                    user.email,
+                    student.course,
+                    student.classCode,
+                    company.companyName AS company
+                FROM
+                    student
+                    JOIN user ON student.userId = user.userId
+                    LEFT JOIN internship ON student.studentId = internship.studentId
+                    LEFT JOIN company ON internship.companyId = company.companyId
+                WHERE
+                    internship.teacherId = ?  ORDER BY fullName ASC
+            `;
+
+            // Execute the query
+            db.query(fetchMyStudentsQuery, [teacherId], (error, results) => {
+                if (error) {
+                    console.error('Error fetching my students:', error);
+                    res.status(500).json({ error: 'Internal Server Error' });
+                } else {
+                    res.json(results);
+                }
+            });
+        });
+    } catch (error) {
+        console.error('Error in /fetch-my-students route:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
 
 router.get('/search-students', async (req, res) => {
     try {
@@ -431,7 +503,7 @@ router.get('/search-students', async (req, res) => {
        const results = await db.query(sql);
 	     */
 
-       const sql = `SELECT student.studentId, CONCAT(student.firstName, ' ', student.lastName) AS fullName, user.email, student.firstName, student.lastName, student.course, student.classCode, company.companyName as company FROM student JOIN user ON student.userId = user.userId JOIN internship ON student.studentId = internship.studentId JOIN company ON internship.companyId = company.companyId WHERE student.studentId LIKE '%${searchQuery}%' OR user.email LIKE '%${searchQuery}%' OR CONCAT(student.firstName, ' ', student.lastName) LIKE '%${searchQuery}%' OR student.course LIKE '%${searchQuery}%'  OR student.classCode LIKE '%${searchQuery}%' OR company.companyName LIKE '%${searchQuery}%'`;
+       const sql = `SELECT student.studentId, CONCAT(student.lastName, ' ', student.firstName) AS fullName, user.email, student.firstName, student.lastName, student.course, student.classCode, company.companyName as company FROM student JOIN user ON student.userId = user.userId JOIN internship ON student.studentId = internship.studentId JOIN company ON internship.companyId = company.companyId WHERE student.studentId LIKE '%${searchQuery}%' OR user.email LIKE '%${searchQuery}%' OR CONCAT(student.firstName, ' ', student.lastName) LIKE '%${searchQuery}%' OR student.course LIKE '%${searchQuery}%'  OR student.classCode LIKE '%${searchQuery}%' OR company.companyName LIKE '%${searchQuery}%' ORDER BY fullName ASC`;
 
 	console.log(db.query(sql, [searchQuery,searchQuery,searchQuery,searchQuery,searchQuery,searchQuery], (error, result) => {
             if (error) {
