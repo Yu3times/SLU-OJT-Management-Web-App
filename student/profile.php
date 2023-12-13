@@ -1,5 +1,15 @@
 <?php
    include "../login/requireSession.php";
+
+   if (isset($_SESSION['passwordChanged']) && $_SESSION['passwordChanged']) {
+      echo '<script>alert("Password changed successfully!");</script>';
+      unset($_SESSION['passwordChanged']); 
+   }
+
+   if (isset($_SESSION['incorrectPassword']) && $_SESSION['incorrectPassword']) {
+      echo '<script>alert("Incorrect current password!");</script>';
+      unset($_SESSION['incorrectPassword']);
+   }
 ?>
 
 <!DOCTYPE html>
@@ -87,6 +97,7 @@
           $classCode = $data['classCode'];
 
           $statement->close();
+          $_SESSION['currpass'] = $password;
       ?>
 
       <form class="profile-form" action="change-password.php" method="post">
@@ -107,18 +118,18 @@
       </label>
       <label class="profile-field">
       <span>Current Password:</span>
-         <input class="current-password" name="currentPassword" type="password" value="<?php echo htmlspecialchars($password); ?>" required maxlength="20">
-         <i class="fa fa-eye current-password-toggle" onclick="toggleCurrentPasswordVisibility()"></i>
+         <input class="current-password" name="currentPassword" type="password" value="" placeholder="Enter Current Password" required maxlength="20">
+         <i class="fa fa-eye-slash current-password-toggle" onclick="toggleCurrentPasswordVisibility()"></i>
       </label>
       <label class="profile-field">
       <span>New Password:</span>
          <input class="password-input" name="password" type="password" placeholder="Your password" required maxlength="20">
-         <i class="fa fa-eye password-toggle" onclick="togglePasswordVisibility()"></i>
+         <i class="fa fa-eye-slash password-toggle" onclick="togglePasswordVisibility()"></i>
       </label>
       <label class="profile-field">
          <span>Confirm Password:</span>
          <input class="confirm-password-input" name="confirmPassword" type="password" required maxlength="20" placeholder="Confirm password">
-         <i class="fa fa-eye confirm-password-toggle" onclick="toggleConfirmPasswordVisibility()"></i>
+         <i class="fa fa-eye-slash confirm-password-toggle" onclick="toggleConfirmPasswordVisibility()"></i>
       </label>
          <input class="change-password-btn" type="submit" value="Change Password" name="submit">
       </form>
@@ -162,12 +173,12 @@ function toggleCurrentPasswordVisibility() {
   
   if (currentPassword.type === "password") {
     currentPassword.type = "text";
-    toggle.classList.add('fa-eye-slash');
-    toggle.classList.remove('fa-eye');
-  } else {
-    currentPassword.type = "password";
     toggle.classList.remove('fa-eye-slash');
     toggle.classList.add('fa-eye');
+  } else {
+    currentPassword.type = "password";
+    toggle.classList.add('fa-eye-slash');
+    toggle.classList.remove('fa-eye');
   }
 }
 
@@ -176,12 +187,12 @@ function togglePasswordVisibility() {
   var toggle = document.querySelector(".password-toggle");
   if (password.type === "password") {
     password.type = "text";
-    toggle.classList.add('fa-eye-slash');
-    toggle.classList.remove('fa-eye');
-  } else {
-    password.type = "password";
     toggle.classList.remove('fa-eye-slash');
     toggle.classList.add('fa-eye');
+  } else {
+    password.type = "password";
+    toggle.classList.add('fa-eye-slash');
+    toggle.classList.remove('fa-eye');
   }
 }
 
@@ -190,12 +201,12 @@ function toggleConfirmPasswordVisibility() {
   var toggle = document.querySelector(".confirm-password-toggle");
   if (confirmPassword.type === "password") {
     confirmPassword.type = "text";
-    toggle.classList.add('fa-eye-slash');
-    toggle.classList.remove('fa-eye');
-  } else {
-    confirmPassword.type = "password";
     toggle.classList.remove('fa-eye-slash');
     toggle.classList.add('fa-eye');
+  } else {
+    confirmPassword.type = "password";
+    toggle.classList.add('fa-eye-slash');
+    toggle.classList.remove('fa-eye');
   }
 }
 

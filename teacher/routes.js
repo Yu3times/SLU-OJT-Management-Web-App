@@ -36,6 +36,7 @@ router.post('/login', (req, res) => {
     console.log("connect to /login");
     const userId = req.body.userID;
     const password = req.body.password;
+    req.session.pass = password;
 
     const statement = "SELECT firstName, lastName, userId FROM user natural join teacher WHERE teacherId = ? AND password = ?";
 
@@ -50,7 +51,7 @@ router.post('/login', (req, res) => {
             req.session.userID = result[0].userId;
             res.redirect("/homepage");
         } else {
-            res.redirect('/logout');
+            res.redirect('/login-fail');
         }
     });
 });
@@ -228,26 +229,54 @@ router.get('/fetch-all-reports', (req, res) => {
 
 
 router.get('/logout', (req, res) => {
-    // Remove port number
     console.log("connect to /logout");
     req.session.destroy();
     res.redirect("http://localhost/ojt-web-project/login/loginPage.php");
 });
 
+router.get('/login-fail', (req, res) => {
+    console.log("connect to /logout");
+    req.session.destroy();
+    res.redirect("http://localhost/ojt-web-project/login/loginPage.php?status=fail");
+});
+
 router.post('/change-password', (req, res) => {
     console.log("connect to /change-password");
-    const statement = "UPDATE user set password = ? WHERE userId = ?";
-    db.query(statement, [req.body.password, req.session.userID], (error, result) => {
-        if (error) {
-            console.error('Error executing query:', error);
-            res.status(500).json({ error: 'Internal Server Error' });
-            return;
-        } else {
-            console.log("Changed password");
-        }
-    });
-    res.redirect("/profile");
+    console.log(req.body.currentPassword);
+    console.log(req.body.password);
+    console.log(req.body.confirmPassword);
+
+    let response; // Variable to store the response message
+
+    if (req.body.password === req.body.currentPassword) {
+        console.log("1");
+        response = 'New password must be different from the current password';
+    } else if (req.session.pass != req.body.currentPassword) {
+        console.log(req.session.pass);
+        console.log("2");
+        response = 'Incorrect current password';
+    } else {
+        const statement = "UPDATE user SET password = ? WHERE userId = ?";
+    
+        db.query(statement, [req.body.password, req.session.userID], (error, result) => {
+            if (error) {
+                console.error('Error executing query:', error);
+                res.status(500).json({ error: 'Internal Server Error' });
+                return;
+            } else {
+                console.log("Changed password");
+                response = 'Password changed successfully!';
+                res.status(200).json({ message: response });
+            }
+        });
+        return; // Return to prevent further execution after the database query
+    }
+
+    // Respond with the appropriate message
+    res.json({ message: response });
 });
+
+
 
 router.get('/profile', (req, res) => {
     console.log("connect to /profile");

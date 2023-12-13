@@ -64,11 +64,13 @@ window.onscroll = () =>{
       body.classList.remove('active');
    }
 }
-
+      
 function closePopup() {
    var popup = document.querySelector('.popup');
-   if (popup) {
-      popup.style.display = "none";
-   }
+   popup.classList.add('popup-hidden');
+   setTimeout(function () {
+      popup.style.display = 'none';
+      popup.classList.remove('popup-hidden');
+   }, 1000);
 }
 
