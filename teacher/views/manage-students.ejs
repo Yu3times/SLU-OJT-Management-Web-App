@@ -147,7 +147,7 @@
 
 function reportStatusToText(status) {
     switch(status) {
-        case 0: return 'Pending';
+        case 0: return 'Missing';
         case 1: return 'Reviewing';
         case 2: return 'Approved';
         default: return 'Unknown';
@@ -166,23 +166,48 @@ function selectRow(row) {
     studentId = row.getAttribute('data-student-id');  
     console.log('Selected Student ID:', studentId);
 
-    // Fetch Requirements
-    fetch(`/student-requirements?studentId=${studentId}`)
+    // Fetch whether the student is assigned to this teacher
+    fetch(`/is-student-assigned?studentId=${studentId}`)
         .then(response => response.json())
-        .then(data => updateRequirementsUI(data))
-        .catch(error => console.error('Error:', error));
+        .then(data => {
+            setButtonStates(!data.isAssigned);
 
-    // Fetch Reports
-    fetch(`/student-reports?studentId=${studentId}`)
-        .then(response => response.json())
-        .then(reports => updateReportsTable(reports))
-        .catch(error => console.error('Error:', error));
+            // Fetch Requirements
+            fetch(`/student-requirements?studentId=${studentId}`)
+                .then(response => response.json())
+                .then(data => updateRequirementsUI(data))
+                .catch(error => console.error('Error:', error));
 
-    fetch(`/fetch-all-reports?studentId=${studentId}`)
-        .then(response => response.json())
-        .then(reports => populateAllReportsTable(reports))
-        .catch(error => console.error('Error:', error));
+            // Fetch Reports
+            fetch(`/student-reports?studentId=${studentId}`)
+                .then(response => response.json())
+                .then(reports => updateReportsTable(reports))
+                .catch(error => console.error('Error:', error));
+
+            fetch(`/fetch-all-reports?studentId=${studentId}`)
+                .then(response => response.json())
+                .then(reports => populateAllReportsTable(reports))
+                .catch(error => console.error('Error:', error));
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
    }
+
+   function setButtonStates(disabled) {
+    // Disable/Enable buttons in the Requirements section
+    document.querySelectorAll('.reqtable button').forEach(button => {
+        button.disabled = disabled;
+    });
+
+    // Disable/Enable buttons in the 'Reports to be reviewed' section
+    document.querySelectorAll('#reportsTable button').forEach(button => {
+        button.disabled = disabled;
+    });
+
+}
+
+   
 
    function updateRequirementsUI(data) {
     const statusToText = (status) => {

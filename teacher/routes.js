@@ -478,6 +478,50 @@ router.get('/fetch-all-students', (req, res) => {
     }
 });
 
+router.get('/is-student-assigned', (req, res) => {
+    try {
+        const studentId = req.query.studentId; // Get the student ID from the query parameter
+
+        // First, fetch the teacherId based on the logged-in user's ID
+        const fetchTeacherIdQuery = 'SELECT teacherId FROM teacher WHERE userId = ?';
+
+        db.query(fetchTeacherIdQuery, [req.session.userID], (teacherIdError, teacherIdResults) => {
+            if (teacherIdError) {
+                console.error('Error fetching teacher ID:', teacherIdError);
+                return res.status(500).json({ error: 'Internal Server Error' });
+            }
+
+            if (teacherIdResults.length === 0) {
+                return res.status(404).json({ error: 'Teacher not found' });
+            }
+
+            const teacherId = teacherIdResults[0].teacherId;
+
+            // Now check if the student is assigned to this teacher
+            const checkStudentAssignmentQuery = `
+                SELECT COUNT(*) AS isAssigned
+                FROM internship
+                WHERE teacherId = ?
+                  AND studentId = ?;
+            `;
+
+            db.query(checkStudentAssignmentQuery, [teacherId, studentId], (error, results) => {
+                if (error) {
+                    console.error('Error checking student assignment:', error);
+                    return res.status(500).json({ error: 'Internal Server Error' });
+                } 
+
+                const isAssigned = results[0].isAssigned > 0;
+                res.json({ isAssigned });
+            });
+        });
+    } catch (error) {
+        console.error('Error in /is-student-assigned route:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
+
+
 router.get('/search-students', async (req, res) => {
     try {
        const searchQuery = req.query.query;
