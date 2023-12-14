@@ -139,6 +139,7 @@
             <td>${new Date(report.submittedAt).toLocaleDateString()}</td>
             <td><a href="${report.reportFile.replace('/public', '')}" target="_blank">Show File</a></td>
             <td>${report.demerit || 'N/A'}</td>
+            <td>${report.comment || 'N/A'}</td>
             <td>${reportStatusToText(report.status)}</td>
         `;
         allRreportsTableBody.appendChild(row);
@@ -181,7 +182,7 @@ function selectRow(row) {
             // Fetch Reports
             fetch(`/student-reports?studentId=${studentId}`)
                 .then(response => response.json())
-                .then(reports => updateReportsTable(reports))
+                .then(reports => updateReportsTable(reports, data.isAssigned))
                 .catch(error => console.error('Error:', error));
 
             fetch(`/fetch-all-reports?studentId=${studentId}`)
@@ -194,6 +195,8 @@ function selectRow(row) {
         });
    }
 
+   
+
    function setButtonStates(disabled) {
     // Disable/Enable buttons in the Requirements section
     document.querySelectorAll('.reqtable button').forEach(button => {
@@ -201,7 +204,7 @@ function selectRow(row) {
     });
 
     // Disable/Enable buttons in the 'Reports to be reviewed' section
-    document.querySelectorAll('#reportsTable button').forEach(button => {
+    document.querySelectorAll('.reportsTable button').forEach(button => {
         button.disabled = disabled;
     });
 
@@ -242,8 +245,8 @@ function selectRow(row) {
     updateButtonVisibility('waiver', data.waiver);
 }
 
-function updateReportsTable(reports) {
-    let reportsTableBody = document.querySelector("#reportsTable tbody");
+function updateReportsTable(reports, isAssigned) {
+    let reportsTableBody = document.querySelector(".reportsTable tbody");
     if (reportsTableBody) {
         reportsTableBody.innerHTML = ''; // Clear existing rows
 
@@ -251,14 +254,16 @@ function updateReportsTable(reports) {
             let row = document.createElement('tr');
             // Add the data-report-id attribute here
             row.setAttribute('data-report-id', report.reportId);
-
+            console.log(report.comment);
+            console.log(isAssigned);
             row.innerHTML = `
                 <td>${report.weekNum}</td>
                 <td>${report.hoursWorked}</td>
                 <td>${new Date(report.submittedAt).toLocaleDateString()}</td>
                 <td><a href="${report.reportFile.replace('/public', '')}" target="_blank">Show File</a></td>
-                <td><input type="number" value="${report.demerit || ''}" min="0" step="1" /></td>
-                <td><button type="button" onclick="approveReport(${report.reportId})">Approve</button></td>
+                <td><input class="inputReviewText" type="number" min="0" step="1" ${isAssigned == true ? '' : 'disabled'} /></td>
+                <td><input class="inputReviewText" ${isAssigned == true ? '' : 'disabled'}/></td>
+                <td><button class="inputReview" type="button" onclick="approveReport(${report.reportId})" ${isAssigned == true ? '' : 'disabled'}>Approve</button></td>
             `;
             reportsTableBody.appendChild(row);
         });
@@ -360,32 +365,32 @@ function showMyStudents() {
             <tr>
                 <td>Job Resume</td>
                 <td class="requirements job-resume"><span></span></td>
-                <td><button id="btn-jobResume" style="display: none;" onclick="updateRequirementStatus('jobResume')">Approve</button></td>
+                <td><button class="inputReview" id="btn-jobResume" style="display: none;" onclick="updateRequirementStatus('jobResume')">Approve</button></td>
             </tr>
             <tr>
                 <td>Curriculum Vitae</td>
                 <td class="requirements curriculum-vitae"><span></span></td>
-                <td><button id="btn-curriVitae" style="display: none;" onclick="updateRequirementStatus('curriVitae')">Approve</button></td>
+                <td><button class="inputReview" id="btn-curriVitae" style="display: none;" onclick="updateRequirementStatus('curriVitae')">Approve</button></td>
             </tr>
             <tr>
                 <td>Cover Letter</td>
                 <td class="requirements cover-letter"><span></span></td>
-                <td><button id="btn-coverLetter" style="display: none;" onclick="updateRequirementStatus('coverLetter')">Approve</button></td>
+                <td><button class="inputReview" id="btn-coverLetter" style="display: none;" onclick="updateRequirementStatus('coverLetter')">Approve</button></td>
             </tr>
             <tr>
                 <td>MOA</td>
                 <td class="requirements moa"><span></span></td>
-                <td><button id="btn-moa" style="display: none;" onclick="updateRequirementStatus('moa')">Approve</button></td>
+                <td><button class="inputReview" id="btn-moa" style="display: none;" onclick="updateRequirementStatus('moa')">Approve</button></td>
             </tr>
             <tr>
                 <td>Medical Certificate</td>
                 <td class="requirements medical-certificate"><span></span></td>
-                <td><button id="btn-medCert" style="display: none;" onclick="updateRequirementStatus('medCert')">Approve</button></td>
+                <td><button class="inputReview" id="btn-medCert" style="display: none;" onclick="updateRequirementStatus('medCert')">Approve</button></td>
             </tr>
             <tr>
                 <td>Waiver</td>
                 <td class="requirements waiver"><span></span></td>
-                <td><button id="btn-waiver" style="display: none;" onclick="updateRequirementStatus('waiver')">Approve</button></td>
+                <td><button class="inputReview" id="btn-waiver" style="display: none;" onclick="updateRequirementStatus('waiver')">Approve</button></td>
             </tr>
         </table>
     </div>
@@ -393,7 +398,7 @@ function showMyStudents() {
     
         <br>
        <h2 class="reqhed">Reports to be reviewed</h2>
-       <table id="reportsTable">
+       <table class="reportsTable">
          <thead>
              <tr>
                  <th>Week</th>
@@ -401,6 +406,8 @@ function showMyStudents() {
                  <th>Submitted</th>
                  <th>File</th>
                  <th>Demerit</th>
+                 <th>Comment</th>
+                 <th>Status</th>
              </tr>
          </thead>
          <tbody>
@@ -419,6 +426,8 @@ function showMyStudents() {
                     <th>Submitted</th>
                     <th>File</th>
                     <th>Demerit</th>
+                    <th>Comment</th>
+                    <th>Status</th>
                 </tr>
             </thead>
             <tbody>

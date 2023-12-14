@@ -512,6 +512,7 @@ router.get('/is-student-assigned', (req, res) => {
                 } 
 
                 const isAssigned = results[0].isAssigned > 0;
+                console.log(isAssigned);
                 res.json({ isAssigned });
             });
         });

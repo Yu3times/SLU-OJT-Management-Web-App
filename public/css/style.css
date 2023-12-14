@@ -596,6 +596,10 @@ section{
    color:var(--orange);
 }
 
+.inputReviewText {
+   width: 100%;
+}
+
 /* Form */
 /* Add this CSS for the form */
 
@@ -721,17 +725,18 @@ a:hover {
    border-radius: 4px;
  }
 
- .adminbox button {
+ .adminbox button, .inputReview {
    background-color: var(--main-color);
    color: white;
    padding: 10px 15px;
    border: none;
    border-radius: 4px;
    cursor: pointer;
+   width: 100%;
  }
 
- .adminbox button:hover {
-   background-color: darken(var(--main-color), 10%);
+ .adminbox button:hover, .inputReview:hover {
+   background-color: #702c8d;
  }
 
  .highlighted {
