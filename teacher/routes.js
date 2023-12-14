@@ -174,25 +174,24 @@ router.get('/student-requirements', (req, res) => {
 
 router.post('/update-requirement-status', (req, res) => {
     const { studentId, requirement, status } = req.body;
-    console.log({ studentId, requirement, status })
+    console.log({ studentId, requirement, status });
 
     if (!studentId || !requirement || status === undefined) {
         return res.status(400).json({ success: false, message: 'Invalid request parameters.' });
     }
 
-    const query = `
-        UPDATE requirements
-        SET ${requirement} = ?
-        WHERE studentId = ?`;
-        db.query(query, [requirement, status, studentId], (error, result) => {
-            if (error) {
-                console.error('Error updating announcement:', error);
-                res.status(500).json({ error: 'Internal Server Error' });
-                return;
-            }
-            res.json({ success: true });
+    const query = `UPDATE requirements SET ${mysql.escapeId(requirement)} = ? WHERE studentId = ?`;
+
+    db.query(query, [status, studentId], (error, result) => {
+        if (error) {
+            console.error('Error updating requirement:', error);
+            res.status(500).json({ error: 'Internal Server Error' });
+            return;
+        }
+        res.json({ success: true });
     });
 });
+
 
 router.get('/student-reports', (req, res) => {
     const studentId = req.query.studentId;
