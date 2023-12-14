@@ -325,6 +325,7 @@
          <br>
          <br>
          <h3 class="title">Report</h3>
+         <hr class="hrule">
             <?php foreach ($dueReports as $dueWeek): ?>
                <p class="requirements"><span>Report for Week <?php echo $dueWeek; ?> is due</span></p>
             <?php endforeach; ?>
