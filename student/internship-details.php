@@ -345,7 +345,7 @@
             } else {
                echo $dateEnded;
             } ?></span></p>
-         <p class="requirements">Duration: <span><?php echo "Duration: " . $months . " months and " . $weeks . " weeks"; ?></span></p>
+         <p class="requirements">Duration: <span><?php echo $months . " months and " . $weeks . " weeks"; ?></span></p>
       </div>
 
 </section>
