@@ -88,7 +88,7 @@ if (session_status() == PHP_SESSION_ACTIVE) {
          <p>Your Password <span>*</span></p>
          <input type="password" id="password" name="password" placeholder="Enter Your Password" required maxlength="20" class="box">
          <input type="submit" formaction="login.php" value="login as student" name="submit" class="btn">
-         <input type="submit" formaction="http://localhost:8001/login" value="login as teacher" name="submit" class="btn">
+         <input type="submit" formaction="http://teamcroods-ojt.com:8001/login" value="login as teacher" name="submit" class="btn">
       </form>
    </section>
 

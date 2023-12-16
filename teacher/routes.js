@@ -252,13 +252,13 @@ router.get('/fetch-all-reports', (req, res) => {
 router.get('/logout', (req, res) => {
     console.log("connect to /logout");
     req.session.destroy();
-    res.redirect("http://localhost/ojt-web-project/login/loginPage.php");
+    res.redirect("http://teamcroods-ojt.com/ojt-web-project/login/loginPage.php");
 });
 
 router.get('/login-fail', (req, res) => {
     console.log("connect to /logout");
     req.session.destroy();
-    res.redirect("http://localhost/ojt-web-project/login/loginPage.php?status=fail");
+    res.redirect("http://teamcroods-ojt.com/ojt-web-project/login/loginPage.php?status=fail");
 });
 
 router.post('/change-password', (req, res) => {
