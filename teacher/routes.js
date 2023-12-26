@@ -248,6 +248,28 @@ router.get('/fetch-all-reports', (req, res) => {
     });
 });
 
+router.get('/fetch-hours-worked', (req, res) => {
+    const studentId = req.query.studentId;
+
+    if (!studentId) {
+        return res.status(400).json({ error: 'Student ID is required' });
+    }
+
+    const query = "select sum(hoursWorked) as totalHours, sum(demerit) as totalDemerit from reports natural join student where studentId = ?";
+
+    db.query(query, [studentId], (error, results) => {
+        if (error) {
+            console.error('Error fetching hours worked:', error);
+            return res.status(500).json({ error: 'Internal Server Error' });
+        } else {
+            const resultRow = results[0];
+            const totalHours = resultRow.totalHours - resultRow.totalDemerit;
+            res.json(totalHours);
+        }
+    });
+
+});
+
 
 router.get('/logout', (req, res) => {
     console.log("connect to /logout");

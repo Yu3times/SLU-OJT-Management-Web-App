@@ -20,6 +20,8 @@ SET time_zone = "+00:00";
 --
 -- Database: `ojt_monitoring`
 --
+CREATE DATABASE ojt_monitoring;
+USE ojt_monitoring;
 
 -- --------------------------------------------------------
 

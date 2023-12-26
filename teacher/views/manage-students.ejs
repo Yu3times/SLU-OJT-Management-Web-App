@@ -146,6 +146,11 @@
     });
 }
 
+function updateHoursWorked(hours) {
+    const headerHours = document.getElementById("hours-worked");
+    headerHours.textContent = "Hours Worked: " + hours;
+}
+
 function reportStatusToText(status) {
     switch(status) {
         case 0: return 'Missing';
@@ -188,6 +193,12 @@ function selectRow(row) {
             fetch(`/fetch-all-reports?studentId=${studentId}`)
                 .then(response => response.json())
                 .then(reports => populateAllReportsTable(reports))
+                .catch(error => console.error('Error:', error));
+            
+            // Fetch Number of Hours worked
+            fetch(`/fetch-hours-worked?studentId=${studentId}`)
+                .then(response => response.json())
+                .then(hours => updateHoursWorked(hours))
                 .catch(error => console.error('Error:', error));
         })
         .catch(error => {
@@ -355,6 +366,7 @@ function showMyStudents() {
         <h1 class="title">Manage Student</h1>
         <hr class="hrule">
         <br>
+        <h2 id="hours-worked" class="reqhed"></h2>
         <h2 class="reqhed">Requirements</h2>
         <table class="reqtable" style="border-collapse: collapse; border: none;">
             <tr>
