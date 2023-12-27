@@ -172,20 +172,20 @@ CREATE TABLE IF NOT EXISTS `reports` (
 INSERT INTO `reports` (`reportId`, `studentId`, `weekNum`, `hoursWorked`, `demerit`, `reportFile`, `submittedAt`, `comment`, `status`) VALUES
 (7, 222006, 2, 36, NULL, '../public/uploads/sofia_torres_w2_report.pdf', '2023-12-07 05:43:19', 'Can use a little bit of improvement but good work nonetheless', 2),
 (8, 222003, 1, 37, NULL, '../public/uploads/jose_lopez_w1_report.pdf', '2023-11-12 11:15:39', 'Good Job!', 2),
-(9, 222003, 2, 43, 2, '../public/uploads/jose_lopez_w2_report.pdf', '2023-11-20 07:30:00', 'I encourage the intern to maintain honesty in reporting hours.', 1),
+(9, 222003, 2, 43, NULL, '../public/uploads/jose_lopez_w2_report.pdf', '2023-11-20 07:30:00', '', 1),
 (10, 222002, 1, 30, 1, '../public/uploads/maria_gonzales_w1_report.pdf', '2023-11-30 16:50:00', 'Keep up the good work but there is a need for increased commitment to meeting the required work hours.', 2),
 (11, 222001, 1, 36, NULL, '../public/uploads/juan_santos_w1_report.pdf', '2023-12-10 00:00:00', 'Great job on completing week 1!', 2),
 (12, 222002, 2, 35, NULL, '../public/uploads/maria_gonzales_w2_report.pdf', '2023-12-11 17:48:00', 'Meeting expectations—well done!', 2),
 (13, 222003, 3, 35, NULL, '../public/uploads/jose_lopez_w3_report.pdf', '2023-12-01 02:45:00', 'Appreciate the honesty in Week 3.', 2),
 (14, 222004, 1, 18, 1, '../public/uploads/ana_cruz_w1_report.pdf', '2023-12-09 03:15:00', 'Let\'s aim for more hours next week. Keep it up!', 2),
 (15, 222005, 3, 36, NULL, '../public/uploads/ramon_reyes_w3_report.pdf', '2023-12-13 04:00:00', 'Great job on submitting the report for Week 3! Could you also provide updates on your activities for the first two weeks? ', 2),
-(16, 222006, 3, 20, 2, '../public/uploads/sofia_torres_w3_report.pdf', '2023-12-13 12:23:34', 'Incomplete work. Work hours did not meet the required target.', 1),
+(16, 222006, 3, 20, NULL, '../public/uploads/sofia_torres_w3_report.pdf', '2023-12-13 12:23:34', '', 1),
 (17, 222007, 1, 29, 1, '../public/uploads/miguel_delacruz_w1_report.pdf', '2023-12-07 22:00:00', 'Fair work. Could do some improvement.', 2),
-(18, 222008, 1, 13, NULL, '../public/uploads/carmen_rivera_w1_report.pdf', '2023-12-11 02:15:53', 'Please come see me for a brief discussion.', 1),
+(18, 222008, 1, 13, NULL, '../public/uploads/carmen_rivera_w1_report.pdf', '2023-12-11 02:15:53', '', 1),
 (19, 222009, 1, 38, NULL, '../public/uploads/pedro_santiago_w1_report.pdf', '2023-05-17 12:23:34', 'Good work!', 2),
-(20, 222010, 1, 16, 3, '../public/uploads/bella_fernando_w1_reports.pdf', '2023-12-11 13:27:50', 'Incorrect name for report file. Did not reach required work hours.', 1),
-(23, 222005, 2, 33, 2, '', '2023-12-07 02:30:00', 'There is no way to check/confirm your work hours without a report.', 0),
-(24, 222005, 1, 26, 2, '', '2023-12-01 03:32:00', 'No file uploaded.', 0);
+(20, 222010, 1, 16, NULL, '../public/uploads/bella_fernando_w1_reports.pdf', '2023-12-11 13:27:50', '', 1),
+(23, 222005, 2, 33, NULL, '', '2023-12-07 02:30:00', '', 0),
+(24, 222005, 1, 26, NULL, '', '2023-12-01 03:32:00', '', 0);
 
 -- --------------------------------------------------------
 

@@ -213,14 +213,16 @@ router.get('/student-reports', (req, res) => {
 
 router.post('/approve-report', (req, res) => {
     const reportId = req.body.reportId;
+    const comment= req.body.comment;
+    const demerit = req.body.demerit;
 
     if (!reportId) {
         return res.status(400).json({ error: 'Report ID is required' });
     }
 
-    const updateQuery = "UPDATE reports SET status = 2 WHERE reportId = ?";
+    const updateQuery = "UPDATE reports SET status = 2, comment = ?, demerit = ? WHERE reportId = ?";
 
-    db.query(updateQuery, [reportId], (error, result) => {
+    db.query(updateQuery, [comment, demerit, reportId], (error, result) => {
         if (error) {
             console.error('Error updating report:', error);
             return res.status(500).json({ error: 'Internal Server Error' });

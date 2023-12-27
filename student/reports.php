@@ -44,7 +44,7 @@ if ($checkResult === false) {
 
 // Submit button clicked
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-   $weekNumber = $_SESSION['weekNum'];
+   $weekNumber = $_POST['weekNum'];
    $hoursWorked = $_POST['hoursWorked'];
 
    if ($hoursWorked < 0) {
@@ -155,21 +155,38 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                   var form = document.querySelector('form');
                   var elements = form.elements;
 
-                  for (var i = 0; i < elements.length; i++) {
+                  for (var i = 1; i < elements.length; i++) {
                      elements[i].disabled = true;
                   }
 
                   var messageContainer = document.getElementById('message-container');
-                  messageContainer.innerHTML = '<h3>Report already submitted for this week. The form will be available next week.</h3>';
+                  messageContainer.innerHTML = '<h3>Please enter an appropriate week based on your reports.</h3>';
                }
+
+               function enableForm() {
+                  var form = document.querySelector('form');
+                  var elements = form.elements;
+
+                  for (var i = 0; i < elements.length; i++) {
+                     elements[i].disabled = false;
+                  }
+                  var messageContainer = document.getElementById('message-container');
+                  messageContainer.innerHTML = '';
+               }
+
             </script>
 
-            <form action="" method="post" enctype="multipart/form-data" onsubmit="return checkFormSubmission();">
+            <form action="" method="post" enctype="multipart/form-data" onsubmit="setMaxWeek(); return checkFormSubmission();">
 
-               <label for="weekNumber">Week Number: <?php echo $_SESSION['weekNum']; ?> </label>
+            <!--
+               <label for="weekNumber">Week Number: <?php echo $_SESSION['weekNum']; ?> </label> 
+            -->
+               <label for="weekNumber">Week Number: 
+                  <input type="number" id="weekNumber" name="weekNum" min="1" required onchange="checkWeekNumber()">
+               </label>
 
                <label for="hoursWorked">Hours Worked:</label>
-               <input type="number" id="hoursWorked" name="hoursWorked" required>
+               <input type="number" id="hoursWorked" name="hoursWorked" min="0" required>
 
                <label for="uploadFiles">Upload Files:</label>
                <input type="file" id="uploadFiles" name="uploadFiles" required>
@@ -179,6 +196,33 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <div id="message-container"></div>
          </div>
       </div>
+      <script>
+               const weekDataRows = document.getElementsByClassName("weekData");
+               document.querySelector("input#weekNumber").setAttribute("max", weekDataRows.length + 1);
+
+               function checkWeekNumber() {
+                  console.log("CheckWeekNumber called");
+                  const weekDataRows = document.getElementsByClassName("weekData");
+                  document.querySelector("input#weekNumber").setAttribute("max", weekDataRows.length + 1);
+                  const weekInput = document.querySelector("input#weekNumber").value;
+                  console.log("Week Input: " + weekInput);
+                  console.log("Num of current weeks: " + weekDataRows.length);
+               
+                  if (weekDataRows.length > 0 && weekInput > weekDataRows.length + 1) {
+                     disableForm();
+                  } else {
+                     for (const week of weekDataRows) {
+                        if (week.textContent == weekInput) {
+                           disableForm();
+                           console.log("Disabled form.");
+                        } else {
+                           enableForm();
+                           console.log("Enabled form.");
+                        }
+                     }
+                  }
+               }
+               </script>
 
       <div class="box-container">
          <div class="rectangle">
@@ -206,7 +250,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                if (mysqli_num_rows($fetchReportsResult) > 0) {
                   while ($reportRow = mysqli_fetch_assoc($fetchReportsResult)) {
                      echo "<tr>";
-                     echo "<td>{$reportRow['weekNum']}</td>";
+                     echo "<td class='weekData' id='{$reportRow['weekNum']}' >{$reportRow['weekNum']}</td>";
                      echo "<td>{$reportRow['hoursWorked']}</td>";
                      echo "<td>{$reportRow['submittedAt']}</td>";
                      echo "<td><a href='{$reportRow['reportFile']}' target='_blank'>Show File</a></td>";

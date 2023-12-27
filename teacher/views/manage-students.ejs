@@ -272,8 +272,8 @@ function updateReportsTable(reports, isAssigned) {
                 <td>${report.hoursWorked}</td>
                 <td>${new Date(report.submittedAt).toLocaleDateString()}</td>
                 <td><a href="${report.reportFile.replace('/public', '')}" target="_blank">Show File</a></td>
-                <td><input class="inputReviewText" type="number" min="0" step="1" ${isAssigned == true ? '' : 'disabled'} /></td>
-                <td><input class="inputReviewText" ${isAssigned == true ? '' : 'disabled'}/></td>
+                <td><input class="inputReviewText" id="demerit-${report.reportId}" type="number" min="0" step="1" ${isAssigned == true ? '' : 'disabled'} /></td>
+                <td><input class="inputReviewText" id="comment-${report.reportId}" ${isAssigned == true ? '' : 'disabled'}/></td>
                 <td><button class="inputReview" type="button" onclick="approveReport(${report.reportId})" ${isAssigned == true ? '' : 'disabled'}>Approve</button></td>
             `;
             reportsTableBody.appendChild(row);
@@ -285,12 +285,14 @@ function updateReportsTable(reports, isAssigned) {
 
 
 function approveReport(reportId) {
+    const demerit = document.querySelector("input#demerit-" + reportId + ".inputReviewText").value;
+    const comment = document.querySelector("input#comment-" + reportId + ".inputReviewText").value;
     fetch('/approve-report', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ reportId: reportId })
+        body: JSON.stringify({ reportId: reportId, demerit: demerit, comment: comment })
     })
     .then(response => response.json())
     .then(data => {
