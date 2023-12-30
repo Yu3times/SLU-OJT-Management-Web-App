@@ -783,6 +783,11 @@ h5 {
    text-align: left;
 }
 
+#studentTable tr.student-row:hover {
+   cursor: pointer;
+}
+
+
 #studentTable th {
    background-color: var(--main-color);
 }
